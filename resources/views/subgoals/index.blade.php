@@ -13,6 +13,14 @@
                 <input type="number" placeholder="Hours" name="hours">
                 <button type="submit">Submit</button>
             </form>
+            <br>
+            <br>
+            <form action="/search" method="POST">
+                {{ csrf_field() }}
+                <input type="text" placeholder="Find Goal" name="search">
+                <button type="submit">Submit</button>
+            </form>
+
         </div>
         <div class="col-md-6">
 

@@ -28,6 +28,8 @@ Route::get('goals', 'GoalController@index')->name('goals');
 Route::post('goals/create', 'GoalController@create')->name('create-goal');
 Route::get('goals/{goal}', 'GoalController@view')->name('view-goal');
 Route::post('goals/{goal}/add', 'GoalController@add')->name('add-goal');
+Route::post('search', 'GoalController@search')->name('search-goals');
+
 
 
 Route::get('subgoals', 'SubgoalController@index')->name('subgoals');

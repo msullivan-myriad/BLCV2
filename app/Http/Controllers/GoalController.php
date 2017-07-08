@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Goal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use TomLingham\Searchy\Facades\Searchy;
 
 class GoalController extends Controller
 {
@@ -37,6 +38,14 @@ class GoalController extends Controller
             'goal' => $goal,
             'subgoals' => $subgoals,
        ] );
+    }
+
+    public function search(Request $request) {
+        //Need some validation that this is actually a string and safe to search with
+        $term = $request->search;
+        $results = Searchy::search('goals')->fields('name')->query($term)->get();
+
+        return view('goals.search')->with('results', $results);
     }
 
 }
