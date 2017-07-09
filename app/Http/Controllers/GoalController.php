@@ -17,17 +17,21 @@ class GoalController extends Controller
     }
 
     public function add(Goal $goal) {
+        //When a user adds an existing goal as a subgoal
+
+        //Needs more validation
         $user = Auth::user();
         $user->addGoal($goal);
-        return redirect()->back();
+        return redirect()->route('subgoals');
     }
 
     public function create(Request $request) {
+        //When a user creates a new goal
 
         //Need some validation here
         $user = Auth::user();
         $user->newGoal($request->title, $request->cost, $request->days, $request->hours);
-        return redirect()->back();
+        return redirect()->route('subgoals');
     }
 
     public function view(Goal $goal) {

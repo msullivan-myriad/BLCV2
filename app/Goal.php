@@ -28,4 +28,8 @@ class Goal extends Model
         return $this->hasMany(Subgoal::class);
     }
 
+    public function subgoalsCount() {
+        //Nothing here for now.. Going to have an actual column in the database rather than calculating it or needing to eager load stuff
+    }
+
 }
