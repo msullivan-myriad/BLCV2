@@ -21,7 +21,19 @@ class GoalController extends Controller
 
         //Needs more validation
         $user = Auth::user();
-        $user->addGoal($goal);
+        $user->addDefaultGoal($goal);
+        return redirect()->route('subgoals');
+    }
+
+    public function new(Request $request, Goal $goal) {
+        //When a user creates a new subgoal from an existing goal
+        $user = Auth::user();
+        $cost = $request->cost;
+        $hours = $request->hours;
+        $days = $request->days;
+        //Need some validation above here
+
+        $user->addUniqueGoal($goal, $cost, $hours, $days);
         return redirect()->route('subgoals');
     }
 

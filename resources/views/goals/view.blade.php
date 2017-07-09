@@ -12,7 +12,7 @@
 
                 <h4>Days: {{$goal->days}}</h4>
                 <h4>Hours: {{$goal->hours}}</h4>
-
+                <h4>Subgoals Count: {{$goal->subgoals_count}}</h4>
 
                 <h2>Subgoals</h2>
 
@@ -22,6 +22,21 @@
                 @endforeach
                 </ul>
 
+                <br>
+                <h1>Create Goal with your own values</h1>
+                <form action="/goals/{{$goal->id}}/new" method="POST">
+                    {{ csrf_field() }}
+                    <input name="cost" type="number" placeholder="Cost">
+                    <input name="hours" type="hours" placeholder="Hours">
+                    <input name="days" type="days" placeholder="Days">
+                    <button type="submit">Submit</button>
+                </form>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
         </div>
     </div>
 </div>

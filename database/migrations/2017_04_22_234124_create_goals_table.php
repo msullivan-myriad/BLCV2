@@ -19,6 +19,7 @@ class CreateGoalsTable extends Migration
             $table->integer('cost');
             $table->integer('hours');
             $table->integer('days');
+            $table->integer('subgoals_count');
             $table->timestamps();
         });
     }

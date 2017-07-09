@@ -48,15 +48,26 @@ class User extends Authenticatable
         $goal->cost = $cost;
         $goal->days = $days;
         $goal->hours= $hours;
+        $goal->subgoals_count = 1;
         $goal->save();
-        $goal->createSubgoal($this);
+        $goal->createDefaultSubgoal();
         // Still need to make sure goal without this name exists, etc.
     }
 
-    public function addGoal(Goal $goal) {
+    public function addDefaultGoal(Goal $goal) {
         //Creates a subgoal with the goal it takes as an argument as it's parent goal
-        $goal->createSubgoal($this);
+
+        //Still need some validation here
+        $goal->createDefaultSubgoal();
         // Still needs to make sure the user doesn't already have this goal on their list
     }
+
+    public function addUniqueGoal(Goal $goal, $cost, $hours, $days) {
+        //Creates a subgoal that has different values than the parent goal
+
+        $goal->createNewSubgoal($cost, $hours, $days);
+    }
+
+
 
 }

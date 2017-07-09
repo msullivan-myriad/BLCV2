@@ -12,6 +12,7 @@
                     <h4>Cost: {{$goal->cost}}</h4>
                     <h4>Days: {{$goal->days}}</h4>
                     <h4>Hours: {{$goal->hours}}</h4>
+                    <h4>Subgoal Count: {{$goal->subgoals_count}}</h4>
                     <form action="/goals/{{$goal->id}}/add" method="POST">
                        {{ csrf_field() }}
                         <button type="submit">+</button>
