@@ -11,7 +11,7 @@ class GoalController extends Controller
 {
     public function index() {
 
-        $all_goals = Goal::all();
+        $all_goals = Goal::orderBy('subgoals_count', 'desc')->get();
 
         return view('goals.index')->with( 'goals', $all_goals);
     }

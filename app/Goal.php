@@ -32,7 +32,6 @@ class Goal extends Model
 
     public function createNewSubgoal($cost, $hours, $days) {
         //Create subgoal that has different numbers than the parent goal
-
         $user = Auth::user();
         $subgoal = new Subgoal;
         $subgoal->user_id = $user->id;
