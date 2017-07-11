@@ -25,6 +25,8 @@ class Goal extends Model
         $subgoal->days = $this->days;
         $subgoal->hours = $this->hours;
         $subgoal->save();
+
+        //Update parent goal count
         $this->subgoals_count += 1;
         $this->save();
 
@@ -44,18 +46,25 @@ class Goal extends Model
 
         //Update parent goal count
         $this->subgoals_count +=1;
+        $this->save();
 
+        //Update Goal Averages
+        $this->updateGoalAverages();
+
+    }
+
+    public function updateGoalAverages() {
         //Update the parent goal to match the subgoals average
         $this->cost = round($this->subgoals->avg('cost'));
         $this->days = round($this->subgoals->avg('days'));
         $this->hours = round($this->subgoals->avg('hours'));
-
-
         $this->save();
+
         //  I have some work to do here... gettype returns a float, at least sometimes.
         //  But after checking it apprears that the other numbers are returning strings....
-        //  I was expecting integers, are there stringsin in the database.  Need to look into this
+        //  I was expecting integers, are there stringsin in the database?  Need to look into this
         //  Using average should work for now
+
     }
 
     public function subgoals() {

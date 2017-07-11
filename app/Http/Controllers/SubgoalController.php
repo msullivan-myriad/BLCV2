@@ -29,4 +29,19 @@ class SubgoalController extends Controller
         ]);
 
     }
+
+    public function update(Request $request, Subgoal $subgoal) {
+
+        // Need to authenticate both that this is the users goal and make sure that the request is valid
+
+        $subgoal->cost = $request->cost;
+        $subgoal->hours = $request->hours;
+        $subgoal->days = $request->days;
+        $subgoal->save();
+
+        $subgoal->goal->updateGoalAverages();
+
+        return redirect()->back();
+    }
+
 }

@@ -35,3 +35,4 @@ Route::post('search', 'GoalController@search')->name('search-goals');
 
 Route::get('subgoals', 'SubgoalController@index')->name('subgoals');
 Route::get('subgoals/{subgoal}', 'SubgoalController@view')->name('view-subgoal');
+Route::post('subgoals/{subgoal}/update', 'SubgoalController@update')->name('update-subgoal');
