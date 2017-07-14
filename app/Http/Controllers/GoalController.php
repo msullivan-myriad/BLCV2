@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Goal;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateNewGoalRequest;
+use App\Http\Requests\CreateNewSubgoalRequest;
 use Illuminate\Support\Facades\Auth;
 use TomLingham\Searchy\Facades\Searchy;
 
@@ -16,6 +18,7 @@ class GoalController extends Controller
         return view('goals.index')->with( 'goals', $all_goals);
     }
 
+    /*
     public function add(Goal $goal) {
         //When a user adds an existing goal as a subgoal
 
@@ -24,20 +27,21 @@ class GoalController extends Controller
         $user->addDefaultGoal($goal);
         return redirect()->route('subgoals');
     }
+    */
 
-    public function new(Request $request, Goal $goal) {
+    public function new(CreateNewSubgoalRequest $request, Goal $goal) {
         //When a user creates a new subgoal from an existing goal
         $user = Auth::user();
+
         $cost = $request->cost;
         $hours = $request->hours;
         $days = $request->days;
-        //Need some validation above here
 
         $user->addUniqueGoal($goal, $cost, $hours, $days);
         return redirect()->route('subgoals');
     }
 
-    public function create(Request $request) {
+    public function create(CreateNewGoalRequest $request) {
         //When a user creates a new goal
 
         //Need some validation here

@@ -26,9 +26,10 @@
                 <h1>Create Goal with your own values</h1>
                 <form action="/goals/{{$goal->id}}/new" method="POST">
                     {{ csrf_field() }}
-                    <input name="cost" type="number" placeholder="Cost">
-                    <input name="hours" type="hours" placeholder="Hours">
-                    <input name="days" type="days" placeholder="Days">
+                    <input name="cost" type="number" placeholder="{{$goal->cost}}">
+                    <input name="hours" type="hours" placeholder="{{$goal->hours}}">
+                    <input name="days" type="days" placeholder="{{$goal->days}}">
+                    <input name="goal_id" type="hidden" value="{{$goal->id}}">
                     <button type="submit">Submit</button>
                 </form>
                 <br>
