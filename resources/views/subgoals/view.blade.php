@@ -14,7 +14,7 @@
             <p>Parent Goal: <a href="/goals/{{$goal->id}}">here</a></p>
             <br>
             <h4>Update goal here:</h4>
-            <form action="/subgoals/{{ $subgoal->id }}/update" method="post">
+            <form action="/subgoals/{{ $subgoal->id }}/" method="post">
                 {{ csrf_field() }}
                 <input name="cost" value="{{$subgoal->cost}}" type="number">
                 <input name="days" value="{{$subgoal->days}}" type="number">

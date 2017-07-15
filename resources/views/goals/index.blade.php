@@ -13,7 +13,7 @@
                     <h4>Days: {{$goal->days}}</h4>
                     <h4>Hours: {{$goal->hours}}</h4>
                     <h4>Subgoal Count: {{$goal->subgoals_count}}</h4>
-                    <form action="/goals/{{$goal->id}}/new" method="POST">
+                    <form action="/goals/{{$goal->id}}/" method="POST">
                        {{ csrf_field() }}
                         <input name="goal_id" type="hidden" value="{{$goal->id}}">
                         <input name="cost" value="{{$goal->cost}}" type="hidden">

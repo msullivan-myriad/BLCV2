@@ -12,9 +12,9 @@
                     <h4>Cost: {{$goal->cost}}</h4>
                     <h4>Days: {{$goal->days}}</h4>
                     <h4>Hours: {{$goal->hours}}</h4>
-                    <form action="/goals/{{$goal->id}}/new" method="POST">
+                    <h4>Relevance: {{$goal->relevance}}</h4>
+                    <form action="/goals/{{$goal->id}}/" method="POST">
                        {{ csrf_field() }}
-                        <h1>LEFT OFF HERE!!! </h1>
                     <button type="submit">+</button>
                     </form>
                 </div>
