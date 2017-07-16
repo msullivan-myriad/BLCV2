@@ -81,22 +81,12 @@ class Goal extends Model
 
     }
 
-    public function subgoalDeleted() {
-        $this->subgoals_count = 900;
-
-        /*
-        $this->cost = round($this->subgoals->avg('cost'));
-        $this->days = round($this->subgoals->avg('days'));
-        $this->hours = round($this->subgoals->avg('hours'));
-        */
-
-
-        $this->save();
-    }
-
     public function subgoals() {
         return $this->hasMany(Subgoal::class);
     }
 
+    public function setNameAttribute($value) {
+        $this->attributes['name'] = ucwords(strtolower($value));
+    }
 
 }
