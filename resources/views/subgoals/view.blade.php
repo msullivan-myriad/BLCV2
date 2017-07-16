@@ -21,6 +21,11 @@
                 <input name="hours" value="{{$subgoal->hours}}" type="number">
                 <button type="submit">Submit</button>
             </form>
+            <form action="/subgoals/{{ $subgoal->id }}/" method="post">
+                {{ method_field('DELETE') }}
+                {{ csrf_field() }}
+                <button type="submit">Delete Goal</button>
+            </form>
         </div>
     </div>
 </div>

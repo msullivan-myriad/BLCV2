@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Subgoal;
+use App\Goal;
 use Illuminate\Support\Facades\Auth;
 
 class SubgoalController extends Controller
@@ -42,6 +43,16 @@ class SubgoalController extends Controller
         $subgoal->goal->updateGoalAverages();
 
         return redirect()->back();
+    }
+
+    public function delete(Subgoal $subgoal)  {
+        $goal_id = $subgoal->goal->id;
+
+        $subgoal->forceDelete();
+
+        Goal::find($goal_id)->updateGoalAverages();
+
+        return redirect()->route('subgoals');
     }
 
 }

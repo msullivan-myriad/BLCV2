@@ -18,17 +18,6 @@ class GoalController extends Controller
         return view('goals.index')->with( 'goals', $all_goals);
     }
 
-    /*
-    public function add(Goal $goal) {
-        //When a user adds an existing goal as a subgoal
-
-        //Needs more validation
-        $user = Auth::user();
-        $user->addDefaultGoal($goal);
-        return redirect()->route('subgoals');
-    }
-    */
-
     public function new(CreateNewSubgoalRequest $request, Goal $goal) {
         //When a user creates a new subgoal from an existing goal
         $user = Auth::user();
