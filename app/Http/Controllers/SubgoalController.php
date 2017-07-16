@@ -8,6 +8,7 @@ use App\Goal;
 use Illuminate\Support\Facades\Auth;
 
 class SubgoalController extends Controller
+
 {
     public function index() {
 

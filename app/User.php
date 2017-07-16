@@ -50,7 +50,7 @@ class User extends Authenticatable
         $goal->hours= $hours;
         $goal->subgoals_count = 1;
         $goal->save();
-        $goal->createDefaultSubgoal();
+        $goal->createDefaultSubgoal($this);
         // Still need to make sure goal without this name exists, etc.
     }
 

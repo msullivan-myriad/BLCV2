@@ -14,9 +14,10 @@ class Goal extends Model
     ];
     */
 
-    public function createDefaultSubgoal() {
+    public function createDefaultSubgoal(User $user) {
         //Create subgoal using defaults of the parent goal
-        $user = Auth::user();
+        // Decided to pass user through as argument to make mocking data easier
+        // Might need some validation on the user here...
         $subgoal = new Subgoal;
         $subgoal->user_id = $user->id;
         $subgoal->goal_id = $this->id;
