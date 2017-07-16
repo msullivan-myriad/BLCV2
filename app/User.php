@@ -58,7 +58,7 @@ class User extends Authenticatable
         //Creates a subgoal with the goal it takes as an argument as it's parent goal
 
         //Still need some validation here
-        $goal->createDefaultSubgoal();
+        $goal->createDefaultSubgoal(this);
         // Still needs to make sure the user doesn't already have this goal on their list
     }
 

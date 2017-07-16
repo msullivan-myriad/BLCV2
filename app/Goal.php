@@ -27,12 +27,8 @@ class Goal extends Model
         $subgoal->hours = $this->hours;
         $subgoal->save();
 
-        /*
-        //Update parent goal count
-        $this->subgoals_count += 1;
-        $this->save();
-        */
-
+        //Update Goal Averages
+        $this->updateGoalAverages();
     }
 
     public function createNewSubgoal($cost, $hours, $days) {
@@ -47,12 +43,6 @@ class Goal extends Model
         $subgoal->hours = $hours;
         $subgoal->save();
 
-        /*
-        //Update parent goal count
-        $this->subgoals_count +=1;
-        $this->save();
-        */
-
         //Update Goal Averages
         $this->updateGoalAverages();
 
@@ -60,7 +50,6 @@ class Goal extends Model
 
     public function updateGoalAverages() {
         //Update the parent goal to match the subgoals average
-
         $count = $this->subgoals->count();
 
         if($count) {
