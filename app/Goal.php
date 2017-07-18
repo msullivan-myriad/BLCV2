@@ -79,4 +79,8 @@ class Goal extends Model
         $this->attributes['name'] = ucwords(strtolower($value));
     }
 
+    public function tags() {
+        return $this->belongsToMany(Tag::class);
+    }
+
 }

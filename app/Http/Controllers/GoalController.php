@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Goal;
+use App\Tag;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateNewGoalRequest;
 use App\Http\Requests\CreateNewSubgoalRequest;
@@ -57,9 +58,17 @@ class GoalController extends Controller
         return view('goals.search')->with('results', $results);
     }
 
-    public function tag(Request $request) {
-        dd($request);
-        return $request;
+    public function tag(Request $request, Goal $goal) {
+
+        // Extend Request for validation
+
+        $tag = new Tag;
+        $tag->name = $request->tag_name;
+        $tag->save();
+
+        $goal->tags()->attach($tag);
+
+        return redirect()->route('admin-panel');
     }
 
 }
