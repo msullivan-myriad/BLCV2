@@ -156,6 +156,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Mike',
             'email' => 'mike@email.com',
             'password' => bcrypt('password'),
+            'admin' => true,
         ]);
 
         $user->createProfile();
