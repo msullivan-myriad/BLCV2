@@ -61,6 +61,9 @@ class GoalController extends Controller
     public function tag(Request $request, Goal $goal) {
 
         // Extend Request for validation
+        // Can't currently add repeat tags... Which is ideal, but I need a good way to add ones that already exist.
+        // Need to add tags to the database seeder... Maybe it's not nessesary
+        // Request for tags?
 
         $tag = new Tag;
         $tag->name = $request->tag_name;
