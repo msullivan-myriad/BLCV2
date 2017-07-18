@@ -46,9 +46,9 @@ Route::group(['middleware' => ['auth']], function() {
 
 Route::group(['middleware' => ['admin']], function() {
 
-    Route::get('blc-admin', function() {
-        return 'TEST';
-    });
+    Route::get('blc-admin', 'AdminController@index')->name('admin-panel');
+
+    Route::post('goals/{goal}/tag', 'GoalController@tag')->name('tag-goal');
 
 });
 

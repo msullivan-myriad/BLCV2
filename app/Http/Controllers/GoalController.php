@@ -57,4 +57,9 @@ class GoalController extends Controller
         return view('goals.search')->with('results', $results);
     }
 
+    public function tag(Request $request) {
+        dd($request);
+        return $request;
+    }
+
 }
