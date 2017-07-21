@@ -46,9 +46,15 @@ Route::group(['middleware' => ['auth']], function() {
 
 Route::group(['middleware' => ['admin']], function() {
 
-    Route::get('blc-admin', 'AdminController@index')->name('admin-panel');
+    Route::prefix('blc-admin')->group(function() {
+
+        Route::get('/', 'AdminController@index')->name('admin-panel');
+        Route::get('tags', 'AdminController@tags')->name('admin-tags');
+
+    });
 
     Route::post('goals/{goal}/tag', 'GoalController@tag')->name('tag-goal');
+    Route::delete('goals/{goal}/tag', 'GoalController@removeTag')->name('remove-tag');
 
 });
 

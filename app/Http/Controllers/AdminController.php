@@ -9,9 +9,15 @@ class AdminController extends Controller
 {
     public function index() {
 
+        return view('admin.index');
+
+    }
+
+    public function tags() {
+
         $goals = Goal::with('tags')->get();
 
-        return view('admin.index')->with('goals', $goals);
+        return view('admin.tags')->with('goals', $goals);
 
     }
 }

@@ -59,19 +59,32 @@ class GoalController extends Controller
     }
 
     public function tag(Request $request, Goal $goal) {
-
-        // Extend Request for validation
-        // Can't currently add repeat tags... Which is ideal, but I need a good way to add ones that already exist.
         // Need to add tags to the database seeder... Maybe it's not nessesary
         // Request for tags?
 
-        $tag = new Tag;
-        $tag->name = $request->tag_name;
-        $tag->save();
+        $tag = Tag::where('name', $request->tag_name)->first();
+
+        if (!$tag) {
+            $tag = new Tag;
+            $tag->name = $request->tag_name;
+            $tag->save();
+        }
 
         $goal->tags()->attach($tag);
 
-        return redirect()->route('admin-panel');
+        return redirect()->back();
+    }
+
+    public function removeTag(Request $request, Goal $goal) {
+        //Detach the requested tag from goal
+        // Need to add validation on this request
+
+        $tagId = $request->tag_name;
+        $tag = Tag::where('id', $tagId)->first();
+
+        $goal->tags()->detach($tag);
+
+        return redirect()->back();
     }
 
 }
