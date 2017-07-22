@@ -36,7 +36,7 @@ class AdminController extends Controller
     }
 
     public function goal(Goal $goal) {
-        return $goal;
+        return view('admin.goal')->with('goal', $goal);
     }
 
 }
