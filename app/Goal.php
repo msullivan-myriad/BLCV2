@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Snipe\BanBuilder\CensorWords;
 
 class Goal extends Model
 {
@@ -76,7 +77,11 @@ class Goal extends Model
     }
 
     public function setNameAttribute($value) {
-        $this->attributes['name'] = ucwords(strtolower($value));
+        $censor = new CensorWords;
+        $censor->setDictionary('../resources/lang/CensoredWords.php');
+        $stringCensored = $censor->censorString($value);
+        $formattedAndCensored = ucwords(strtolower($stringCensored['clean']));
+        $this->attributes['name'] = $formattedAndCensored;
     }
 
     public function tags() {
