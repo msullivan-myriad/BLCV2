@@ -87,4 +87,18 @@ class GoalController extends Controller
         return redirect()->back();
     }
 
+    public function delete(Goal $goal) {
+        //Delete this goal and all of its subgoals
+        $goal->deleteGoal();
+        return redirect()->route('admin-panel');
+    }
+
+    public function edit(Request $request, Goal $goal) {
+        $goal->editGoal('Test');
+        return redirect()->back();
+    }
+
+
+
+
 }

@@ -88,4 +88,13 @@ class Goal extends Model
         return $this->belongsToMany(Tag::class);
     }
 
+    public function deleteGoal() {
+        $this->subgoals()->delete();
+        $this->forceDelete();
+    }
+
+    public function editGoal($newTitle) {
+        //Left off here
+    }
+
 }

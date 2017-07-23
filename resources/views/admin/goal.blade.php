@@ -34,6 +34,14 @@
                         <input name="tag_name" type="text" placeholder="Tag for this goal" />
                         <button type="submit">Tag</button>
                     </form>
+                    <br>
+                    <h4>Delete this goal and all subgoals</h4>
+                    <form action="/goals/{{$goal->id}}" method="POST">
+                        {{ csrf_field() }}
+                        {{ method_field('DELETE') }}
+                        <button type="submit">Delete Goal</button>
+                    </form>
+                    </form>
                 </div>
 
         </div>
