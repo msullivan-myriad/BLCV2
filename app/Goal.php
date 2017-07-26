@@ -95,6 +95,13 @@ class Goal extends Model
 
     public function editGoal($newTitle) {
         //Left off here
+        $this->subgoals()->update([
+            'name' => $newTitle,
+        ]);
+        $this->name = $newTitle;
+        $this->save();
+
     }
+
 
 }

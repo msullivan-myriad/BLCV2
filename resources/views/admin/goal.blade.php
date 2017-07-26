@@ -35,6 +35,13 @@
                         <button type="submit">Tag</button>
                     </form>
                     <br>
+                    <br>
+                    <h4>Edit this goals title</h4>
+                    <form action="/goals/{{$goal->id}}/edit" method="POST">
+                        {{ csrf_field() }}
+                        <input name="new_title" type="text" placeholder="New goal title"/>
+                        <button type="submit">Edit Goal</button>
+                    </form>
                     <h4>Delete this goal and all subgoals</h4>
                     <form action="/goals/{{$goal->id}}" method="POST">
                         {{ csrf_field() }}
