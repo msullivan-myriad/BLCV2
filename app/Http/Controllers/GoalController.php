@@ -19,6 +19,21 @@ class GoalController extends Controller
         return view('goals.index')->with( 'goals', $all_goals);
     }
 
+    public function apiIndex() {
+
+        $all_goals = Goal::orderBy('subgoals_count', 'desc')->get();
+
+        //return $all_goals;
+
+        return [
+
+            'data' => [
+                'all_goals' => $all_goals
+            ]
+
+        ];
+    }
+
     public function new(CreateNewSubgoalRequest $request, Goal $goal) {
         //When a user creates a new subgoal from an existing goal
         $user = Auth::user();
@@ -31,6 +46,23 @@ class GoalController extends Controller
         return redirect()->route('subgoals');
     }
 
+    public function apiNew(CreateNewSubgoalRequest $request, Goal $goal) {
+        //When a user creates a new subgoal from an existing goal
+        $user = Auth::user();
+
+        $cost = $request->cost;
+        $hours = $request->hours;
+        $days = $request->days;
+
+        $user->addUniqueGoal($goal, $cost, $hours, $days);
+
+        return [
+            'data' => [
+                'test' => 'test'
+            ]
+        ];
+    }
+
     public function create(CreateNewGoalRequest $request) {
         //When a user creates a new goal
 
@@ -38,6 +70,16 @@ class GoalController extends Controller
         $user = Auth::user();
         $user->newGoal($request->title, $request->cost, $request->days, $request->hours);
         return redirect()->route('subgoals');
+    }
+
+    public function apiCreate(CreateNewGoalRequest $request) {
+        $user = Auth::user();
+        $user->newGoal($request->title, $request->cost, $request->days, $request->hours);
+        return [
+            'data' => [
+                'success' => 'Success!'
+            ]
+        ];
     }
 
     public function view(Goal $goal) {
@@ -48,6 +90,14 @@ class GoalController extends Controller
             'goal' => $goal,
             'subgoals' => $subgoals,
        ] );
+    }
+
+    public function apiView(Goal $goal) {
+
+       $goal->subgoals;
+
+        return $goal;
+
     }
 
     public function search(Request $request) {

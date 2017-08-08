@@ -27,6 +27,13 @@ Route::get('goals', 'GoalController@index')->name('goals');
 Route::get('goals/{goal}', 'GoalController@view')->name('view-goal');
 
 
+Route::prefix('api')->group(function() {
+
+    Route::get('/goals/', 'GoalController@apiIndex');
+    Route::post('/goals/{goal}', 'GoalController@apiNew');
+
+});
+
 Route::group(['middleware' => ['auth']], function() {
 
     Route::get('profile', 'ProfileController@view')->name('profile');
