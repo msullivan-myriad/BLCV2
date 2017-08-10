@@ -1,5 +1,4 @@
 <template>
-    <div>
         <div class="panel">
             <h2><a href="#">{{this.goal.name}}</a></h2>
             <h4>Cost: {{this.goal.cost}}</h4>
@@ -8,7 +7,6 @@
             <h4>Subgoal Count: {{this.goal.subgoals_count}}</h4>
             <button v-on:click="onSubmit">+</button>
         </div>
-    </div>
 </template>
 
 
@@ -29,13 +27,26 @@
                     hours: this.goal.hours,
                 })
                 .then(response => {
-                    // JSON responses are automatically parsed.
-                    console.log('Success!');
-                    console.log(response);
+
+                    this.$notify({
+                        title: 'Success',
+                        message: this.goal.name + ' was successfully added to your list',
+                        type: 'success'
+                    });
+
+
                 })
                 .catch(errors => {
                     console.log('Errors');
-                    console.log(errors);
+                    console.log(errors.response.data);
+
+
+                    this.$notify({
+                        title: 'Error',
+                        message: errors.response.data,
+                        type: 'error'
+                    });
+
                 });
 
             }

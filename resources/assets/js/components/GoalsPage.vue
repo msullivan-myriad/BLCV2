@@ -6,7 +6,7 @@
                     <div class="panel-heading">Most Popular Goals</div>
 
                     <div class="panel-body">
-                        <goal v-for="goal in goals" v-bind:goal="goal"></goal>
+                        <goal v-for="goal in goals" :goal="goal" :key="goal.id"></goal>
                     </div>
 
                 </div>
@@ -22,7 +22,7 @@
 
         data: () => ({
             goals: [],
-            errors: []
+            errors: [],
         }),
 
         // Fetches posts when the component is created.

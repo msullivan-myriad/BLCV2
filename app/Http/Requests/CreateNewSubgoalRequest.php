@@ -40,3 +40,4 @@ class CreateNewSubgoalRequest extends FormRequest
     }
 
 }
+

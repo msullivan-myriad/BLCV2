@@ -32,6 +32,12 @@ Route::prefix('api')->group(function() {
     Route::get('/goals/', 'GoalController@apiIndex');
     Route::post('/goals/{goal}', 'GoalController@apiNew');
 
+    Route::prefix('stats')->group(function() {
+
+        Route::get('base', 'StatsController@base');
+        Route::get('top-fives', 'StatsController@topFives');
+    });
+
 });
 
 Route::group(['middleware' => ['auth']], function() {
@@ -47,6 +53,8 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::post('goals/', 'GoalController@create')->name('create-goal');
     Route::post('goals/{goal}', 'GoalController@new')->name('new-goal');
+
+    Route::get('stats', 'StatsController@index')->name('stats');
 
 });
 

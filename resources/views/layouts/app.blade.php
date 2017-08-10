@@ -13,6 +13,8 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
+
     <!-- Scripts -->
     <script>
         window.Laravel = {!! json_encode([
@@ -88,5 +90,6 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     @stack('scripts')
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </body>
 </html>
