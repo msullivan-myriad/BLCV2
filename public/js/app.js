@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 48);
+/******/ 	return __webpack_require__(__webpack_require__.s = 51);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -528,7 +528,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(37)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(38)))
 
 /***/ }),
 /* 3 */
@@ -832,9 +832,9 @@ module.exports = g;
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-__webpack_require__(33);
+__webpack_require__(34);
 
-window.Vue = __webpack_require__(46);
+window.Vue = __webpack_require__(49);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -842,10 +842,11 @@ window.Vue = __webpack_require__(46);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('goals-page', __webpack_require__(40));
-Vue.component('goal', __webpack_require__(39));
-Vue.component('basic-stats', __webpack_require__(38));
-Vue.component('top-fives', __webpack_require__(41));
+Vue.component('goals-page', __webpack_require__(41));
+Vue.component('goal', __webpack_require__(40));
+Vue.component('stats-goal', __webpack_require__(42));
+Vue.component('basic-stats', __webpack_require__(39));
+Vue.component('top-fives', __webpack_require__(43));
 
 var app = new Vue({
   el: '#app'
@@ -1868,6 +1869,70 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+    props: ['goal'],
+
+    methods: {
+        onClick: function onClick() {
+            console.log('Test for now');
+        },
+
+        open4: function open4() {
+            var _this = this;
+
+            var h = this.$createElement;
+            this.$msgbox({
+                title: 'Message',
+                message: h('p', null, [h('span', null, 'Message can be '), h('i', { style: 'color: teal' }, 'VNode')]),
+                showCancelButton: true,
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Cancel',
+                beforeClose: function beforeClose(action, instance, done) {
+                    if (action === 'confirm') {
+                        instance.confirmButtonLoading = true;
+                        instance.confirmButtonText = 'Loading...';
+                        setTimeout(function () {
+                            done();
+                            setTimeout(function () {
+                                instance.confirmButtonLoading = false;
+                            }, 300);
+                        }, 3000);
+                    } else {
+                        done();
+                    }
+                }
+            }).then(function (action) {
+                _this.$message({
+                    type: 'info',
+                    message: 'action: ' + action
+                });
+            });
+        }
+
+    }
+});
+
+/***/ }),
+/* 33 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1915,11 +1980,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-window._ = __webpack_require__(36);
+window._ = __webpack_require__(37);
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -1928,9 +1993,9 @@ window._ = __webpack_require__(36);
  */
 
 try {
-  window.$ = window.jQuery = __webpack_require__(35);
+  window.$ = window.jQuery = __webpack_require__(36);
 
-  __webpack_require__(34);
+  __webpack_require__(35);
 } catch (e) {}
 
 /**
@@ -1960,7 +2025,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 // });
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports) {
 
 /*!
@@ -4343,7 +4408,7 @@ if (typeof jQuery === 'undefined') {
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -14603,7 +14668,7 @@ return jQuery;
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -31692,10 +31757,10 @@ return jQuery;
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(47)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(50)(module)))
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -31885,14 +31950,14 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(29),
   /* template */
-  __webpack_require__(42),
+  __webpack_require__(44),
   /* scopeId */
   null,
   /* cssModules */
@@ -31919,14 +31984,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(30),
   /* template */
-  __webpack_require__(44),
+  __webpack_require__(47),
   /* scopeId */
   null,
   /* cssModules */
@@ -31953,14 +32018,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(31),
   /* template */
-  __webpack_require__(43),
+  __webpack_require__(45),
   /* scopeId */
   null,
   /* cssModules */
@@ -31987,14 +32052,48 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(32),
   /* template */
-  __webpack_require__(45),
+  __webpack_require__(46),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/Users/michaelsullivan/BLC/resources/assets/js/components/StatsGoal.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] StatsGoal.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-62110941", Component.options)
+  } else {
+    hotAPI.reload("data-v-62110941", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(33),
+  /* template */
+  __webpack_require__(48),
   /* scopeId */
   null,
   /* cssModules */
@@ -32021,7 +32120,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -32046,7 +32145,7 @@ if (false) {
 }
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -32080,7 +32179,27 @@ if (false) {
 }
 
 /***/ }),
-/* 44 */
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "stats-goal",
+    on: {
+      "click": _vm.open4
+    }
+  }, [_c('h3', [_vm._v(_vm._s(this.goal.name))]), _vm._v(" "), _c('h4', [_vm._v("Cost: " + _vm._s(this.goal.cost))]), _vm._v(" "), _c('h4', [_vm._v("Days: " + _vm._s(this.goal.days))]), _vm._v(" "), _c('h4', [_vm._v("Hours: " + _vm._s(this.goal.hours))])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-62110941", module.exports)
+  }
+}
+
+/***/ }),
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -32105,7 +32224,7 @@ if (false) {
 }
 
 /***/ }),
-/* 45 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -32119,18 +32238,37 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "panel-heading"
   }, [_vm._v("Top Fives")]), _vm._v(" "), _c('div', {
     staticClass: "panel-body"
-  }, [_vm._v("\n                " + _vm._s(_vm.stats) + "\n                "), _vm._m(0)])])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
+  }, [_c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-md-4"
-  }, [_c('h3', [_vm._v("Most Expensive:")])]), _vm._v(" "), _c('div', {
+  }, [_c('h3', [_vm._v("Most Expensive:")]), _vm._v(" "), _vm._l((_vm.stats.most_cost), function(goal) {
+    return _c('stats-goal', {
+      key: goal.id,
+      attrs: {
+        "goal": goal
+      }
+    })
+  })], 2), _vm._v(" "), _c('div', {
     staticClass: "col-md-4"
-  }, [_c('h3', [_vm._v("Most Hours:")])]), _vm._v(" "), _c('div', {
+  }, [_c('h3', [_vm._v("Most Hours:")]), _vm._v(" "), _vm._l((_vm.stats.most_hours), function(goal) {
+    return _c('stats-goal', {
+      key: goal.id,
+      attrs: {
+        "goal": goal
+      }
+    })
+  })], 2), _vm._v(" "), _c('div', {
     staticClass: "col-md-4"
-  }, [_c('h3', [_vm._v("Most Days:")])])])
-}]}
+  }, [_c('h3', [_vm._v("Most Days:")]), _vm._v(" "), _vm._l((_vm.stats.most_days), function(goal) {
+    return _c('stats-goal', {
+      key: goal.id,
+      attrs: {
+        "goal": goal
+      }
+    })
+  })], 2)])])])])])
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -32140,7 +32278,7 @@ if (false) {
 }
 
 /***/ }),
-/* 46 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42235,7 +42373,7 @@ module.exports = Vue$3;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 47 */
+/* 50 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -42263,7 +42401,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 48 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(9);

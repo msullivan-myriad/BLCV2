@@ -55,6 +55,7 @@
                             <li><a href="{{ route('register') }}">Register</a></li>
                             <li><a href="{{ route('goals') }}">Goals</a></li>
                         @else
+                            <li><a href="{{ route('stats') }}">Stats</a></li>
                             <li><a href="{{ route('subgoals') }}">Subgoals</a></li>
                             <li><a href="{{ route('goals') }}">Goals</a></li>
                             <li class="dropdown">

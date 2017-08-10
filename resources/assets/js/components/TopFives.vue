@@ -6,19 +6,21 @@
                 <div class="panel-heading">Top Fives</div>
 
                 <div class="panel-body">
-                    {{ stats }}
                     <div class="row">
 
                         <div class="col-md-4">
                             <h3>Most Expensive:</h3>
+                            <stats-goal v-for="goal in stats.most_cost" :goal="goal" :key="goal.id"></stats-goal>
                         </div>
 
                         <div class="col-md-4">
                            <h3>Most Hours:</h3>
+                            <stats-goal v-for="goal in stats.most_hours" :goal="goal" :key="goal.id"></stats-goal>
                         </div>
 
                         <div class="col-md-4">
                             <h3>Most Days:</h3>
+                            <stats-goal v-for="goal in stats.most_days" :goal="goal" :key="goal.id"></stats-goal>
                         </div>
 
                     </div>

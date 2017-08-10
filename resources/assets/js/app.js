@@ -17,6 +17,7 @@ window.Vue = require('vue');
 
 Vue.component('goals-page', require('./components/GoalsPage.vue'));
 Vue.component('goal', require('./components/Goal.vue'));
+Vue.component('stats-goal', require('./components/StatsGoal.vue'));
 Vue.component('basic-stats', require('./components/BasicStats.vue'));
 Vue.component('top-fives', require('./components/TopFives.vue'));
 
