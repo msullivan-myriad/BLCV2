@@ -1,12 +1,15 @@
 <template>
 
     <div class="panel panel-default">
-        <div class="panel-heading">Search All Goals</div>
+        <div class="panel-heading">Add Goals</div>
 
         <div class="panel-body">
             <input v-on:keyup="sendSearch(searchTerm)" type="text" name="search" placeholder="Search" v-model="searchTerm">
             <hr>
             <goal v-for="result in searchResults" :goal="result" :key="result.id"></goal>
+            <div v-if="!searchResults.length">
+                <h4>{{searchTerm}}</h4>
+            </div>
         </div>
 
     </div>
@@ -64,4 +67,15 @@
 
 </script>
 
+
+<style scoped>
+
+   input {
+       width: 100%;
+       border: 1px solid #b9b9b9;
+       padding: 4px 10px;
+       border-radius: 2px;
+   }
+
+</style>
 

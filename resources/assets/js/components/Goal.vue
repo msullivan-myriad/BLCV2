@@ -1,11 +1,40 @@
 <template>
         <div class="panel">
-            <h4><a href="#">{{this.goal.name}}</a></h4>
-            <h4>Cost: {{this.goal.cost}}</h4>
-            <h4>Days: {{this.goal.days}}</h4>
-            <h4>Hours: {{this.goal.hours}}</h4>
-            <h4>Subgoal Count: {{this.goal.subgoals_count}}</h4>
-            <button v-on:click="onSubmit">+</button>
+            <h4>{{this.goal.name}}</h4>
+            <button v-on:click="onSubmit"><i class="fa fa-plus" aria-hidden="true"></i></button>
+            <br>
+
+            <el-tooltip content="Goal Cost" placement="bottom" effect="dark">
+                <div class="el-tooltip-content-wrapper">
+                    <i class="fa fa-usd" aria-hidden="true"></i>
+                    <span>{{this.goal.cost}}</span>
+                </div>
+            </el-tooltip>
+
+            <el-tooltip content="Goal Hours" placement="bottom" effect="dark">
+                <div class="el-tooltip-content-wrapper">
+
+                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                    <span>{{this.goal.hours}}</span>
+                </div>
+            </el-tooltip>
+
+            <el-tooltip content="Goal Days" placement="bottom" effect="dark">
+                <div class="el-tooltip-content-wrapper">
+
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    <span>{{this.goal.days}}</span>
+                </div>
+            </el-tooltip>
+
+            <el-tooltip content="User with this goal" placement="bottom" effect="dark">
+                <div class="el-tooltip-content-wrapper">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    <span>{{this.goal.subgoals_count}}</span>
+                </div>
+            </el-tooltip>
+
+
         </div>
 </template>
 
@@ -56,4 +85,39 @@
 
 </script>
 
+<style scoped>
+
+    h4 {
+        color: #217d84;
+        display: inline-block;
+        max-width: 80%;
+    }
+
+    button {
+        display: inline-block;
+        float: right;
+        border: none;
+        background: none;
+        box-shadow: none;
+    }
+
+    button i.fa {
+        font-size: 20px;
+        margin: 14px 14px 0 0;
+
+    }
+
+    .el-tooltip-content-wrapper {
+        display: inline-block;
+        font-size: 16px;
+        margin: 0 4px;
+        padding: 0 12px;
+    }
+
+
+    .el-tooltip-content-wrapper i.fa {
+        font-size: 14px;
+    }
+
+</style>
 
