@@ -1,6 +1,6 @@
 <template>
         <div class="panel">
-            <h2><a href="#">{{this.goal.name}}</a></h2>
+            <h4><a href="#">{{this.goal.name}}</a></h4>
             <h4>Cost: {{this.goal.cost}}</h4>
             <h4>Days: {{this.goal.days}}</h4>
             <h4>Hours: {{this.goal.hours}}</h4>

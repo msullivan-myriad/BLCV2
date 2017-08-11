@@ -20,6 +20,7 @@ Vue.component('goal', require('./components/Goal.vue'));
 Vue.component('stats-goal', require('./components/StatsGoal.vue'));
 Vue.component('basic-stats', require('./components/BasicStats.vue'));
 Vue.component('top-fives', require('./components/TopFives.vue'));
+Vue.component('search-goals', require('./components/SearchGoals.vue'));
 
 const app = new Vue({
     el: '#app'

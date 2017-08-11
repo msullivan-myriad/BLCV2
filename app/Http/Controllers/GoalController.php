@@ -108,6 +108,14 @@ class GoalController extends Controller
         return view('goals.search')->with('results', $results);
     }
 
+    public function apiSearch(Request $request) {
+        //Need some validation that this is actually a string and safe to search with
+        $term = $request->search;
+        $results = Searchy::search('goals')->fields('name')->query($term)->get();
+
+        return $results;
+    }
+
     public function tag(Request $request, Goal $goal) {
         // Need to add tags to the database seeder... Maybe it's not nessesary
         // Request for tags?

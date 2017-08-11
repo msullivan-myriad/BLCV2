@@ -5,6 +5,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6">
+            <search-goals></search-goals>
+            <br>
             <form action="/goals/" method="POST">
                 {{ csrf_field() }}
                 <input type="text" placeholder="Goal Title" name="title">

@@ -31,6 +31,7 @@ Route::prefix('api')->group(function() {
 
     Route::get('/goals/', 'GoalController@apiIndex');
     Route::post('/goals/{goal}', 'GoalController@apiNew');
+    Route::get('/search/', 'GoalController@apiSearch');
 
     Route::prefix('stats')->group(function() {
 
