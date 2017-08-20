@@ -33,6 +33,17 @@ Route::prefix('api')->group(function() {
     Route::post('/goals/{goal}', 'GoalController@apiNew');
     Route::get('/search/', 'GoalController@apiSearch');
 
+    Route::group(['middleware' => ['admin']], function() {
+
+      Route::prefix('admin')->group(function() {
+
+        Route::get('api-tags', 'AdminController@apiTags');
+
+      });
+
+    });
+
+
     Route::prefix('stats')->group(function() {
 
         Route::get('base', 'StatsController@base');
@@ -70,6 +81,8 @@ Route::group(['middleware' => ['admin']], function() {
         Route::get('/goals/{goal}', 'AdminController@goal')->name('admin-goal');
 
     });
+
+
 
     Route::post('goals/{goal}/tag', 'GoalController@tag')->name('tag-goal');
     Route::delete('goals/{goal}/tag', 'GoalController@removeTag')->name('remove-tag');

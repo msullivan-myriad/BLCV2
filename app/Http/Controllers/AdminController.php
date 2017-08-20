@@ -27,6 +27,21 @@ class AdminController extends Controller
 
     }
 
+    public function apiTags() {
+        $goals = Goal::with('tags')->orderBy('subgoals_count', 'desc')->get();
+        //Should probably sort by popularity or something eventually
+        $tags= Tag::all();
+
+        return [
+
+          'data' => [
+                'goals' =>$goals,
+                'tags' => $tags,
+          ]
+
+        ];
+    }
+
     public function individualTag(Tag $tag) {
         $goals = $tag->goals;
         return view('admin.individual-tag')->with([

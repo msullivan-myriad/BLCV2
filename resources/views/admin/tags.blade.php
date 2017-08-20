@@ -3,11 +3,14 @@
 
 @section('content')
 <div class="container">
+
+    <div id="tag-goals"></div>
+
+    <hr>
+
     <div class="row">
         <div class="col-md-9">
 
-            //Entry point for React
-            <div id="tag-goals"></div>
 
             @foreach ($goals as $goal)
 

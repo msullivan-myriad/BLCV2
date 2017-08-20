@@ -13,16 +13,16 @@ require('./bootstrap');
 
 import ReactDOM from 'react-dom';
 import React from 'react';
-import AdminGoal from './components/AdminGoal';
+import AdminTagsPage from './components/AdminTagsPage';
+//import AdminGoal from './components/AdminGoal';
 
 /**
  *  Specify where React should render
  */
 
 if (document.getElementById('tag-goals')) {
-    ReactDOM.render(<AdminGoal/>, document.getElementById('tag-goals'));
+    ReactDOM.render(<AdminTagsPage/>, document.getElementById('tag-goals'));
 }
-
 
 window.Vue = require('vue');
 
