@@ -7,6 +7,23 @@
 
 require('./bootstrap');
 
+/**
+ * Import React Components
+ */
+
+import ReactDOM from 'react-dom';
+import React from 'react';
+import AdminGoal from './components/AdminGoal';
+
+/**
+ *  Specify where React should render
+ */
+
+if (document.getElementById('tag-goals')) {
+    ReactDOM.render(<AdminGoal/>, document.getElementById('tag-goals'));
+}
+
+
 window.Vue = require('vue');
 
 /**
@@ -30,4 +47,7 @@ const app = new Vue({
  * Some basic api testing
  */
 
+/**
+ * Initializing React components on pages
+ */
 
