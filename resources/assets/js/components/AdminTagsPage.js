@@ -4,6 +4,7 @@ import AdminGoal from './AdminGoal';
 
 class AdminTagsPage extends Component {
 
+
     constructor(props) {
         super(props);
 
@@ -15,42 +16,41 @@ class AdminTagsPage extends Component {
     }
 
     componentDidMount() {
-
         axios.get('/api/admin/api-tags')
             .then(response => {
-
                 const goals = response.data.data.goals;
                 const tags = response.data.data.tags;
-
-                this.setState({goals});
-                this.setState({tags});
-
-            })
-            .catch(errors => {
-                const error = errors;
-                this.setState({error});
+                this.setState({ goals });
+                this.setState({ tags });
             });
-
     }
-    
+
+
     render() {
         return (
             <div className="row">
                 <div className="col-md-9">
                     <ul>
 
-                    {this.state.goals.map(goal =>
-                        <li key={goal.id}>{goal.name}</li>
+                    {this.state.goals.map((goal, num) =>
+                        <AdminGoal key={num}/>
                     )}
 
                     </ul>
                 </div>
                 <div className="col-md-3">
+                    <ul>
 
+                        {this.state.tags.map((tag, num) =>
+                            <li key={num}>Test</li>
+                        )}
+
+                    </ul>
                 </div>
             </div>
         );
     }
 }
+
 
 export default AdminTagsPage;
