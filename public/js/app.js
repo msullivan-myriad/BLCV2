@@ -28482,17 +28482,90 @@ var AdminGoal = function (_Component) {
     }
 
     _createClass(AdminGoal, [{
-        key: 'render',
+        key: "render",
         value: function render() {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                null,
+                "div",
+                { className: "panel" },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'h1',
+                    "p",
                     null,
-                    'Admin Goal'
-                )
-            );
+                    JSON.stringify(this.props.goal)
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "h2",
+                    null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "a",
+                        { href: "/blc-admin/goals/id-here" },
+                        this.props.goal.name
+                    )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "h4",
+                    null,
+                    "Cost: ",
+                    this.props.goal.cost
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "h4",
+                    null,
+                    "Days: ",
+                    this.props.goal.days
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "h4",
+                    null,
+                    "Hours: ",
+                    this.props.goal.hours
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "h4",
+                    null,
+                    "Subgoal Count: ",
+                    this.props.goal.subgoals_count
+                ),
+                this.props.goal.tags.map(function (tag) {
+                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "span",
+                        { className: "label label-default" },
+                        tag.name,
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "form",
+                            { method: "post", action: "/goals/goal-id/tag" },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "hidden", name: "tag_name", value: tag.id }),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "button",
+                                { type: "submit" },
+                                "x"
+                            )
+                        )
+                    );
+                })
+            )
+            /*
+                <div class="panel">
+                     @foreach ($goal->tags as $tag)
+                        <span class="label label-default">{{ $tag->name }}
+                         <form method="post" action="/goals/{{$goal->id}}/tag" style="display: inline;">
+                            {{ csrf_field() }}
+                            {{ method_field('DELETE') }}
+                            <input type="hidden" name="tag_name" value="{{$tag->id}}"/>
+                            <button type="submit">x</button>
+                        </form>
+                         </span>
+                     @endforeach
+                     <br>
+                    <br>
+                    <form action="/goals/{{$goal->id}}/tag" method="POST">
+                       {{ csrf_field() }}
+                        <input name="tag_name" type="text" placeholder="Tag for this goal" />
+                        <button type="submit">Tag</button>
+                    </form>
+                </div>
+             */
+
+            ;
         }
     }]);
 
@@ -28564,7 +28637,7 @@ var AdminTagsPage = function (_Component) {
                         'ul',
                         null,
                         this.state.goals.map(function (goal, num) {
-                            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__AdminGoal__["a" /* default */], { key: num });
+                            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__AdminGoal__["a" /* default */], { key: num, goal: goal });
                         })
                     )
                 ),

@@ -33,7 +33,7 @@ class AdminTagsPage extends Component {
                     <ul>
 
                     {this.state.goals.map((goal, num) =>
-                        <AdminGoal key={num}/>
+                        <AdminGoal key={num} goal={goal}/>
                     )}
 
                     </ul>
