@@ -143,7 +143,28 @@ class GoalController extends Controller
         $goal->tags()->detach($tag);
 
         return redirect()->back();
+
     }
+
+    public function apiRemoveTag(Request $request, Goal $goal) {
+        //Detach the requested tag from goal
+        // Need to add validation on this request
+
+        $tagId = $request->tag_id;
+
+        $tag = Tag::where('id', $tagId)->first();
+
+        $goal->tags()->detach($tag);
+
+        //Need to validate better
+        return [
+              'data' => [
+                  'success' => true
+              ]
+          ];
+
+    }
+
 
     public function delete(Goal $goal) {
         //Delete this goal and all of its subgoals

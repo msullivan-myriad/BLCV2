@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import AdminTag from './AdminTag';
+
 class AdminGoal extends Component {
 
     render() {
@@ -12,16 +14,10 @@ class AdminGoal extends Component {
             <h4>Hours: {this.props.goal.hours}</h4>
             <h4>Subgoal Count: {this.props.goal.subgoals_count}</h4>
 
-            {this.props.goal.tags.map(tag =>
-                <span className="label label-default">{tag.name}
+            {this.props.goal.tags.map((tag, num) =>
 
-                    <form method="post" action="/goals/goal-id/tag">
+                <AdminTag tag={tag} key={num} goal={this.props.goal.id}/>
 
-                        <input type="hidden" name="tag_name" value={tag.id}/>
-                        <button type="submit">x</button>
-                    </form>
-
-                </span>
             )}
 
         </div>

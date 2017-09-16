@@ -34,13 +34,12 @@ Route::prefix('api')->group(function() {
     Route::get('/search/', 'GoalController@apiSearch');
 
     Route::group(['middleware' => ['admin']], function() {
-
       Route::prefix('admin')->group(function() {
 
         Route::get('api-tags', 'AdminController@apiTags');
+        Route::delete('/goals/{goal}/tag', 'GoalController@apiRemoveTag');
 
       });
-
     });
 
 

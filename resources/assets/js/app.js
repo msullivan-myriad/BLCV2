@@ -14,7 +14,6 @@ require('./bootstrap');
 import ReactDOM from 'react-dom';
 import React from 'react';
 import AdminTagsPage from './components/AdminTagsPage';
-//import AdminGoal from './components/AdminGoal';
 
 /**
  *  Specify where React should render
