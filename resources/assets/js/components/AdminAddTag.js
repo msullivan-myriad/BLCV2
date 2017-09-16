@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class AdminTag extends Component {
+class AdminAddTag extends Component {
 
     constructor(props) {
         super(props);
@@ -34,20 +34,14 @@ class AdminTag extends Component {
 
     render() {
 
-        var beenDeletedStyle = {};
-
-        if (this.state.isDeleted) {
-            beenDeletedStyle = {'display':'none'};
-        }
-
         return (
-
-            <span className="label label-default" style={beenDeletedStyle}>{this.props.tag.name}
-                <button onClick={this.handleClick}>x</button>
-            </span>
+            <div className="add-tag-section">
+                <input name="tag_name" type="text" placeholder="Tag for this goal" />
+                <button type="submit">Tag</button>
+            </div>
 
         );
     }
 }
 
-export default AdminTag;
+export default AdminAddTag;

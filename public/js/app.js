@@ -11330,6 +11330,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AdminTag__ = __webpack_require__(111);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AdminAddTag__ = __webpack_require__(228);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -11337,6 +11338,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -11399,31 +11401,10 @@ var AdminGoal = function (_Component) {
                 ),
                 this.props.goal.tags.map(function (tag, num) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__AdminTag__["a" /* default */], { tag: tag, key: num, goal: _this2.props.goal.id });
-                })
-            )
-            /*
-                <div class="panel">
-                     @foreach ($goal->tags as $tag)
-                        <span class="label label-default">{{ $tag->name }}
-                         <form method="post" action="/goals/{{$goal->id}}/tag" style="display: inline;">
-                            {{ csrf_field() }}
-                            {{ method_field('DELETE') }}
-                            <input type="hidden" name="tag_name" value="{{$tag->id}}"/>
-                            <button type="submit">x</button>
-                        </form>
-                         </span>
-                     @endforeach
-                     <br>
-                    <br>
-                    <form action="/goals/{{$goal->id}}/tag" method="POST">
-                       {{ csrf_field() }}
-                        <input name="tag_name" type="text" placeholder="Tag for this goal" />
-                        <button type="submit">Tag</button>
-                    </form>
-                </div>
-             */
-
-            ;
+                }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__AdminAddTag__["a" /* default */], null)
+            );
         }
     }]);
 
@@ -11458,12 +11439,15 @@ var AdminTag = function (_Component) {
         var _this = _possibleConstructorReturn(this, (AdminTag.__proto__ || Object.getPrototypeOf(AdminTag)).call(this, props));
 
         _this.handleClick = _this.handleClick.bind(_this);
+
+        _this.state = { isDeleted: false };
         return _this;
     }
 
     _createClass(AdminTag, [{
         key: 'handleClick',
         value: function handleClick() {
+            var _this2 = this;
 
             var url = '/api/admin/goals/' + this.props.goal + '/tag';
 
@@ -11474,7 +11458,7 @@ var AdminTag = function (_Component) {
                     tag_id: this.props.tag.id
                 }
             }).then(function (response) {
-                console.log(response);
+                _this2.setState({ isDeleted: true });
             }).catch(function (response) {
                 console.log(response);
             });
@@ -11482,9 +11466,16 @@ var AdminTag = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
+
+            var beenDeletedStyle = {};
+
+            if (this.state.isDeleted) {
+                beenDeletedStyle = { 'display': 'none' };
+            }
+
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'span',
-                { className: 'label label-default' },
+                { className: 'label label-default', style: beenDeletedStyle },
                 this.props.tag.name,
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'button',
@@ -53979,6 +53970,86 @@ module.exports = function(module) {
 __webpack_require__(90);
 module.exports = __webpack_require__(91);
 
+
+/***/ }),
+/* 220 */,
+/* 221 */,
+/* 222 */,
+/* 223 */,
+/* 224 */,
+/* 225 */,
+/* 226 */,
+/* 227 */,
+/* 228 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var AdminAddTag = function (_Component) {
+    _inherits(AdminAddTag, _Component);
+
+    function AdminAddTag(props) {
+        _classCallCheck(this, AdminAddTag);
+
+        var _this = _possibleConstructorReturn(this, (AdminAddTag.__proto__ || Object.getPrototypeOf(AdminAddTag)).call(this, props));
+
+        _this.handleClick = _this.handleClick.bind(_this);
+
+        _this.state = { isDeleted: false };
+        return _this;
+    }
+
+    _createClass(AdminAddTag, [{
+        key: 'handleClick',
+        value: function handleClick() {
+            var _this2 = this;
+
+            var url = '/api/admin/goals/' + this.props.goal + '/tag';
+
+            console.log(url);
+
+            axios.delete(url, {
+                params: {
+                    tag_id: this.props.tag.id
+                }
+            }).then(function (response) {
+                _this2.setState({ isDeleted: true });
+            }).catch(function (response) {
+                console.log(response);
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'add-tag-section' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { name: 'tag_name', type: 'text', placeholder: 'Tag for this goal' }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'button',
+                    { type: 'submit' },
+                    'Tag'
+                )
+            );
+        }
+    }]);
+
+    return AdminAddTag;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+/* harmony default export */ __webpack_exports__["a"] = (AdminAddTag);
 
 /***/ })
 /******/ ]);

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import AdminTag from './AdminTag';
+import AdminAddTag from './AdminAddTag';
 
 class AdminGoal extends Component {
 
@@ -19,34 +20,11 @@ class AdminGoal extends Component {
                 <AdminTag tag={tag} key={num} goal={this.props.goal.id}/>
 
             )}
+            <br/>
+
+            <AdminAddTag/>
 
         </div>
-        /*
-            <div class="panel">
-
-                @foreach ($goal->tags as $tag)
-                    <span class="label label-default">{{ $tag->name }}
-
-                    <form method="post" action="/goals/{{$goal->id}}/tag" style="display: inline;">
-                        {{ csrf_field() }}
-                        {{ method_field('DELETE') }}
-                        <input type="hidden" name="tag_name" value="{{$tag->id}}"/>
-                        <button type="submit">x</button>
-                    </form>
-
-                    </span>
-
-                @endforeach
-
-                <br>
-                <br>
-                <form action="/goals/{{$goal->id}}/tag" method="POST">
-                   {{ csrf_field() }}
-                    <input name="tag_name" type="text" placeholder="Tag for this goal" />
-                    <button type="submit">Tag</button>
-                </form>
-            </div>
-         */
 
     );
     }
