@@ -11403,7 +11403,7 @@ var AdminGoal = function (_Component) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__AdminTag__["a" /* default */], { tag: tag, key: num, goal: _this2.props.goal.id });
                 }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__AdminAddTag__["a" /* default */], null)
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__AdminAddTag__["a" /* default */], { goal: this.props.goal })
             );
         }
     }]);
@@ -54005,29 +54005,32 @@ var AdminAddTag = function (_Component) {
         var _this = _possibleConstructorReturn(this, (AdminAddTag.__proto__ || Object.getPrototypeOf(AdminAddTag)).call(this, props));
 
         _this.handleClick = _this.handleClick.bind(_this);
+        _this.handleChange = _this.handleChange.bind(_this);
+        _this.state = { newTag: '' };
 
-        _this.state = { isDeleted: false };
         return _this;
     }
 
     _createClass(AdminAddTag, [{
         key: 'handleClick',
         value: function handleClick() {
-            var _this2 = this;
 
-            var url = '/api/admin/goals/' + this.props.goal + '/tag';
+            var url = '/api/admin/goals/' + this.props.goal.id + '/tag';
 
-            console.log(url);
-
-            axios.delete(url, {
+            axios.post(url, {
                 params: {
-                    tag_id: this.props.tag.id
+                    tag_name: this.state.newTag
                 }
             }).then(function (response) {
-                _this2.setState({ isDeleted: true });
+                console.log(response);
             }).catch(function (response) {
                 console.log(response);
             });
+        }
+    }, {
+        key: 'handleChange',
+        value: function handleChange(event) {
+            this.setState({ newTag: event.target.value });
         }
     }, {
         key: 'render',
@@ -54036,11 +54039,11 @@ var AdminAddTag = function (_Component) {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'add-tag-section' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { name: 'tag_name', type: 'text', placeholder: 'Tag for this goal' }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { name: 'tag_name', type: 'text', placeholder: 'Tag name', onChange: this.handleChange, value: this.state.newTag }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'button',
-                    { type: 'submit' },
-                    'Tag'
+                    { onClick: this.handleClick, type: 'submit' },
+                    'Add'
                 )
             );
         }

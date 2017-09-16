@@ -29,27 +29,30 @@ Route::get('goals/{goal}', 'GoalController@view')->name('view-goal');
 
 Route::prefix('api')->group(function() {
 
+    //Basis API Routes
     Route::get('/goals/', 'GoalController@apiIndex');
     Route::post('/goals/{goal}', 'GoalController@apiNew');
     Route::get('/search/', 'GoalController@apiSearch');
 
+  //API Admin Middleware
     Route::group(['middleware' => ['admin']], function() {
       Route::prefix('admin')->group(function() {
 
         Route::get('api-tags', 'AdminController@apiTags');
         Route::delete('/goals/{goal}/tag', 'GoalController@apiRemoveTag');
+        Route::post('goals/{goal}/tag', 'GoalController@apiTag');
 
       });
     });
 
-
+    //API Stats Middleware
     Route::prefix('stats')->group(function() {
-
         Route::get('base', 'StatsController@base');
         Route::get('top-fives', 'StatsController@topFives');
     });
 
 });
+
 
 Route::group(['middleware' => ['auth']], function() {
 

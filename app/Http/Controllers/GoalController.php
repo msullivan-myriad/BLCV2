@@ -120,8 +120,10 @@ class GoalController extends Controller
         // Need to add tags to the database seeder... Maybe it's not nessesary
         // Request for tags?
 
+        //Search via name here rather than id in the case the tag already exists
         $tag = Tag::where('name', $request->tag_name)->first();
 
+        //Create a new tag if the tag doesn't yet exist
         if (!$tag) {
             $tag = new Tag;
             $tag->name = $request->tag_name;
@@ -132,6 +134,26 @@ class GoalController extends Controller
 
         return redirect()->back();
     }
+
+    public function apiTag(Request $request, Goal $goal) {
+        // Need to add tags to the database seeder... Maybe it's not nessesary
+        // Request for tags?
+
+        //Search via name here rather than id in the case the tag already exists
+        $tag = Tag::where('name', $request->tag_name)->first();
+
+        //Create a new tag if the tag doesn't yet exist
+        if (!$tag) {
+            $tag = new Tag;
+            $tag->name = $request->tag_name;
+            $tag->save();
+        }
+
+        $goal->tags()->attach($tag);
+
+        return redirect()->back();
+    }
+
 
     public function removeTag(Request $request, Goal $goal) {
         //Detach the requested tag from goal

@@ -22,7 +22,7 @@ class AdminGoal extends Component {
             )}
             <br/>
 
-            <AdminAddTag/>
+            <AdminAddTag goal={this.props.goal}/>
 
         </div>
 
