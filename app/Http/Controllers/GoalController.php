@@ -138,6 +138,7 @@ class GoalController extends Controller
     public function apiTag(Request $request, Goal $goal) {
         // Need to add tags to the database seeder... Maybe it's not nessesary
         // Request for tags?
+        //Request validation for tags?
 
         //Search via name here rather than id in the case the tag already exists
         $tag = Tag::where('name', $request->tag_name)->first();
@@ -151,7 +152,14 @@ class GoalController extends Controller
 
         $goal->tags()->attach($tag);
 
-        return redirect()->back();
+        //Need to validate better
+        return [
+              'data' => [
+                  'success' => true,
+                  'tag_id' => $tag->id
+              ]
+          ];
+
     }
 
 

@@ -26,7 +26,6 @@ class AdminTagsPage extends Component {
             });
     }
 
-
     render() {
         return (
             <div className="row">
@@ -55,3 +54,5 @@ class AdminTagsPage extends Component {
 
 
 export default AdminTagsPage;
+
+
