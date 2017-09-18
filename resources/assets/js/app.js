@@ -19,8 +19,8 @@ import AdminTagsPage from './components/AdminTagsPage';
  *  Specify where React should render
  */
 
-if (document.getElementById('tag-goals')) {
-    ReactDOM.render(<AdminTagsPage/>, document.getElementById('tag-goals'));
+if (document.getElementById('adminpage-tag-goals')) {
+    ReactDOM.render(<AdminTagsPage/>, document.getElementById('adminpage-tag-goals'));
 }
 
 

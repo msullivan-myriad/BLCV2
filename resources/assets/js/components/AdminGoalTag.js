@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class AdminTag extends Component {
+class AdminGoalTag extends Component {
 
     constructor(props) {
         super(props);
@@ -35,6 +35,10 @@ class AdminTag extends Component {
     render() {
 
         var beenDeletedStyle = {};
+        var url = '/blc-admin/tags/' + this.props.tag.id;
+        var linkStyles = {
+            color: '#fff'
+        }
 
         if (this.state.isDeleted) {
             beenDeletedStyle = {'display':'none'};
@@ -42,7 +46,8 @@ class AdminTag extends Component {
 
         return (
 
-            <span className="label label-default" style={beenDeletedStyle}>{this.props.tag.name}
+            <span className="label label-default" style={beenDeletedStyle}>
+                <a style={linkStyles} href={url}>{this.props.tag.name}</a>
                 <button onClick={this.handleClick}>x</button>
             </span>
 
@@ -50,4 +55,4 @@ class AdminTag extends Component {
     }
 }
 
-export default AdminTag;
+export default AdminGoalTag;

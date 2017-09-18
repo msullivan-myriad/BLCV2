@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 import AdminGoal from './AdminGoal';
+import AdminPageTag from './AdminPageTag';
 
 class AdminTagsPage extends Component {
 
@@ -39,13 +40,11 @@ class AdminTagsPage extends Component {
                     </ul>
                 </div>
                 <div className="col-md-3">
-                    <ul>
-
+                    <div className="panel">
                         {this.state.tags.map((tag, num) =>
-                            <li key={num}>Test</li>
+                            <AdminPageTag tag={tag} key={num}/>
                         )}
-
-                    </ul>
+                    </div>
                 </div>
             </div>
         );

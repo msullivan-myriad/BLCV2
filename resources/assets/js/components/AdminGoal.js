@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import AdminTag from './AdminTag';
+import AdminGoalTag from './AdminGoalTag';
 
 class AdminGoal extends Component {
 
@@ -63,7 +63,6 @@ class AdminGoal extends Component {
 
         return (
             <div className="panel">
-                <p>{JSON.stringify(this.props.goal)}</p>
                 <h2><a href={goalLink}>{this.props.goal.name}</a></h2>
                 <h4>Cost: {this.props.goal.cost}</h4>
                 <h4>Days: {this.props.goal.days}</h4>
@@ -72,7 +71,7 @@ class AdminGoal extends Component {
 
                 {this.state.tags.map((tag, num) =>
 
-                    <AdminTag tag={tag} key={num} goal={this.props.goal.id}/>
+                    <AdminGoalTag tag={tag} key={num} goal={this.props.goal.id}/>
 
                 )}
                 <br/>
