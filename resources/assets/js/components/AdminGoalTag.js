@@ -29,7 +29,6 @@ class AdminGoalTag extends Component {
             console.log(response);
         });
 
-
     }
 
     render() {

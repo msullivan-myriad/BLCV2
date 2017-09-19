@@ -40,6 +40,7 @@ class AdminController extends Controller
           ]
 
         ];
+
     }
 
     public function individualTag(Tag $tag) {
@@ -49,6 +50,26 @@ class AdminController extends Controller
             'tag' => $tag,
         ]);
     }
+
+    public function apiIndividualTag(Tag $tag) {
+
+        //This is where I left off
+        //This goal needs to be added to the routes
+        //After that is done the AdminIndividualTagPage needs to make a request to this controller
+
+        $goals = $tag->goals;
+
+        return [
+
+          'data' => [
+                'goals' =>$goals,
+                'tag' => $tag,
+          ]
+
+        ];
+
+    }
+
 
     public function goal(Goal $goal) {
         return view('admin.goal')->with('goal', $goal);

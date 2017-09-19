@@ -14,6 +14,7 @@ require('./bootstrap');
 import ReactDOM from 'react-dom';
 import React from 'react';
 import AdminTagsPage from './components/AdminTagsPage';
+import AdminIndividualTagPage from './components/AdminIndividualTagPage';
 
 /**
  *  Specify where React should render
@@ -23,6 +24,10 @@ if (document.getElementById('adminpage-tag-goals')) {
     ReactDOM.render(<AdminTagsPage/>, document.getElementById('adminpage-tag-goals'));
 }
 
+
+if (document.getElementById('adminpage-individual-tag')) {
+    ReactDOM.render(<AdminIndividualTagPage/>, document.getElementById('adminpage-individual-tag'));
+}
 
 /*
 window.Vue = require('vue');
