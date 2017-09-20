@@ -34,7 +34,7 @@ class AdminGoalTag extends Component {
     render() {
 
         var beenDeletedStyle = {};
-        var url = '/blc-admin/tags/' + this.props.tag.id;
+        var url = '/blc-admin/tags/individual#' + this.props.tag.id;
         var linkStyles = {
             color: '#fff'
         }

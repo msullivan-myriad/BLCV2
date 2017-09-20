@@ -9,20 +9,29 @@ class AdminIndividualTagPage extends Component {
     constructor(props) {
         super(props);
 
+        var idHash = '';
+
+        if (window.location.hash) {
+            idHash = window.location.hash.substring(1);
+        }
+
         this.state = {
             goals: [],
-            tags: [],
-            errors: []
+            tag: [],
+            errors: [],
+            hash: idHash,
         };
     }
 
     componentDidMount() {
-        axios.get('/api/admin/api-tags')
+
+        var url = '/api/admin/api-tags/' + this.state.hash;
+        axios.get(url)
             .then(response => {
                 const goals = response.data.data.goals;
-                const tags = response.data.data.tags;
+                const tag = response.data.data.tag;
                 this.setState({ goals });
-                this.setState({ tags });
+                this.setState({ tag });
             });
     }
 

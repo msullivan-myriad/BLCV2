@@ -43,21 +43,16 @@ class AdminController extends Controller
 
     }
 
-    public function individualTag(Tag $tag) {
-        $goals = $tag->goals;
-        return view('admin.individual-tag')->with([
-            'goals' => $goals,
-            'tag' => $tag,
-        ]);
+    public function individualTag() {
+        return view('admin.individual-tag');
     }
 
     public function apiIndividualTag(Tag $tag) {
+        //Left off here
+        //Need to figure out how to do a with then where clause in laravel
+        $goals = Goal::with('tags')->where('tag.id', $tag->id)->get();
 
-        //This is where I left off
-        //This goal needs to be added to the routes
-        //After that is done the AdminIndividualTagPage needs to make a request to this controller
-
-        $goals = $tag->goals;
+        //$goals = $tag->goals;
 
         return [
 

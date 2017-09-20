@@ -5,7 +5,7 @@ class AdminPageTag extends Component {
 
     render() {
 
-        var url = '/blc-admin/tags/' + this.props.tag.id;
+        var url = '/blc-admin/tags/individual#' + this.props.tag.id;
         var spanStyles = {
             display: 'inline-block',
             margin: '2px'

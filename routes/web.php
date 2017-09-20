@@ -39,6 +39,7 @@ Route::prefix('api')->group(function() {
       Route::prefix('admin')->group(function() {
 
         Route::get('api-tags', 'AdminController@apiTags');
+        Route::get('api-tags/{tag}', 'AdminController@apiIndividualTag');
         Route::delete('/goals/{goal}/tag', 'GoalController@apiRemoveTag');
         Route::post('goals/{goal}/tag', 'GoalController@apiTag');
 
@@ -79,7 +80,8 @@ Route::group(['middleware' => ['admin']], function() {
 
         Route::get('/', 'AdminController@index')->name('admin-panel');
         Route::get('tags', 'AdminController@tags')->name('admin-tags');
-        Route::get('tags/{tag}', 'AdminController@individualTag')->name('individual-tag');
+        Route::get('tags/individual', 'AdminController@individualTag')->name('individual-tag');
+        //Route::get('tags/{tag}', 'AdminController@individualTag')->name('individual-tag');
         Route::get('/goals/{goal}', 'AdminController@goal')->name('admin-goal');
 
     });
