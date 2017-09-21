@@ -48,11 +48,14 @@ class AdminController extends Controller
     }
 
     public function apiIndividualTag(Tag $tag) {
-        //Left off here
-        //Need to figure out how to do a with then where clause in laravel
-        $goals = Goal::with('tags')->where('tag.id', $tag->id)->get();
 
-        //$goals = $tag->goals;
+        $id = $tag->id;
+
+        //Get goals with tags where goal has a tag assosiated with it with an id equal to the tag id
+        $goals = Goal::whereHas('tags', function ($query) use ($id) {
+          $query->where('tags.id', '=', $id);
+        })->with('tags')->get();
+
 
         return [
 
