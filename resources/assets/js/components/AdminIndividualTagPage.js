@@ -21,9 +21,19 @@ class AdminIndividualTagPage extends Component {
             errors: [],
             hash: idHash,
         };
+
+        this.hashChanged = this.hashChanged.bind(this);
+    }
+
+    hashChanged() {
+        console.log('The hash just changed -- its working');
     }
 
     componentDidMount() {
+
+        window.onhashchange = function() {
+            this.hashChanged();
+        }.bind(this);
 
         var url = '/api/admin/api-tags/' + this.state.hash;
         axios.get(url)

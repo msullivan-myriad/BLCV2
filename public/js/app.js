@@ -11597,13 +11597,24 @@ var AdminIndividualTagPage = function (_Component) {
             errors: [],
             hash: idHash
         };
+
+        _this.hashChanged = _this.hashChanged.bind(_this);
         return _this;
     }
 
     _createClass(AdminIndividualTagPage, [{
+        key: 'hashChanged',
+        value: function hashChanged() {
+            console.log('The hash just changed -- its working');
+        }
+    }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
             var _this2 = this;
+
+            window.onhashchange = function () {
+                this.hashChanged();
+            }.bind(this);
 
             var url = '/api/admin/api-tags/' + this.state.hash;
             __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get(url).then(function (response) {
