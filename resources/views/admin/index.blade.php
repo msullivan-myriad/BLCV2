@@ -7,6 +7,7 @@
         <div class="col-md-10 col-md-offset-1">
             <h1>Admin Panel Here</h1>
 
+            <div id="ant-test"></div>
         </div>
     </div>
 </div>
