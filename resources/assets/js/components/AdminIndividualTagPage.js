@@ -23,10 +23,29 @@ class AdminIndividualTagPage extends Component {
         };
 
         this.hashChanged = this.hashChanged.bind(this);
+        this.getGoals = this.getGoals.bind(this);
     }
 
     hashChanged() {
-        console.log('The hash just changed -- its working');
+        this.setState({
+            hash: window.location.hash.substring(1)
+        })
+
+        this.getGoals(this.state.hash)
+    }
+
+    getGoals() {
+
+        var url = '/api/admin/api-tags/' + this.state.hash;
+
+        axios.get(url)
+            .then(response => {
+                const goals = response.data.data.goals;
+                const tag = response.data.data.tag;
+                this.setState({ goals });
+                this.setState({ tag });
+            });
+
     }
 
     componentDidMount() {
@@ -35,14 +54,8 @@ class AdminIndividualTagPage extends Component {
             this.hashChanged();
         }.bind(this);
 
-        var url = '/api/admin/api-tags/' + this.state.hash;
-        axios.get(url)
-            .then(response => {
-                const goals = response.data.data.goals;
-                const tag = response.data.data.tag;
-                this.setState({ goals });
-                this.setState({ tag });
-            });
+        this.getGoals();
+
     }
 
     render() {

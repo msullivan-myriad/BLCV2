@@ -11599,30 +11599,42 @@ var AdminIndividualTagPage = function (_Component) {
         };
 
         _this.hashChanged = _this.hashChanged.bind(_this);
+        _this.getGoals = _this.getGoals.bind(_this);
         return _this;
     }
 
     _createClass(AdminIndividualTagPage, [{
         key: 'hashChanged',
         value: function hashChanged() {
-            console.log('The hash just changed -- its working');
+            this.setState({
+                hash: window.location.hash.substring(1)
+            });
+
+            this.getGoals(this.state.hash);
         }
     }, {
-        key: 'componentDidMount',
-        value: function componentDidMount() {
+        key: 'getGoals',
+        value: function getGoals() {
             var _this2 = this;
 
-            window.onhashchange = function () {
-                this.hashChanged();
-            }.bind(this);
-
             var url = '/api/admin/api-tags/' + this.state.hash;
+
             __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get(url).then(function (response) {
                 var goals = response.data.data.goals;
                 var tag = response.data.data.tag;
                 _this2.setState({ goals: goals });
                 _this2.setState({ tag: tag });
             });
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+
+            window.onhashchange = function () {
+                this.hashChanged();
+            }.bind(this);
+
+            this.getGoals();
         }
     }, {
         key: 'render',
