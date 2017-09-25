@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { Modal } from 'antd';
+import 'antd/dist/antd.css';
 
 import AdminGoalTag from './AdminGoalTag';
+
 
 class AdminGoal extends Component {
 
@@ -8,6 +11,9 @@ class AdminGoal extends Component {
         super(props);
         this.handleTagInputSubmit = this.handleTagInputSubmit.bind(this);
         this.handleTagInputChange = this.handleTagInputChange.bind(this);
+        this.deleteGoalModal = this.deleteGoalModal.bind(this);
+        this.deleteGoal = this.deleteGoal.bind(this);
+
         var tags = [];
         this.props.goal.tags.map(val => {
             tags.push(
@@ -57,6 +63,43 @@ class AdminGoal extends Component {
         this.setState({newTag: event.target.value});
     }
 
+    deleteGoalModal() {
+
+        Modal.confirm({
+            title: 'Are you sure delete this goal?',
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk() {
+
+                //Left off right here, not sure why I'm getting deleteGoalModal undefined
+                //This function should be deleteGoal once I figure out why it isn't working
+                this.deleteGoalModal;
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
+
+
+    }
+
+    deleteGoal() {
+
+        var url = '/api/admin/goals/' + this.props.goal.id;
+
+
+        axios.delete(url)
+        .then(response => {
+            console.log(response);
+            //this.setState({isDeleted:true});
+        })
+        .catch(response => {
+            console.log(response);
+        });
+
+
+    }
 
     render() {
         var goalLink = '/blc-admin/goals/' + this.props.goal.id;
@@ -68,6 +111,7 @@ class AdminGoal extends Component {
                 <h4>Days: {this.props.goal.days}</h4>
                 <h4>Hours: {this.props.goal.hours}</h4>
                 <h4>Subgoal Count: {this.props.goal.subgoals_count}</h4>
+                <button onClick={this.deleteGoalModal} type="submit">Test</button>
 
                 {this.state.tags.map((tag, num) =>
 

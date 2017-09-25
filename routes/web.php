@@ -42,6 +42,7 @@ Route::prefix('api')->group(function() {
         Route::get('api-tags/{tag}', 'AdminController@apiIndividualTag');
         Route::delete('/goals/{goal}/tag', 'GoalController@apiRemoveTag');
         Route::post('goals/{goal}/tag', 'GoalController@apiTag');
+        Route::delete('goals/{goal}', 'GoalController@apiDelete');
 
       });
     });

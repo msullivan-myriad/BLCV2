@@ -31,28 +31,6 @@ if (document.getElementById('adminpage-individual-tag')) {
 
 
 
-
-
-
-
-
-
-import { Button, notification } from 'antd';
-import 'antd/dist/antd.css';
-
-
-const openNotification = () => {
-    notification.open({
-        message: 'Notification Title',
-        description: 'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
-        placement: 'bottomRight'
-    });
-};
-
-ReactDOM.render(
-    <Button type="primary" onClick={openNotification}>Open the notification box</Button>
-    , document.getElementById('ant-test'));
-
 /*
 window.Vue = require('vue');
 
