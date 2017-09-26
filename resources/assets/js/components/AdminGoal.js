@@ -25,7 +25,8 @@ class AdminGoal extends Component {
         })
         this.state = {
             newTag: '',
-            tags: tags
+            tags: tags,
+            isDeleted: false
         }
     }
 
@@ -65,16 +66,18 @@ class AdminGoal extends Component {
 
     deleteGoalModal() {
 
+        var thisGoal = this;
+
         Modal.confirm({
             title: 'Are you sure delete this goal?',
             okText: 'Yes',
             okType: 'danger',
             cancelText: 'No',
             onOk() {
-
                 //Left off right here, not sure why I'm getting deleteGoalModal undefined
                 //This function should be deleteGoal once I figure out why it isn't working
-                this.deleteGoalModal;
+
+                thisGoal.deleteGoal();
             },
             onCancel() {
                 console.log('Cancel');
@@ -88,11 +91,13 @@ class AdminGoal extends Component {
 
         var url = '/api/admin/goals/' + this.props.goal.id;
 
-
         axios.delete(url)
         .then(response => {
-            console.log(response);
-            //this.setState({isDeleted:true});
+
+            if (response.data.data.success) {
+                this.setState({isDeleted:true});
+            }
+
         })
         .catch(response => {
             console.log(response);
@@ -103,15 +108,26 @@ class AdminGoal extends Component {
 
     render() {
         var goalLink = '/blc-admin/goals/' + this.props.goal.id;
+        var beenDeletedStyle = {};
+
+        if (this.state.isDeleted) {
+            beenDeletedStyle = {'display':'none'};
+        }
+
+        var iconStyle = {
+            fontSize: '22px',
+        };
 
         return (
-            <div className="panel">
+            <div className="panel" style={beenDeletedStyle}>
                 <h2><a href={goalLink}>{this.props.goal.name}</a></h2>
                 <h4>Cost: {this.props.goal.cost}</h4>
                 <h4>Days: {this.props.goal.days}</h4>
                 <h4>Hours: {this.props.goal.hours}</h4>
                 <h4>Subgoal Count: {this.props.goal.subgoals_count}</h4>
-                <button onClick={this.deleteGoalModal} type="submit">Test</button>
+                <button onClick={this.deleteGoalModal} type="submit">
+                    <i className="fa fa-trash text-danger" aria-hidden="true" style={iconStyle}></i>
+                </button>
 
                 {this.state.tags.map((tag, num) =>
 
