@@ -13,6 +13,8 @@ class AdminGoal extends Component {
         this.handleTagInputChange = this.handleTagInputChange.bind(this);
         this.deleteGoalModal = this.deleteGoalModal.bind(this);
         this.deleteGoal = this.deleteGoal.bind(this);
+        this.editTitle = this.editTitle.bind(this);
+        this.titleChange = this.titleChange.bind(this);
 
         var tags = [];
         this.props.goal.tags.map(val => {
@@ -26,7 +28,10 @@ class AdminGoal extends Component {
         this.state = {
             newTag: '',
             tags: tags,
-            isDeleted: false
+            isDeleted: false,
+            editingTitle: false,
+            initialTitle: this.props.goal.name,
+            newTitle: this.props.goal.name,
         }
     }
 
@@ -76,7 +81,6 @@ class AdminGoal extends Component {
             onOk() {
                 //Left off right here, not sure why I'm getting deleteGoalModal undefined
                 //This function should be deleteGoal once I figure out why it isn't working
-
                 thisGoal.deleteGoal();
             },
             onCancel() {
@@ -106,8 +110,33 @@ class AdminGoal extends Component {
 
     }
 
+    editTitle() {
+
+        if(this.state.editingTitle) {
+
+            if(this.state.initialTitle != this.state.newTitle) {
+                console.log("now");
+
+                //Set the new title right here
+                //If it is a successful response then set origionalTitle equal to newTitle then emit a success notification
+                //If not default back to initialTitle and emit a failure notification
+
+            }
+
+        }
+
+        this.setState({
+            editingTitle: !this.state.editingTitle,
+        })
+    }
+
+    titleChange(event) {
+        this.setState({
+            newTitle: event.target.value,
+        })
+    }
+
     render() {
-        var goalLink = '/blc-admin/goals/' + this.props.goal.id;
         var beenDeletedStyle = {};
 
         if (this.state.isDeleted) {
@@ -118,13 +147,46 @@ class AdminGoal extends Component {
             fontSize: '22px',
         };
 
+        //Edit title styles
+        var editInputStyles = {
+            display: 'none',
+        }
+        var editHeadingStyles = {
+            display: 'block',
+        }
+        var editPencilButton = {}
+        var editThumbButton = {
+            display: 'none',
+        }
+
+        if (this.state.editingTitle) {
+            editInputStyles = {
+                display: 'block',
+            }
+            editHeadingStyles = {
+                display: 'none',
+            }
+            editPencilButton = {
+                display: 'none',
+            }
+            editThumbButton = {}
+        }
+
         return (
             <div className="panel" style={beenDeletedStyle}>
-                <h2><a href={goalLink}>{this.props.goal.name}</a></h2>
+                <h2 style={editHeadingStyles}>{this.state.initialTitle}</h2>
+                <input style={editInputStyles} className="edit-input" type="text" value={this.state.newTitle} onChange={this.titleChange}/>
+
+                <button onClick={this.editTitle} type="submit">
+                    <i style={editPencilButton} className="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    <i style={editThumbButton} className="fa fa-thumbs-up" aria-hidden="true"></i>
+                </button>
+
                 <h4>Cost: {this.props.goal.cost}</h4>
                 <h4>Days: {this.props.goal.days}</h4>
                 <h4>Hours: {this.props.goal.hours}</h4>
                 <h4>Subgoal Count: {this.props.goal.subgoals_count}</h4>
+
                 <button onClick={this.deleteGoalModal} type="submit">
                     <i className="fa fa-trash text-danger" aria-hidden="true" style={iconStyle}></i>
                 </button>
