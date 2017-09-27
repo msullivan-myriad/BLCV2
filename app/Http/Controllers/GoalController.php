@@ -211,13 +211,20 @@ class GoalController extends Controller
         ];
     }
 
-
     public function edit(Request $request, Goal $goal) {
         $goal->editGoal('Test');
         return redirect()->back();
     }
 
+    public function apiEditTitle(Request $request, Goal $goal) {
 
+        $goal->editGoal($request->newTitle);
+        return [
+          'data' => [
+            'success' => true
+          ]
+        ];
+    }
 
 
 }

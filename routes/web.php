@@ -43,6 +43,7 @@ Route::prefix('api')->group(function() {
         Route::delete('/goals/{goal}/tag', 'GoalController@apiRemoveTag');
         Route::post('goals/{goal}/tag', 'GoalController@apiTag');
         Route::delete('goals/{goal}', 'GoalController@apiDelete');
+        Route::post('goals/{goal}/edit', 'GoalController@apiEditTitle');
 
       });
     });

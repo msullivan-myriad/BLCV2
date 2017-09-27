@@ -6,7 +6,6 @@ import AdminPageTag from './AdminPageTag';
 
 class AdminTagsPage extends Component {
 
-
     constructor(props) {
         super(props);
 

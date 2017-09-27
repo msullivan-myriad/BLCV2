@@ -115,11 +115,28 @@ class AdminGoal extends Component {
         if(this.state.editingTitle) {
 
             if(this.state.initialTitle != this.state.newTitle) {
-                console.log("now");
-
                 //Set the new title right here
                 //If it is a successful response then set origionalTitle equal to newTitle then emit a success notification
                 //If not default back to initialTitle and emit a failure notification
+
+                var url = '/api/admin/goals/' + this.props.goal.id + '/edit';
+
+                axios.post(url, {
+                    newTitle: this.state.newTitle,
+                })
+
+                    .then(response => {
+
+                        if (response.data.data.success) {
+                            this.setState({
+                                initialTitle: this.state.newTitle
+                            })
+                        }
+                    })
+
+                    .catch(response => {
+                        console.log(response);
+                    });
 
             }
 
