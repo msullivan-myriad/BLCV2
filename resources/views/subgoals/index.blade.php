@@ -8,7 +8,7 @@
             <div id="calculate-section"></div>
         </div>
         <div class="col-md-5">
-
+            <div id="user-subgoals-section"></div>
                 <ul>
                @foreach($subgoals as $sub)
                     <li>
@@ -16,8 +16,6 @@
                     </li>
                 @endforeach
                 </ul>
-
-
         </div>
     </div>
 </div>
