@@ -4,29 +4,10 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-6">
-            <search-goals></search-goals>
-            <br>
-            <!--
-            <form action="/goals/" method="POST">
-                {{ csrf_field() }}
-                <input type="text" placeholder="Goal Title" name="title">
-                <input type="number" placeholder="Cost" name="cost">
-                <input type="number" placeholder="Days" name="days">
-                <input type="number" placeholder="Hours" name="hours">
-                <button type="submit">Submit</button>
-            </form>
-            <br>
-            <br>
-            <form action="/search" method="GET">
-                {{ csrf_field() }}
-                <input type="text" placeholder="Find Goal" name="search">
-                <button type="submit">Submit</button>
-            </form>
-            -->
-
+        <div class="col-md-7">
+            <div id="calculate-section"></div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-5">
 
                 <ul>
                @foreach($subgoals as $sub)
@@ -35,6 +16,7 @@
                     </li>
                 @endforeach
                 </ul>
+
 
         </div>
     </div>

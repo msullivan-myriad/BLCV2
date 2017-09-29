@@ -14,7 +14,6 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
 
     <!-- Scripts -->
     <script>
@@ -22,6 +21,7 @@
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>
+
 
 </head>
 <body>
@@ -85,13 +85,15 @@
             </div>
         </nav>
 
-        @yield('admin-nav');
+        @yield('admin-nav')
+        <br>
         @yield('content')
     </div>
 
     <!-- Scripts -->
+
     <script src="{{ asset('js/app.js') }}"></script>
+
     @stack('scripts')
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </body>
 </html>

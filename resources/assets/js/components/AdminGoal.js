@@ -190,7 +190,7 @@ class AdminGoal extends Component {
         }
 
         return (
-            <div className="panel" style={beenDeletedStyle}>
+            <div className="panel admin-goal" style={beenDeletedStyle}>
                 <h2 style={editHeadingStyles}>{this.state.initialTitle}</h2>
                 <input style={editInputStyles} className="edit-input" type="text" value={this.state.newTitle} onChange={this.titleChange}/>
 
@@ -199,10 +199,10 @@ class AdminGoal extends Component {
                     <i style={editThumbButton} className="fa fa-thumbs-up" aria-hidden="true"></i>
                 </button>
 
-                <h4>Cost: {this.props.goal.cost}</h4>
-                <h4>Days: {this.props.goal.days}</h4>
-                <h4>Hours: {this.props.goal.hours}</h4>
-                <h4>Subgoal Count: {this.props.goal.subgoals_count}</h4>
+                <h4><i className="fa fa-usd" aria-hidden="true"></i> {this.props.goal.cost}</h4>
+                <h4><i className="fa fa-calendar" aria-hidden="true"></i> {this.props.goal.days}</h4>
+                <h4><i className="fa fa-clock-o" aria-hidden="true"></i> {this.props.goal.hours}</h4>
+                <h4><i className="fa fa-user" aria-hidden="true"></i> {this.props.goal.subgoals_count}</h4>
 
                 <button onClick={this.deleteGoalModal} type="submit">
                     <i className="fa fa-trash text-danger" aria-hidden="true" style={iconStyle}></i>
