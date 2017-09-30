@@ -93,11 +93,8 @@ class GoalController extends Controller
     }
 
     public function apiView(Goal $goal) {
-
        $goal->subgoals;
-
         return $goal;
-
     }
 
     public function search(Request $request) {
@@ -110,6 +107,7 @@ class GoalController extends Controller
 
     public function apiSearch(Request $request) {
         //Need some validation that this is actually a string and safe to search with
+
         $term = $request->search;
         $results = Searchy::search('goals')->fields('name')->query($term)->get();
 

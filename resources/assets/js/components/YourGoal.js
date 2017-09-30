@@ -15,7 +15,7 @@ class YourGoal extends Component {
         var href= '/subgoals/' + this.props.goal.id;
 
         return (
-            <div className="panel front-end-goal">
+            <div className="panel your-goal">
                 <a href={href}>
 
                 <h2>{this.props.goal.name}</h2>

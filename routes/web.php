@@ -38,6 +38,7 @@ Route::prefix('api')->group(function() {
     //API Admin Middleware
     //Admin Middleware should have some auth
     Route::group(['middleware' => ['admin']], function() {
+
       Route::prefix('admin')->group(function() {
 
         Route::get('api-tags', 'AdminController@apiTags');

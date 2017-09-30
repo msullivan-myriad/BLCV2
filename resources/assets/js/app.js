@@ -17,6 +17,8 @@ import AdminTagsPage from './components/AdminTagsPage';
 import AdminIndividualTagPage from './components/AdminIndividualTagPage';
 import CalculateSection from './components/CalculateSection';
 import UserSubgoalsSection from './components/UserSubgoalsSection';
+import GoalsSearch from './components/GoalsSearch';
+import GoalsFeatured from './components/GoalsFeatured';
 
 /**
  *  Specify where React should render
@@ -36,4 +38,12 @@ if (document.getElementById('calculate-section')) {
 
 if (document.getElementById('user-subgoals-section')) {
     ReactDOM.render(<UserSubgoalsSection/>, document.getElementById('user-subgoals-section'));
+}
+
+if (document.getElementById('goals-search')) {
+    ReactDOM.render(<GoalsSearch/>, document.getElementById('goals-search'));
+}
+
+if (document.getElementById('goals-featured')) {
+    ReactDOM.render(<GoalsFeatured/>, document.getElementById('goals-featured'));
 }

@@ -3,12 +3,13 @@
 
 @section('content')
 
-<goals-page></goals-page>
-
 <div class="container">
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-
+        <div class="col-md-6">
+            <div id="goals-search"></div>
+        </div>
+        <div class="col-md-6">
+            <div id="goals-featured"></div>
             @foreach ($goals as $goal)
                 <div class="panel">
                     <h2><a href="/goals/{{$goal->id}}">{{$goal->name}}</a></h2>
