@@ -18,6 +18,18 @@ class SubgoalController extends Controller
         return view('subgoals.index')->with([
             'subgoals' => $subgoals,
         ]);
+    }
+
+    public function apiIndex() {
+
+        $user = Auth::user();
+        $subgoals= Subgoal::with('goal')->where('user_id', $user->id)->get();
+
+        return [
+          'data' => [
+            'subgoals' => $subgoals,
+          ]
+        ];
 
     }
 

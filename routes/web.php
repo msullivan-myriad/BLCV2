@@ -16,25 +16,27 @@ Route::get('/', function () {
 });
 
 
-
 Auth::routes();
 
+//Basic Application Routes
 Route::get('/home', 'HomeController@index');
-
 Route::get('search', 'GoalController@search')->name('search-goals');
-
 Route::get('goals', 'GoalController@index')->name('goals');
 Route::get('goals/{goal}', 'GoalController@view')->name('view-goal');
 
 
 Route::prefix('api')->group(function() {
 
-    //Basis API Routes
+    //Basic API Routes
     Route::get('/goals/', 'GoalController@apiIndex');
     Route::post('/goals/{goal}', 'GoalController@apiNew');
     Route::get('/search/', 'GoalController@apiSearch');
 
-  //API Admin Middleware
+    //Basic API Routes (These should require auth)
+    Route::get('subgoals', 'SubgoalController@apiIndex');
+
+    //API Admin Middleware
+    //Admin Middleware should have some auth
     Route::group(['middleware' => ['admin']], function() {
       Route::prefix('admin')->group(function() {
 
@@ -49,6 +51,7 @@ Route::prefix('api')->group(function() {
     });
 
     //API Stats Middleware
+    //Stats Middleware should have some auth
     Route::prefix('stats')->group(function() {
         Route::get('base', 'StatsController@base');
         Route::get('top-fives', 'StatsController@topFives');
@@ -83,11 +86,9 @@ Route::group(['middleware' => ['admin']], function() {
         Route::get('/', 'AdminController@index')->name('admin-panel');
         Route::get('tags', 'AdminController@tags')->name('admin-tags');
         Route::get('tags/individual', 'AdminController@individualTag')->name('individual-tag');
-        //Route::get('tags/{tag}', 'AdminController@individualTag')->name('individual-tag');
         Route::get('/goals/{goal}', 'AdminController@goal')->name('admin-goal');
 
     });
-
 
 
     Route::post('goals/{goal}/tag', 'GoalController@tag')->name('tag-goal');
