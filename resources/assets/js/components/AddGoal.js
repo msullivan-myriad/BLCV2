@@ -10,11 +10,15 @@ class AddGoal extends Component {
             cost: '',
             days: '',
             hours: '',
+            editing: false,
+            adding: false,
         }
 
         this.costChange = this.costChange.bind(this);
         this.daysChange = this.daysChange.bind(this);
         this.hoursChange = this.hoursChange.bind(this);
+        this.addingGoal = this.addingGoal.bind(this);
+        this.editingGoal = this.editingGoal.bind(this);
 
     }
 
@@ -25,6 +29,7 @@ class AddGoal extends Component {
             days: this.props.goal.days,
             hours: this.props.goal.hours,
         })
+
 
     }
 
@@ -46,17 +51,55 @@ class AddGoal extends Component {
         })
     }
 
+    addingGoal() {
+        this.setState({
+            adding: !this.state.adding
+        })
+    }
+
+    editingGoal() {
+        this.setState({
+            editing: !this.state.editing
+        })
+    }
 
     render() {
+
+        var inputClasses = 'default';
+        var fieldsAreDisabled = true;
+        var overlayClasses = 'overlay hidden';
+
+        if (this.state.adding) {
+            overlayClasses = 'overlay active';
+        }
+
+        if (this.state.editing) {
+            fieldsAreDisabled = false;
+            inputClasses = 'editing';
+        }
 
         return (
             <div className="panel add-goal">
 
-                <h2>{this.props.goal.name}</h2>
-                <h4><i className="fa fa-usd" aria-hidden="true"></i> <input value={this.state.cost} onChange={this.costChange}/></h4>
-                <h4><i className="fa fa-calendar" aria-hidden="true"></i> <input value={this.state.days} onChange={this.daysChange}/></h4>
-                <h4><i className="fa fa-clock-o" aria-hidden="true"></i> <input value={this.state.hours} onChange={this.hoursChange}/></h4>
+                <h4>{this.props.goal.name}</h4>
+                <h5><i className="fa fa-usd" aria-hidden="true"></i> <input size={this.state.cost.toString().length} className={inputClasses} disabled={fieldsAreDisabled} value={this.state.cost} onChange={this.costChange}/></h5>
+                <h5><i className="fa fa-clock-o" aria-hidden="true"></i> <input size={this.state.hours.toString().length} className={inputClasses} disabled={fieldsAreDisabled} value={this.state.hours} onChange={this.hoursChange}/></h5>
+                <h5><i className="fa fa-calendar" aria-hidden="true"></i> <input size={this.state.days.toString().length} className={inputClasses} disabled={fieldsAreDisabled} value={this.state.days} onChange={this.daysChange}/></h5>
                 <br/>
+                <button onClick={this.addingGoal}>
+                    <i className="fa fa-plus" aria-hidden="true"></i>
+                </button>
+
+                <div className={overlayClasses}>
+                    <button>
+                        <i className="fa fa-thumbs-up" aria-hidden="true"></i>
+                        Use defaults
+                    </button>
+                    <button onClick={this.editingGoal}>
+                        <i className="fa fa-pencil" aria-hidden="true"></i>
+                        Edit values
+                    </button>
+                </div>
             </div>
 
         );
