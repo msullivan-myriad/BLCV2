@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 
 class AddGoal extends Component {
@@ -7,9 +8,13 @@ class AddGoal extends Component {
         super(props);
 
         this.state = {
+            id: '',
             cost: '',
             days: '',
             hours: '',
+            editingCost: '',
+            editingDays: '',
+            editingHours: '',
             editing: false,
             adding: false,
         }
@@ -19,34 +24,41 @@ class AddGoal extends Component {
         this.hoursChange = this.hoursChange.bind(this);
         this.addingGoal = this.addingGoal.bind(this);
         this.editingGoal = this.editingGoal.bind(this);
-
+        this.editedGoalSubmit = this.editedGoalSubmit.bind(this);
+        this.editedGoalExit = this.editedGoalExit.bind(this);
+        this.addGoalWithDefaults= this.addGoalWithDefaults.bind(this);
     }
+
 
     componentDidMount() {
 
         this.setState({
+            id: this.props.goal.id,
             cost: this.props.goal.cost,
             days: this.props.goal.days,
             hours: this.props.goal.hours,
+            editingCost: this.props.goal.cost,
+            editingDays: this.props.goal.days,
+            editingHours: this.props.goal.hours,
         })
 
     }
 
     costChange(event) {
         this.setState({
-            cost: event.target.value,
+            editingCost: event.target.value,
         })
     }
 
     daysChange(event) {
         this.setState({
-            days: event.target.value,
+            editingDays: event.target.value,
         })
     }
 
     hoursChange(event) {
         this.setState({
-            hours: event.target.value,
+            editingHours: event.target.value,
         })
     }
 
@@ -62,12 +74,40 @@ class AddGoal extends Component {
         })
     }
 
+    addGoalWithDefaults() {
+
+        var url = '/goals/' + this.state.id;
+
+        console.log(url);
+
+        //Left off right here
+        /*
+        axios.post(url)
+
+        .then(response => {
+            console.log(response);
+        })
+
+        .catch(response => {
+            console.log(response);
+        });
+        */
+    }
+
     editedGoalSubmit() {
         console.log("Editing goal submit");
     }
 
     editedGoalExit() {
-        console.log("Exiting editing goal pane");
+
+        this.setState({
+            editingCost: this.state.cost,
+            editingDays: this.state.days,
+            editingHours: this.state.hours,
+            adding: false,
+            editing: false,
+        })
+
     }
 
     render() {
@@ -110,15 +150,15 @@ class AddGoal extends Component {
             <div className="panel add-goal">
 
                 <h4>{this.props.goal.name}</h4>
-                <h5><i className="fa fa-usd" aria-hidden="true"></i> <input size={this.state.cost.toString().length} className={inputClasses} disabled={fieldsAreDisabled} value={this.state.cost} onChange={this.costChange}/></h5>
-                <h5><i className="fa fa-clock-o" aria-hidden="true"></i> <input size={this.state.hours.toString().length} className={inputClasses} disabled={fieldsAreDisabled} value={this.state.hours} onChange={this.hoursChange}/></h5>
-                <h5><i className="fa fa-calendar" aria-hidden="true"></i> <input size={this.state.days.toString().length} className={inputClasses} disabled={fieldsAreDisabled} value={this.state.days} onChange={this.daysChange}/></h5>
+                <h5><i className="fa fa-usd" aria-hidden="true"></i> <input size={this.state.editingCost.toString().length} className={inputClasses} disabled={fieldsAreDisabled} value={this.state.editingCost} onChange={this.costChange}/></h5>
+                <h5><i className="fa fa-clock-o" aria-hidden="true"></i> <input size={this.state.editingHours.toString().length} className={inputClasses} disabled={fieldsAreDisabled} value={this.state.editingHours} onChange={this.hoursChange}/></h5>
+                <h5><i className="fa fa-calendar" aria-hidden="true"></i> <input size={this.state.editingDays.toString().length} className={inputClasses} disabled={fieldsAreDisabled} value={this.state.editingDays} onChange={this.daysChange}/></h5>
                 <br/>
 
                 {rightButtonArea}
 
                 <div className={overlayClasses}>
-                    <button>
+                    <button onClick={this.addGoalWithDefaults}>
                         <i className="fa fa-thumbs-up" aria-hidden="true"></i>
                         Use defaults
                     </button>
