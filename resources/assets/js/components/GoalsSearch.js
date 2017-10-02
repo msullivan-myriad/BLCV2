@@ -48,8 +48,8 @@ class GoalsSearch extends Component {
             <div className="panel" id="goals-search">
                 <input type="text" value={this.state.searchTerm} onChange={this.changeSearch} placeholder="Your Goal Name"/>
                 <div className="search-results">
-                    {this.state.searchResults.map((goal,num) =>
-                        <AddGoal goal={goal} key={num}/>
+                    {this.state.searchResults.map(goal =>
+                        <AddGoal goal={goal} key={goal.id}/>
                     )}
                 </div>
             </div>

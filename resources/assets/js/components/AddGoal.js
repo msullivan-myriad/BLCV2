@@ -30,7 +30,6 @@ class AddGoal extends Component {
             hours: this.props.goal.hours,
         })
 
-
     }
 
     costChange(event) {
@@ -63,6 +62,14 @@ class AddGoal extends Component {
         })
     }
 
+    editedGoalSubmit() {
+        console.log("Editing goal submit");
+    }
+
+    editedGoalExit() {
+        console.log("Exiting editing goal pane");
+    }
+
     render() {
 
         var inputClasses = 'default';
@@ -78,6 +85,27 @@ class AddGoal extends Component {
             inputClasses = 'editing';
         }
 
+
+        var rightButtonArea = <div className="right-button-area">
+                                    <button onClick={this.addingGoal}>
+                                        <i className="fa fa-plus" aria-hidden="true"></i>
+                                    </button>
+                                </div>;
+
+
+        if (this.state.editing) {
+
+            rightButtonArea = <div className="right-button-area">
+                                <button onClick={this.editedGoalSubmit}>
+                                    <i className="fa fa-check" aria-hidden="true"></i>
+                                </button>
+                                <button onClick={this.editedGoalExit}>
+                                    <i className="fa fa-times" aria-hidden="true"></i>
+                                </button>
+                              </div>
+        }
+
+
         return (
             <div className="panel add-goal">
 
@@ -86,9 +114,8 @@ class AddGoal extends Component {
                 <h5><i className="fa fa-clock-o" aria-hidden="true"></i> <input size={this.state.hours.toString().length} className={inputClasses} disabled={fieldsAreDisabled} value={this.state.hours} onChange={this.hoursChange}/></h5>
                 <h5><i className="fa fa-calendar" aria-hidden="true"></i> <input size={this.state.days.toString().length} className={inputClasses} disabled={fieldsAreDisabled} value={this.state.days} onChange={this.daysChange}/></h5>
                 <br/>
-                <button onClick={this.addingGoal}>
-                    <i className="fa fa-plus" aria-hidden="true"></i>
-                </button>
+
+                {rightButtonArea}
 
                 <div className={overlayClasses}>
                     <button>
