@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { notification } from 'antd';
 
 
 class AddGoal extends Component {
@@ -9,6 +10,7 @@ class AddGoal extends Component {
 
         this.state = {
             id: '',
+            name: '',
             cost: '',
             days: '',
             hours: '',
@@ -24,9 +26,9 @@ class AddGoal extends Component {
         this.hoursChange = this.hoursChange.bind(this);
         this.addingGoal = this.addingGoal.bind(this);
         this.editingGoal = this.editingGoal.bind(this);
-        this.editedGoalSubmit = this.editedGoalSubmit.bind(this);
         this.editedGoalExit = this.editedGoalExit.bind(this);
-        this.addGoalWithDefaults= this.addGoalWithDefaults.bind(this);
+        this.addGoal= this.addGoal.bind(this);
+        this.exitOverlay = this.exitOverlay.bind(this);
     }
 
 
@@ -34,6 +36,7 @@ class AddGoal extends Component {
 
         this.setState({
             id: this.props.goal.id,
+            name: this.props.goal.name,
             cost: this.props.goal.cost,
             days: this.props.goal.days,
             hours: this.props.goal.hours,
@@ -70,32 +73,59 @@ class AddGoal extends Component {
 
     editingGoal() {
         this.setState({
+            adding: !this.state.adding,
             editing: !this.state.editing
         })
     }
 
-    addGoalWithDefaults() {
+    addGoal() {
 
-        var url = '/goals/' + this.state.id;
+        var url = '/api/goals/';
 
-        console.log(url);
-
-        //Left off right here
-        /*
-        axios.post(url)
-
-        .then(response => {
-            console.log(response);
+        axios.post(url, {
+            cost: this.state.editingCost,
+            days: this.state.editingDays,
+            hours: this.state.editingHours,
+            goal_id: this.state.id,
         })
 
-        .catch(response => {
-            console.log(response);
-        });
-        */
-    }
+        .then(response => {
 
-    editedGoalSubmit() {
-        console.log("Editing goal submit");
+            notification.open({
+                message: 'Success',
+                description: this.state.name + ' was added to your list',
+                type: 'success',
+            });
+
+        })
+
+        .catch(error => {
+
+            if (error.response.data.goal_id) {
+
+                notification.open({
+                    message: 'Error',
+                    description: this.state.name + ' is already on your list',
+                    type: 'error',
+                });
+
+            }
+            else {
+
+                notification.open({
+                    message: 'Error',
+                    description: 'It looks like something went wrong',
+                    type: 'error',
+                });
+
+            }
+
+        });
+
+        this.setState({
+            adding: false,
+            editing: false
+        })
     }
 
     editedGoalExit() {
@@ -108,6 +138,12 @@ class AddGoal extends Component {
             editing: false,
         })
 
+    }
+
+    exitOverlay() {
+        this.setState({
+            adding: false,
+        })
     }
 
     render() {
@@ -136,7 +172,7 @@ class AddGoal extends Component {
         if (this.state.editing) {
 
             rightButtonArea = <div className="right-button-area">
-                                <button onClick={this.editedGoalSubmit}>
+                                <button onClick={this.addGoal}>
                                     <i className="fa fa-check" aria-hidden="true"></i>
                                 </button>
                                 <button onClick={this.editedGoalExit}>
@@ -158,13 +194,16 @@ class AddGoal extends Component {
                 {rightButtonArea}
 
                 <div className={overlayClasses}>
-                    <button onClick={this.addGoalWithDefaults}>
+                    <button onClick={this.addGoal}>
                         <i className="fa fa-thumbs-up" aria-hidden="true"></i>
                         Use defaults
                     </button>
                     <button onClick={this.editingGoal}>
                         <i className="fa fa-pencil" aria-hidden="true"></i>
                         Edit values
+                    </button>
+                    <button onClick={this.exitOverlay}>
+                        <i className="fa fa-times" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>

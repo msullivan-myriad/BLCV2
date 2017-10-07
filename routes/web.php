@@ -29,11 +29,11 @@ Route::prefix('api')->group(function() {
 
     //Basic API Routes
     Route::get('/goals/', 'GoalController@apiIndex');
-    Route::post('/goals/{goal}', 'GoalController@apiNew');
     Route::get('/search/', 'GoalController@apiSearch');
 
     //Basic API Routes (These should require auth)
     Route::get('subgoals', 'SubgoalController@apiIndex');
+    Route::post('/goals/', 'GoalController@apiNew');
 
     //API Admin Middleware
     //Admin Middleware should have some auth

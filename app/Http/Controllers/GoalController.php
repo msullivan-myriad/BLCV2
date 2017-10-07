@@ -46,25 +46,28 @@ class GoalController extends Controller
         return redirect()->route('subgoals');
     }
 
-    public function apiNew(CreateNewSubgoalRequest $request, Goal $goal) {
+    public function apiNew(CreateNewSubgoalRequest $request) {
         //When a user creates a new subgoal from an existing goal
+
         $user = Auth::user();
 
         $cost = $request->cost;
         $hours = $request->hours;
         $days = $request->days;
+        $goal = Goal::find($request->goal_id);
 
         $user->addUniqueGoal($goal, $cost, $hours, $days);
 
         return [
             'data' => [
-                'test' => 'test'
+                'success' => true,
             ]
         ];
+
     }
 
     public function create(CreateNewGoalRequest $request) {
-        //When a user creates a new goal
+        //When a user creates an entirely new goal
 
         //Need some validation here
         $user = Auth::user();
@@ -73,11 +76,13 @@ class GoalController extends Controller
     }
 
     public function apiCreate(CreateNewGoalRequest $request) {
+        //When a user creates an entirely new goal
+
         $user = Auth::user();
         $user->newGoal($request->title, $request->cost, $request->days, $request->hours);
         return [
             'data' => [
-                'success' => 'Success!'
+                'success' => true,
             ]
         ];
     }

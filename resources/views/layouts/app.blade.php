@@ -57,7 +57,7 @@
                             <li><a href="{{ route('goals') }}">Goals</a></li>
                         @else
                             <li><a href="{{ route('stats') }}">Stats</a></li>
-                            <li><a href="{{ route('subgoals') }}">Subgoals</a></li>
+                            <li><a href="{{ route('subgoals') }}">My List</a></li>
                             <li><a href="{{ route('goals') }}">Goals</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
