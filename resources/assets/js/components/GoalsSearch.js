@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 import AddGoal from './AddGoal';
+import SearchAddNewGoal from './SearchAddNewGoal';
 
 class GoalsSearch extends Component {
 
@@ -51,6 +52,7 @@ class GoalsSearch extends Component {
                     {this.state.searchResults.map(goal =>
                         <AddGoal goal={goal} key={goal.id}/>
                     )}
+                    <SearchAddNewGoal term={this.state.searchTerm}/>
                 </div>
             </div>
         );
