@@ -34,6 +34,7 @@ Route::prefix('api')->group(function() {
     //Basic API Routes (These should require auth)
     Route::get('subgoals', 'SubgoalController@apiIndex');
     Route::post('/goals/', 'GoalController@apiNew');
+    Route::post('/goals/create', 'GoalController@apiCreate');
 
     //API Admin Middleware
     //Admin Middleware should have some auth

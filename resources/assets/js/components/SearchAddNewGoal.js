@@ -13,23 +13,12 @@ class SearchAddNewGoal extends Component {
             days: '',
             hours: '',
             initial: true,
-            adding: false,
         }
 
         this.costChange = this.costChange.bind(this);
         this.daysChange = this.daysChange.bind(this);
         this.hoursChange = this.hoursChange.bind(this);
-        this.addingGoal = this.addingGoal.bind(this);
         this.addGoal= this.addGoal.bind(this);
-    }
-
-
-    componentDidMount() {
-
-        this.setState({
-            name: this.props.term,
-        })
-
     }
 
     costChange(event) {
@@ -50,30 +39,26 @@ class SearchAddNewGoal extends Component {
         })
     }
 
-    addingGoal() {
-        this.setState({
-            adding: !this.state.adding
-        })
-    }
-
     addGoal() {
 
-        /*
 
-        var url = '/api/goals/';
+        var url = '/api/goals/create';
 
         axios.post(url, {
-            cost: this.state.editingCost,
-            days: this.state.editingDays,
-            hours: this.state.editingHours,
-            goal_id: this.state.id,
+
+            cost: this.state.cost,
+            days: this.state.days,
+            hours: this.state.hours,
+            title: this.props.term,
         })
 
         .then(response => {
 
+            console.log(response);
+
             notification.open({
                 message: 'Success',
-                description: this.state.name + ' was added to your list',
+                description: this.props.term + ' was added to your list',
                 type: 'success',
             });
 
@@ -81,6 +66,9 @@ class SearchAddNewGoal extends Component {
 
         .catch(error => {
 
+            console.log(error);
+
+            /*
             if (error.response.data.goal_id) {
 
                 notification.open({
@@ -99,9 +87,11 @@ class SearchAddNewGoal extends Component {
                 });
 
             }
+            */
 
         });
 
+        /*
         this.setState({
             adding: false,
             editing: false
@@ -115,6 +105,7 @@ class SearchAddNewGoal extends Component {
         var costStyle = {};
         var hoursStyle = {};
         var daysStyle = {};
+        var buttonDisabled = true;
 
         if (!this.state.cost.toString().length) {
             costStyle = {
@@ -135,6 +126,10 @@ class SearchAddNewGoal extends Component {
         }
 
 
+        if (this.state.cost.toString().length && this.state.hours.toString().length && this.state.days.toString().length) {
+            buttonDisabled = false;
+        }
+
         return (
             <div className="panel add-goal">
 
@@ -145,7 +140,7 @@ class SearchAddNewGoal extends Component {
                 <br/>
 
                 <div className="right-button-area">
-                    <button onClick={this.addingGoal}>
+                    <button onClick={this.addGoal} disabled={buttonDisabled}>
                         <i className="fa fa-plus" aria-hidden="true"></i>
                     </button>
                 </div>
