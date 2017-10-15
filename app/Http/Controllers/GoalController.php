@@ -26,11 +26,9 @@ class GoalController extends Controller
         //return $all_goals;
 
         return [
-
             'data' => [
                 'all_goals' => $all_goals
             ]
-
         ];
     }
 

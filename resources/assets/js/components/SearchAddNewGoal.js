@@ -54,49 +54,31 @@ class SearchAddNewGoal extends Component {
 
         .then(response => {
 
-            console.log(response);
-
             notification.open({
                 message: 'Success',
                 description: this.props.term + ' was added to your list',
                 type: 'success',
             });
 
+            this.setState({
+                cost: '',
+                days: '',
+                hours: '',
+                title: '',
+            })
+
         })
 
         .catch(error => {
 
-            console.log(error);
-
-            /*
-            if (error.response.data.goal_id) {
-
-                notification.open({
-                    message: 'Error',
-                    description: this.state.name + ' is already on your list',
-                    type: 'error',
-                });
-
-            }
-            else {
-
-                notification.open({
-                    message: 'Error',
-                    description: 'It looks like something went wrong',
-                    type: 'error',
-                });
-
-            }
-            */
+            notification.open({
+                message: 'Something went wrong',
+                description: this.props.term + ' was not added to your list',
+                type: 'error',
+            });
 
         });
 
-        /*
-        this.setState({
-            adding: false,
-            editing: false
-        })
-        */
     }
 
     render() {
