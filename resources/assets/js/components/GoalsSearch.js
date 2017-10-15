@@ -18,11 +18,6 @@ class GoalsSearch extends Component {
 
     }
 
-    componentDidMount() {
-        //No need for this at the moment, although I envision needing it....
-        console.log('Component did mount');
-    }
-
     changeSearch(event) {
 
         this.setState({
