@@ -42,6 +42,8 @@ class GoalsSearch extends Component {
 
         return (
             <div className="panel" id="goals-search">
+                <h1>Find Goals</h1>
+                <br/>
                 <input type="text" value={this.state.searchTerm} onChange={this.changeSearch} placeholder="Your Goal Name"/>
                 <div className="search-results">
                     {this.state.searchResults.map(goal =>

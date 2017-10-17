@@ -29,6 +29,7 @@ Route::prefix('api')->group(function() {
 
     //Basic API Routes
     Route::get('/goals/', 'GoalController@apiIndex');
+    Route::get('/popular/{number}', 'GoalController@apiPopular');
     Route::get('/search/', 'GoalController@apiSearch');
 
     //Basic API Routes (These should require auth)

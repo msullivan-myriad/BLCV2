@@ -23,13 +23,25 @@ class GoalController extends Controller
 
         $all_goals = Goal::orderBy('subgoals_count', 'desc')->get();
 
-        //return $all_goals;
-
         return [
             'data' => [
                 'all_goals' => $all_goals
             ]
         ];
+
+    }
+
+    public function apiPopular($number) {
+
+        //Need to figure out some kind of validation for number here
+        $popular_goals = Goal::orderBy('subgoals_count', 'desc')->take($number)->get();
+
+        return [
+            'data' => [
+                'popular_goals' => $popular_goals
+            ]
+        ];
+
     }
 
     public function new(CreateNewSubgoalRequest $request, Goal $goal) {
