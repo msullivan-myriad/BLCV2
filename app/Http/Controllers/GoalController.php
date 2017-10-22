@@ -31,10 +31,10 @@ class GoalController extends Controller
 
     }
 
-    public function apiPopular($number) {
+    public function apiPopular() {
 
-        //Need to figure out some kind of validation for number here
-        $popular_goals = Goal::orderBy('subgoals_count', 'desc')->take($number)->get();
+
+        $popular_goals = Goal::orderBy('subgoals_count', 'desc')->paginate(10);
 
         return [
             'data' => [

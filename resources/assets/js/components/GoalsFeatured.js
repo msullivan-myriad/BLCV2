@@ -11,25 +11,60 @@ class GoalsFeatured extends Component {
         super(props);
 
         this.state = {
-            popular_goals: []
+            popular_goals: {},
+            all_goals: []
+
         }
+
+        this.loadMore = this.loadMore.bind(this);
     }
 
     componentDidMount() {
 
-        var url = '/api/popular/10';
+        var url = '/api/popular/';
 
         axios.get(url)
 
         .then(response => {
 
-            let popular_goals = response.data.data.popular_goals;
+            console.log(response);
 
+            let popular_goals = response.data.data.popular_goals;
+            let all_goals = popular_goals.data;
+
+            this.setState({popular_goals});
+            this.setState({all_goals});
+
+        })
+    }
+
+
+    loadMore() {
+
+        var url = this.state.popular_goals.next_page_url;
+
+        axios.get(url)
+
+        .then(response => {
+
+            //Need to take a short break from this...
+            //Still need to figure out how to do it
+            console.log(response);
+            let popular_goals = response.data.data.popular_goals;
             this.setState({popular_goals})
+
+
+            let new_all_goals = this.state.all_goals.slice();
+            new_all_goals.concat(this.state.popular_goals.data);
+
+            console.log(this.state.popular_goals.data);
+
+            console.log(new_all_goals);
 
         })
 
     }
+
 
     render() {
 
@@ -40,9 +75,11 @@ class GoalsFeatured extends Component {
                 <Tabs defaultActiveKey="1">
                     <TabPane tab="Popular" key="1">
 
-                        {this.state.popular_goals.map(goal =>
+                        {this.state.all_goals.map(goal=>
                             <AddGoal goal={goal} key={goal.id}/>
                         )}
+
+                        <button onClick={this.loadMore}>Load More</button>
 
                     </TabPane>
                     <TabPane tab="Tags" key="2">
