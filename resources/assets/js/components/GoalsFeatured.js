@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AddGoal from './AddGoal';
+import TagAddGoalPane from './TagAddGoalPane';
 
 import { Tabs } from 'antd';
 const TabPane = Tabs.TabPane;
@@ -28,8 +29,6 @@ class GoalsFeatured extends Component {
 
         .then(response => {
 
-            console.log(response);
-
             let popular_goals = response.data.data.popular_goals;
             let all_goals = popular_goals.data;
 
@@ -45,11 +44,7 @@ class GoalsFeatured extends Component {
 
         .then(response => {
 
-
             let tags = response.data.data.tags;
-
-            console.log(tags);
-
             this.setState({tags})
 
         })
@@ -112,9 +107,7 @@ class GoalsFeatured extends Component {
 
                             <TabPane tab={tag.name} key={tag.id}>
 
-                                I think that this content is lazy loaded... So I'll need to perform an ajax request here and
-                                create some kind of component that displays tag goals.
-                                This might even require pagination similar to the popular goals side of things
+                                <TagAddGoalPane id={tag.id}/>
 
                             </TabPane>
 

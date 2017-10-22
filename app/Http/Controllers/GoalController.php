@@ -250,10 +250,7 @@ class GoalController extends Controller
     }
 
     public function apiPopularTags() {
-
-        $goals = Goal::with('tags')->orderBy('subgoals_count', 'desc')->get();
-
-        //Should probably sort by popularity or something eventually
+        //Return all tags in order from most to least popular
         $tags = Tag::orderBy('count', 'desc')->get();
 
 
@@ -265,6 +262,23 @@ class GoalController extends Controller
 
         ];
 
+    }
+
+    public function apiGoalsWithTag(Tag $tag) {
+      //Return goals that have this tag
+
+
+      //Need some validation here before running the following query
+
+      $id = $tag->id;
+
+      //Get goals with tags where goal has a tag assosiated with it with an id equal to the tag id
+
+      $goals = Goal::whereHas('tags', function ($query) use ($id) {
+        $query->where('tags.id', '=', $id);
+      })->with('tags')->get();
+
+      return $goals;
     }
 
 

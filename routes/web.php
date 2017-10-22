@@ -37,6 +37,7 @@ Route::prefix('api')->group(function() {
     Route::post('/goals/', 'GoalController@apiNew');
     Route::post('/goals/create', 'GoalController@apiCreate');
     Route::get('tags', 'GoalController@apiPopularTags');
+    Route::get('tags/{tag}', 'GoalController@apiGoalsWithTag');
 
     //API Admin Middleware
     //Admin Middleware should have some auth
