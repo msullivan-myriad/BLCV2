@@ -160,8 +160,14 @@ class GoalController extends Controller
         if (!$tag) {
             $tag = new Tag;
             $tag->name = $request->tag_name;
+            $tag->count = 1;
             $tag->save();
         }
+        else {
+          $tag->count++;
+          $tag->save();
+        }
+
 
         $goal->tags()->attach($tag);
 
@@ -197,7 +203,11 @@ class GoalController extends Controller
 
         $tag = Tag::where('id', $tagId)->first();
 
+
         $goal->tags()->detach($tag);
+
+        $tag->count--;
+        $tag->save();
 
         //Need to validate better
         return [
@@ -237,6 +247,24 @@ class GoalController extends Controller
             'success' => true
           ]
         ];
+    }
+
+    public function apiPopularTags() {
+
+        $goals = Goal::with('tags')->orderBy('subgoals_count', 'desc')->get();
+
+        //Should probably sort by popularity or something eventually
+        $tags = Tag::orderBy('count', 'desc')->get();
+
+
+        return [
+
+          'data' => [
+              'tags' => $tags,
+          ]
+
+        ];
+
     }
 
 

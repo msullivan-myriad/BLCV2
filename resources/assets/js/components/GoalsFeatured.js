@@ -12,8 +12,8 @@ class GoalsFeatured extends Component {
 
         this.state = {
             popular_goals: {},
-            all_goals: []
-
+            all_goals: [],
+            tags: [],
         }
 
         this.loadMore = this.loadMore.bind(this);
@@ -21,9 +21,10 @@ class GoalsFeatured extends Component {
 
     componentDidMount() {
 
-        var url = '/api/popular/';
 
-        axios.get(url)
+        var goalsUrl = '/api/popular/';
+
+        axios.get(goalsUrl)
 
         .then(response => {
 
@@ -36,6 +37,24 @@ class GoalsFeatured extends Component {
             this.setState({all_goals});
 
         })
+
+
+        var tagsUrl = '/api/tags';
+
+        axios.get(tagsUrl)
+
+        .then(response => {
+
+
+            let tags = response.data.data.tags;
+
+            console.log(tags);
+
+            this.setState({tags})
+
+        })
+
+
     }
 
 
@@ -58,7 +77,6 @@ class GoalsFeatured extends Component {
             new_all_goals.concat(this.state.popular_goals.data);
 
             console.log(this.state.popular_goals.data);
-
             console.log(new_all_goals);
 
         })
@@ -89,17 +107,18 @@ class GoalsFeatured extends Component {
                             tabPosition="left"
                             style={{ height: 400 }}
                         >
-                            <TabPane tab="Tab 1" key="1">Content of tab 1</TabPane>
-                            <TabPane tab="Tab 2" key="2">Content of tab 2</TabPane>
-                            <TabPane tab="Tab 3" key="3">Content of tab 3</TabPane>
-                            <TabPane tab="Tab 4" key="4">Content of tab 4</TabPane>
-                            <TabPane tab="Tab 5" key="5">Content of tab 5</TabPane>
-                            <TabPane tab="Tab 6" key="6">Content of tab 6</TabPane>
-                            <TabPane tab="Tab 7" key="7">Content of tab 7</TabPane>
-                            <TabPane tab="Tab 8" key="8">Content of tab 8</TabPane>
-                            <TabPane tab="Tab 9" key="9">Content of tab 9</TabPane>
-                            <TabPane tab="Tab 10" key="10">Content of tab 10</TabPane>
-                            <TabPane tab="Tab 11" key="11">Content of tab 11</TabPane>
+
+                        {this.state.tags.map(tag =>
+
+                            <TabPane tab={tag.name} key={tag.id}>
+
+                                I think that this content is lazy loaded... So I'll need to perform an ajax request here and
+                                create some kind of component that displays tag goals.
+                                This might even require pagination similar to the popular goals side of things
+
+                            </TabPane>
+
+                        )}
 
                         </Tabs>
 

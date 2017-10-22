@@ -77,11 +77,14 @@ class Goal extends Model
     }
 
     public function setNameAttribute($value) {
-        $censor = new CensorWords;
-        $censor->setDictionary('../resources/lang/CensoredWords.php');
-        $stringCensored = $censor->censorString($value);
-        $formattedAndCensored = ucwords(strtolower($stringCensored['clean']));
-        $this->attributes['name'] = $formattedAndCensored;
+        //Temporarily remove the censorship
+
+        //$censor = new CensorWords;
+        //$censor->setDictionary('../resources/lang/CensoredWords.php');
+        //$stringCensored = $censor->censorString($value);
+        //$formattedAndCensored = ucwords(strtolower($stringCensored['clean']));
+        //$this->attributes['name'] = $formattedAndCensored;
+        $this->attributes['name'] = ucwords(strtolower($value));
     }
 
     public function tags() {
@@ -101,6 +104,5 @@ class Goal extends Model
         $this->save();
 
     }
-
 
 }
