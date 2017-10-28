@@ -8,18 +8,34 @@ class MyGoals extends Component {
         super(props);
 
         this.state = {
+            subgoals: []
         }
 
     }
 
+
     componentDidMount() {
 
+        const url = '/api/subgoals/' + this.props.sort;
+        axios.get(url)
+            .then(response => {
+                const subgoals = response.data.data.subgoals;
+                this.setState({ subgoals });
+            });
     }
+
 
     render() {
         return (
 
-            <p>Test</p>
+            <div>
+
+                {this.state.subgoals.map((goal,num) =>
+                    <YourGoal goal={goal} key={num}/>
+                )}
+
+            </div>
+
         )
     }
 

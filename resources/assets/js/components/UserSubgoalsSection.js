@@ -23,7 +23,6 @@ class UserSubgoalsSection extends Component {
             .then(response => {
                 const subgoals = response.data.data.subgoals;
 
-                console.log(subgoals);
                 this.setState({ subgoals });
             });
     }
@@ -32,6 +31,8 @@ class UserSubgoalsSection extends Component {
         return (
 
             <div className="panel">
+
+                <h1>Your Goals</h1>
 
                 <Tabs defaultActiveKey="1">
                     <TabPane tab="Cost" key="1">
@@ -45,10 +46,6 @@ class UserSubgoalsSection extends Component {
                     </TabPane>
                 </Tabs>
 
-
-            {this.state.subgoals.map((goal,num) =>
-                <YourGoal goal={goal} key={num}/>
-            )}
 
             </div>
         );

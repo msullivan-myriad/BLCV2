@@ -33,6 +33,34 @@ class SubgoalController extends Controller
 
     }
 
+    public function apiSorted($order) {
+
+        $user = Auth::user();
+
+        if ($order == 'cost') {
+          $subgoals= Subgoal::with('goal')->where('user_id', $user->id)->orderBy('cost', 'desc')->get();
+        }
+
+        else if ($order == 'hours') {
+          $subgoals= Subgoal::with('goal')->where('user_id', $user->id)->orderBy('hours', 'desc')->get();
+        }
+        else if ($order == 'days') {
+          $subgoals= Subgoal::with('goal')->where('user_id', $user->id)->orderBy('days', 'desc')->get();
+        }
+
+        else {
+          $subgoals= Subgoal::with('goal')->where('user_id', $user->id)->get();
+        }
+
+
+        return [
+          'data' => [
+            'subgoals' => $subgoals,
+          ]
+        ];
+
+    }
+
     public function view(Subgoal $subgoal) {
 
         $goal = $subgoal->goal;

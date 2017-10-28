@@ -34,6 +34,7 @@ Route::prefix('api')->group(function() {
 
     //Basic API Routes (These should require auth)
     Route::get('subgoals', 'SubgoalController@apiIndex');
+    Route::get('subgoals/{order}', 'SubgoalController@apiSorted');
     Route::post('/goals/', 'GoalController@apiNew');
     Route::post('/goals/create', 'GoalController@apiCreate');
     Route::get('tags', 'GoalController@apiPopularTags');
