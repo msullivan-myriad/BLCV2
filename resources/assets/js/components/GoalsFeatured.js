@@ -22,7 +22,6 @@ class GoalsFeatured extends Component {
 
     componentDidMount() {
 
-
         var goalsUrl = '/api/popular/';
 
         axios.get(goalsUrl)
@@ -60,19 +59,10 @@ class GoalsFeatured extends Component {
         axios.get(url)
 
         .then(response => {
-
-            //Need to take a short break from this...
-            //Still need to figure out how to do it
-            console.log(response);
             let popular_goals = response.data.data.popular_goals;
             this.setState({popular_goals})
 
-
-            let new_all_goals = this.state.all_goals.slice();
-            new_all_goals.concat(this.state.popular_goals.data);
-
-            console.log(this.state.popular_goals.data);
-            console.log(new_all_goals);
+            this.setState({ all_goals: [...this.state.all_goals, ...popular_goals.data ] })
 
         })
 
@@ -80,6 +70,12 @@ class GoalsFeatured extends Component {
 
 
     render() {
+
+        let loadMoreBtn;
+
+        if (this.state.popular_goals.next_page_url) {
+            loadMoreBtn = <button onClick={this.loadMore}>Load More</button>;
+        }
 
         return (
             <div className="panel goals-featured">
@@ -92,7 +88,7 @@ class GoalsFeatured extends Component {
                             <AddGoal goal={goal} key={goal.id}/>
                         )}
 
-                        <button onClick={this.loadMore}>Load More</button>
+                        {loadMoreBtn}
 
                     </TabPane>
                     <TabPane tab="Tags" key="2">
@@ -100,7 +96,6 @@ class GoalsFeatured extends Component {
                         <Tabs
                             defaultActiveKey="1"
                             tabPosition="left"
-                            style={{ height: 400 }}
                         >
 
                         {this.state.tags.map(tag =>

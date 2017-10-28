@@ -10,8 +10,11 @@ class TagAddGoalPane extends Component {
         super(props);
 
         this.state = {
+            page: {} ,
             goals: []
         }
+
+        this.loadMore = this.loadMore.bind(this);
 
     }
 
@@ -22,7 +25,9 @@ class TagAddGoalPane extends Component {
         axios.get(url)
 
         .then(response => {
-            let goals = response.data;
+            let page = response.data;
+            let goals = page.data;
+            this.setState({page})
             this.setState({goals})
         })
 
@@ -30,13 +35,37 @@ class TagAddGoalPane extends Component {
 
     }
 
+    loadMore() {
+
+        var url = this.state.page.next_page_url;
+
+        axios.get(url)
+
+        .then(response => {
+            let page = response.data;
+            this.setState({page})
+            this.setState({ goals: [...this.state.goals, ...page.data ] })
+        })
+
+
+    }
+
     render() {
+
+        let loadMoreBtn;
+
+        if (this.state.page.next_page_url) {
+            loadMoreBtn = <button onClick={this.loadMore}>Load More</button>;
+        }
 
         return (
             <div className="tag-add-goal-pane">
                 {this.state.goals.map(goal =>
                     <AddGoal goal={goal} key={goal.id}/>
                 )}
+
+                {loadMoreBtn}
+
             </div>
 
         );

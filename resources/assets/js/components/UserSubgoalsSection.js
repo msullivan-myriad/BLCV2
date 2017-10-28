@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import YourGoal from './YourGoal';
+import MyGoals from './MyGoals';
+
+import { Tabs } from 'antd';
+const TabPane = Tabs.TabPane;
 
 class UserSubgoalsSection extends Component {
 
@@ -26,7 +30,21 @@ class UserSubgoalsSection extends Component {
 
     render() {
         return (
-            <div>
+
+            <div className="panel">
+
+                <Tabs defaultActiveKey="1">
+                    <TabPane tab="Cost" key="1">
+                        <MyGoals sort={'cost'}/>
+                    </TabPane>
+                    <TabPane tab="Days" key="2">
+                        <MyGoals sort={'days'}/>
+                    </TabPane>
+                    <TabPane tab="Hours" key="3">
+                        <MyGoals sort={'hours'}/>
+                    </TabPane>
+                </Tabs>
+
 
             {this.state.subgoals.map((goal,num) =>
                 <YourGoal goal={goal} key={num}/>

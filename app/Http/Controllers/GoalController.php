@@ -276,7 +276,7 @@ class GoalController extends Controller
 
       $goals = Goal::whereHas('tags', function ($query) use ($id) {
         $query->where('tags.id', '=', $id);
-      })->with('tags')->get();
+      })->with('tags')->paginate(3);
 
       return $goals;
     }
