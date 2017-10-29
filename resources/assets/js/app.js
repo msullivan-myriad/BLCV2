@@ -19,6 +19,7 @@ import CalculateSection from './components/CalculateSection';
 import UserSubgoalsSection from './components/UserSubgoalsSection';
 import GoalsSearch from './components/GoalsSearch';
 import GoalsFeatured from './components/GoalsFeatured';
+import YourGoalData from './components/YourGoalData';
 
 /**
  *  Specify where React should render
@@ -47,3 +48,8 @@ if (document.getElementById('goals-search')) {
 if (document.getElementById('goals-featured')) {
     ReactDOM.render(<GoalsFeatured/>, document.getElementById('goals-featured'));
 }
+
+if (document.getElementById('your-goal-data')) {
+    ReactDOM.render(<YourGoalData/>, document.getElementById('your-goal-data'));
+}
+
