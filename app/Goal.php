@@ -23,6 +23,7 @@ class Goal extends Model
         $subgoal->user_id = $user->id;
         $subgoal->goal_id = $this->id;
         $subgoal->name = $this->name;
+        $subgoal->slug = $this->slug;
         $subgoal->cost = $this->cost;
         $subgoal->days = $this->days;
         $subgoal->hours = $this->hours;
@@ -39,6 +40,7 @@ class Goal extends Model
         $subgoal->user_id = $user->id;
         $subgoal->goal_id = $this->id;
         $subgoal->name = $this->name;
+        $subgoal->slug = $this->slug;
         $subgoal->cost = $cost;
         $subgoal->days = $days;
         $subgoal->hours = $hours;
@@ -97,10 +99,13 @@ class Goal extends Model
     }
 
     public function editGoal($newTitle) {
+        $newSlug= str_slug($newTitle, "-");
         $this->subgoals()->update([
             'name' => $newTitle,
+            'slug' => $newSlug,
         ]);
         $this->name = $newTitle;
+        $this->slug = $newSlug;
         $this->save();
 
     }

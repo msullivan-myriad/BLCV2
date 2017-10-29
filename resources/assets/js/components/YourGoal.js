@@ -8,23 +8,25 @@ class YourGoal extends Component {
 
         this.state = {
         }
+
     }
 
     render() {
 
-        var href= '/subgoals/' + this.props.goal.id;
+        var href= '/goal/' + this.props.goal.slug;
 
         return (
             <div className="panel your-goal">
                 <a href={href}>
 
-                <h2>{this.props.goal.name}</h2>
+                    <h2>{this.props.goal.name}</h2>
 
-                <h4><i className="fa fa-usd" aria-hidden="true"></i> {this.props.goal.cost}</h4>
-                <h4><i className="fa fa-calendar" aria-hidden="true"></i> {this.props.goal.days}</h4>
-                <h4><i className="fa fa-clock-o" aria-hidden="true"></i> {this.props.goal.hours}</h4>
-                <h4><i className="fa fa-user" aria-hidden="true"></i> {this.props.goal.goal.subgoals_count}</h4>
-                <br/>
+                    <h4><i className="fa fa-usd" aria-hidden="true"></i> {this.props.goal.cost}</h4>
+                    <h4><i className="fa fa-calendar" aria-hidden="true"></i> {this.props.goal.days}</h4>
+                    <h4><i className="fa fa-clock-o" aria-hidden="true"></i> {this.props.goal.hours}</h4>
+                    <h4><i className="fa fa-user" aria-hidden="true"></i> {this.props.goal.goal.subgoals_count}</h4>
+                    <br/>
+
                 </a>
 
             </div>

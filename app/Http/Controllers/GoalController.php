@@ -97,14 +97,17 @@ class GoalController extends Controller
         ];
     }
 
-    public function view(Goal $goal) {
+    public function view($slug) {
+        //Some kind of validation
 
+        $goal = Goal::where('slug', $slug)->first();
         $subgoals = $goal->subgoals;
 
         return view('goals.view')->with([
             'goal' => $goal,
             'subgoals' => $subgoals,
        ] );
+
     }
 
     public function apiView(Goal $goal) {

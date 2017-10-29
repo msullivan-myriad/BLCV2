@@ -18,6 +18,7 @@ class CreateSubgoalsTable extends Migration
             $table->integer('goal_id');
             $table->integer('user_id');
             $table->string('name');
+            $table->string('slug');
             $table->integer('cost');
             $table->integer('days');
             $table->integer('hours');

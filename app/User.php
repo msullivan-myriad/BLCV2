@@ -43,8 +43,11 @@ class User extends Authenticatable
 
     public function newGoal($name, $cost, $hours, $days) {
         // Creates a new parent goal, as well as a child goal
+        $slug= str_slug($name, "-");
+
         $goal = new Goal;
         $goal->name = $name;
+        $goal->slug = $slug;
         $goal->cost = $cost;
         $goal->days = $days;
         $goal->hours= $hours;

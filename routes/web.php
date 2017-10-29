@@ -22,7 +22,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 Route::get('search', 'GoalController@search')->name('search-goals');
 Route::get('goals', 'GoalController@index')->name('goals');
-Route::get('goals/{goal}', 'GoalController@view')->name('view-goal');
+Route::get('goal/{goal}', 'GoalController@view')->name('view-goal');
 
 
 Route::prefix('api')->group(function() {
