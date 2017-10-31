@@ -7,7 +7,8 @@ class YourGoalData extends Component {
         super(props);
 
         this.state = {
-            slug: ''
+            slug: '',
+            subgoal: '',
         }
 
     }
@@ -17,7 +18,13 @@ class YourGoalData extends Component {
         const baseSlug = window.location.pathname;
         const slug = baseSlug.split('/')[2];
 
+        const url = '/api/subgoal/' + slug;
 
+        axios.get(url)
+            .then(response => {
+                    const subgoal = response.data.data.subgoal;
+                    this.setState({subgoal})
+            });
 
         this.setState({slug})
 
@@ -25,12 +32,15 @@ class YourGoalData extends Component {
 
     render() {
 
+        const subgoal = this.state.subgoal;
+
         return (
             <div className="panel your-goal">
-                <p>All of the custom information about your goal will go here... These numbers will be specific to you, the who currently has this goal on their list</p>
-                <p>Maybe the alternate content could be some information about creating an account to see more?</p>
+                <h4>Your Goal Data</h4>
+                <h4>${subgoal.cost}</h4>
+                <h4>Days: {subgoal.days}</h4>
+                <h4>Hours: {subgoal.hours}</h4>
             </div>
-
 
         );
 

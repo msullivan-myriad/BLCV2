@@ -4,6 +4,8 @@
 @section('content')
 <div class="container">
     <h1>{{$goal->name}}</h1>
+    <br>
+    <br>
     <div class="row">
         <div class="col-md-6">
                 <h4>Average Goal Data</h4>

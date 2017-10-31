@@ -66,9 +66,27 @@ class SubgoalController extends Controller
         $goal = $subgoal->goal;
 
         return view('subgoals.view')->with([
-            'subgoal' => $subgoal,
+            //'subgoal' => $subgoal,
             'goal' => $goal,
         ]);
+
+    }
+
+    public function apiView($slug) {
+
+      //Need some kind of auth for the slug here
+      $user = Auth::user();
+
+      $subgoal = Subgoal::where('user_id', $user->id)
+        ->where('slug', $slug)
+        ->first();
+
+
+      return [
+        'data' => [
+          'subgoal' => $subgoal,
+        ]
+      ];
 
     }
 
