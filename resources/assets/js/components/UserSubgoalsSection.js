@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import YourGoal from './YourGoal';
 import MyGoals from './MyGoals';
 
-import { Tabs } from 'antd';
-const TabPane = Tabs.TabPane;
+import { Select } from 'antd';
+const Option = Select.Option;
 
 class UserSubgoalsSection extends Component {
 
@@ -13,42 +11,79 @@ class UserSubgoalsSection extends Component {
         super(props);
 
         this.state = {
-            subgoals: []
+            subgoals: [],
+            sortType: 'cost-desc',
         }
 
+        this.handleChange = this.handleChange.bind(this);
+
     }
 
-    componentDidMount() {
-        axios.get('/api/subgoals')
-            .then(response => {
-                const subgoals = response.data.data.subgoals;
+    handleChange(value) {
+        console.log(`selected ${value}`);
 
-                this.setState({ subgoals });
-            });
+        this.setState({
+            sortType: value,
+        })
     }
+
 
     render() {
+
+        let myGoalsPane;
+
+        if (this.state.sortType == 'cost-desc') {
+            myGoalsPane = <MyGoals sort={'cost-desc'}/>;
+        }
+
+        else if (this.state.sortType == 'cost-asc') {
+            myGoalsPane = <MyGoals sort={'cost-asc'}/>;
+        }
+
+        else if (this.state.sortType == 'hours-desc') {
+            myGoalsPane = <MyGoals sort={'hours-desc'}/>;
+        }
+
+        else if (this.state.sortType == 'hours-asc') {
+            myGoalsPane = <MyGoals sort={'hours-asc'}/>;
+        }
+
+        else if (this.state.sortType == 'days-desc') {
+            myGoalsPane = <MyGoals sort={'days-desc'}/>;
+        }
+
+        else if (this.state.sortType == 'days-asc') {
+            myGoalsPane = <MyGoals sort={'days-asc'}/>;
+        }
+
+        else  {
+            myGoalsPane = <MyGoals sort={'cost-desc'}/>;
+        }
+
         return (
 
             <div className="panel">
 
                 <h1>Your Goals</h1>
 
-                <Tabs defaultActiveKey="1">
-                    <TabPane tab="Cost" key="1">
-                        <MyGoals sort={'cost'}/>
-                    </TabPane>
-                    <TabPane tab="Days" key="2">
-                        <MyGoals sort={'days'}/>
-                    </TabPane>
-                    <TabPane tab="Hours" key="3">
-                        <MyGoals sort={'hours'}/>
-                    </TabPane>
-                </Tabs>
+                <h5>Sort By</h5>
 
+                <Select defaultValue="Most Expensive" style={{ width: 120 }} onChange={this.handleChange}>
+                    <Option value="cost-desc">Most Expensive</Option>
+                    <Option value="cost-asc">Cheapest</Option>
+                    <Option value="hours-desc">Most Hours</Option>
+                    <Option value="hours-asc">Fewest Hours</Option>
+                    <Option value="days-desc">Most Days</Option>
+                    <Option value="days-asc">Fewest Days</Option>
+                </Select>
+
+                <div className="my-goals-pane">
+                    {myGoalsPane}
+                </div>
 
             </div>
         );
+
     }
 }
 

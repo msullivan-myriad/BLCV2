@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import { Tabs } from 'antd';
+const TabPane = Tabs.TabPane;
+
+
 class CalculateSection extends Component {
 
 
@@ -14,7 +18,9 @@ class CalculateSection extends Component {
 
     render() {
         return (
-            <div><h1>Test</h1></div>
+            <div>
+                <h1>Test</h1>
+            </div>
         );
     }
 }

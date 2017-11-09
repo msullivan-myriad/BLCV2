@@ -13,7 +13,6 @@ class MyGoals extends Component {
 
     }
 
-
     componentDidMount() {
 
         const url = '/api/subgoals/' + this.props.sort;
@@ -22,6 +21,18 @@ class MyGoals extends Component {
                 const subgoals = response.data.data.subgoals;
                 this.setState({ subgoals });
             });
+
+    }
+
+    componentDidUpdate() {
+
+        const url = '/api/subgoals/' + this.props.sort;
+        axios.get(url)
+            .then(response => {
+                const subgoals = response.data.data.subgoals;
+                this.setState({ subgoals });
+            });
+
     }
 
 

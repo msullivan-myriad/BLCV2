@@ -37,16 +37,30 @@ class SubgoalController extends Controller
 
         $user = Auth::user();
 
-        if ($order == 'cost') {
+        if ($order == 'cost-desc') {
           $subgoals= Subgoal::with('goal')->where('user_id', $user->id)->orderBy('cost', 'desc')->get();
         }
 
-        else if ($order == 'hours') {
+        else if ($order == 'cost-asc') {
+          $subgoals= Subgoal::with('goal')->where('user_id', $user->id)->orderBy('cost', 'asc')->get();
+        }
+
+        else if ($order == 'hours-desc') {
           $subgoals= Subgoal::with('goal')->where('user_id', $user->id)->orderBy('hours', 'desc')->get();
         }
-        else if ($order == 'days') {
+
+        else if ($order == 'hours-asc') {
+          $subgoals= Subgoal::with('goal')->where('user_id', $user->id)->orderBy('hours', 'asc')->get();
+        }
+
+        else if ($order == 'days-desc') {
           $subgoals= Subgoal::with('goal')->where('user_id', $user->id)->orderBy('days', 'desc')->get();
         }
+
+        else if ($order == 'days-asc') {
+          $subgoals= Subgoal::with('goal')->where('user_id', $user->id)->orderBy('days', 'asc')->get();
+        }
+
 
         else {
           $subgoals= Subgoal::with('goal')->where('user_id', $user->id)->get();
