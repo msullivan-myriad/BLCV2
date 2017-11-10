@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import TotalsPane from './TotalsPane';
+import DifficultyCalculation from './DifficultyCalculation';
 
 import { Tabs } from 'antd';
 const TabPane = Tabs.TabPane;
@@ -22,12 +24,12 @@ class CalculateSection extends Component {
 
                 <Tabs defaultActiveKey="1">
 
-                    <TabPane tab="Overview" key="1">
-                        <p>Overview, general stats and numbers and things here.  King of like the fun facts section</p>
+                    <TabPane tab="Totals" key="1">
+                        <TotalsPane/>
                     </TabPane>
 
                     <TabPane tab="Difficulty" key="2">
-                        <p>Most and least difficult based on the algorithm.... Need to think about some kind of slider component that will help me to calculate this easier</p>
+                        <DifficultyCalculation/>
                     </TabPane>
 
                     <TabPane tab="Popularity" key="3">
@@ -38,6 +40,13 @@ class CalculateSection extends Component {
                         <p>Estimated completion date section, allow user to input their current age and what date they would like to be done with all of their goals</p>
                     </TabPane>
 
+                    <TabPane tab="Tags" key="5">
+                        <p>Do stuff with tags here, how many of each.  Which tags will take the most time, which cost the most etc</p>
+                    </TabPane>
+
+                    <TabPane tab="Fun Facts" key="6">
+                        <p>Fun facts section here</p>
+                    </TabPane>
                 </Tabs>
 
             </div>
