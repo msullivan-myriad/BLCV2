@@ -30,36 +30,6 @@ class UserSubgoalsSection extends Component {
 
     render() {
 
-        let myGoalsPane;
-
-        if (this.state.sortType == 'cost-desc') {
-            myGoalsPane = <MyGoals sort={'cost-desc'}/>;
-        }
-
-        else if (this.state.sortType == 'cost-asc') {
-            myGoalsPane = <MyGoals sort={'cost-asc'}/>;
-        }
-
-        else if (this.state.sortType == 'hours-desc') {
-            myGoalsPane = <MyGoals sort={'hours-desc'}/>;
-        }
-
-        else if (this.state.sortType == 'hours-asc') {
-            myGoalsPane = <MyGoals sort={'hours-asc'}/>;
-        }
-
-        else if (this.state.sortType == 'days-desc') {
-            myGoalsPane = <MyGoals sort={'days-desc'}/>;
-        }
-
-        else if (this.state.sortType == 'days-asc') {
-            myGoalsPane = <MyGoals sort={'days-asc'}/>;
-        }
-
-        else  {
-            myGoalsPane = <MyGoals sort={'cost-desc'}/>;
-        }
-
         return (
 
             <div className="panel">
@@ -78,7 +48,7 @@ class UserSubgoalsSection extends Component {
                 </Select>
 
                 <div className="my-goals-pane">
-                    {myGoalsPane}
+                    <MyGoals sort={this.state.sortType}/>
                 </div>
 
             </div>

@@ -24,6 +24,7 @@ class MyGoals extends Component {
 
     }
 
+    //This might be the cause of the issue... Every time the component is reupdating if is running an additional request
     componentDidUpdate() {
 
         const url = '/api/subgoals/' + this.props.sort;

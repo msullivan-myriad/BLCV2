@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import { Slider, Switch } from 'antd';
-
+import { Button } from 'antd';
+import { InputNumber } from 'antd';
 
 class DifficultyCalculation extends Component {
 
@@ -12,12 +12,15 @@ class DifficultyCalculation extends Component {
 
         this.state = {
             difficulty: '',
-            moneyVsTime: 0,
-            hoursVsDays: 0,
+            costPerDay: 0,
+            dayCost: 0,
+            costPerHour: 0,
+            hoursCost: 0,
         };
 
-        this.onMVTChange = this.onMVTChange.bind(this);
-        this.onHVDChange = this.onHVDChange.bind(this);
+        this.onPerDayChange = this.onPerDayChange.bind(this);
+        this.onPerHourChange = this.onPerHourChange.bind(this);
+        this.calculateDifficulty = this.calculateDifficulty.bind(this);
 
     }
 
@@ -30,37 +33,52 @@ class DifficultyCalculation extends Component {
             });
     }
 
-    onMVTChange(value) {
-
+    onPerDayChange(value) {
         this.setState({
-            moneyVsTime: value,
-        });
-
+            dayCost: value,
+            costPerDay: value/10
+        })
     }
 
-    onHVDChange(value) {
-
+    onPerHourChange(value) {
         this.setState({
-            hoursVsDays: value,
-        });
+            hoursCost: value,
+            costPerHour: value/20
+        })
+    }
 
+    calculateDifficulty() {
+        console.log('Getting here');
     }
 
     render() {
         return (
             <div>
-                <p>Is it easier for you to save money or set aside time to accomplish your goals?</p>
-                <h3>Money</h3>
-                <Slider min={-100} max={100} onChange={this.onMVTChange} value={this.state.moneyVsTime} />
-                <h3>Time</h3>
-                <br/>
-                <br/>
-                <p>Is it easier for you to dedicate consecutive days to accompishing your goals or set aside an hour or two every day?</p>
-                <h3>Days</h3>
-                <Slider min={-100} max={100} onChange={this.onHVDChange} value={this.state.hoursVsDays} />
-                <h3>Hours</h3>
+                <div className="calibrate-section">
 
-                <p>{JSON.stringify(this.state.difficulty)}</p>
+                    <p>In order to help you find out which goals will be the most difficult we need to do a little calibration.</p>
+                    <br/>
+                    <p>Dedicating 10 straight days to traveling is roughly as difficult for you as saving</p>
+
+                    <InputNumber
+                        value={this.state.dayCost}
+                        formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                        parser={value => value.replace(/\$\s?|(,*)/g, '')}
+                        onChange={this.onPerDayChange}
+                    />
+
+                    <p>Spending 20 hours a per month about as difficult as saving </p>
+                    <InputNumber
+                        value={this.state.hoursCost}
+                        formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                        parser={value => value.replace(/\$\s?|(,*)/g, '')}
+                        onChange={this.onPerHourChange}
+                    />
+
+                    <Button onClick={this.calculateDifficulty}>Default</Button>
+
+
+                </div>
             </div>
         );
     }

@@ -40,7 +40,7 @@ class StatsController extends Controller
 
     }
 
-    public function difficulty() {
+    public function difficulty(Request $request) {
 
       //Maybe show these number for the average American here so people have a baseline which is easier for them
       //Average discresionary income ~10000
@@ -49,10 +49,9 @@ class StatsController extends Controller
 
       //Is this really the best way to do this??
 
+      return $request;
 
 
-
-      return 'test';
     }
 
     /*

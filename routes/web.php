@@ -64,7 +64,6 @@ Route::prefix('api')->group(function() {
 
         Route::get('totals', 'StatsController@totals');
         Route::get('difficulty', 'StatsController@difficulty');
-
     });
 
 });
