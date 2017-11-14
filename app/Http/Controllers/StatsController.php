@@ -49,7 +49,7 @@ class StatsController extends Controller
 
       //Is this really the best way to do this??
 
-      return $request;
+      return $request->costPerHour;
 
 
     }

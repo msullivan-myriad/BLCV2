@@ -31,6 +31,7 @@ class DifficultyCalculation extends Component {
                 const difficulty = response.data;
                 this.setState({ difficulty })
             });
+
     }
 
     onPerDayChange(value) {
@@ -49,6 +50,18 @@ class DifficultyCalculation extends Component {
 
     calculateDifficulty() {
         console.log('Getting here');
+        axios.get('/api/stats/difficulty', {
+            params: {
+                costPerHour: this.state.costPerHour,
+                costPerDay: this.state.costPerDay
+            }
+            })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     render() {
