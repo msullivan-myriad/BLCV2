@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Subgoal;
 
 class StatsController extends Controller
 {
@@ -42,35 +43,52 @@ class StatsController extends Controller
 
     public function difficulty(Request $request) {
 
-      //Maybe show these number for the average American here so people have a baseline which is easier for them
-      //Average discresionary income ~10000
-      //Average vacation time 10
-      //Average spare time per day
+      //Need some validation on the numbers here or things will break
+      $user = Auth::user();
+      $subgoals= Subgoal::with('goal')->where('user_id', $user->id)->get();
+      //$subgoals = $user->subgoals;
 
-      //Is this really the best way to do this??
+      $per_hour = $request->costPerHour;
+      $per_day = $request->costPerDay;
 
-      return $request->costPerHour;
+      $new_subgoals = [];
 
+      foreach ($subgoals as $goal) {
+
+        $daysSum = $goal->days * $per_day;
+        $hoursSum = $goal->hours * $per_hour;
+
+        $goal->difficultySum = $goal->cost + $daysSum + $hoursSum;
+        array_push($new_subgoals, $goal);
+
+      }
+
+      /*
+      function cmp($a, $b) {
+        return strcmp($a->difficultySum, $b->difficultySum);
+      }
+      */
+
+
+      usort($new_subgoals, function($a, $b) {
+          return $a->difficultySum < $b->difficultySum;
+          //return strcmp($a->difficultySum, $b->difficultySum);
+      });
+
+      return [
+        'data' => [
+          'per_hour' => $per_hour,
+          'per_day' => $per_day,
+          'subgoals' => $subgoals,
+          'new_subgoals' => $new_subgoals,
+        ]
+      ];
 
     }
 
-    /*
-    public function topFives() {
-        $user = Auth::user();
-        $subgoals = $user->subgoals;
-        $most_cost = $subgoals->sortByDesc('cost')->values()->take(5);
-        $most_days = $subgoals->sortByDesc('days')->values()->take(5);
-        $most_hours = $subgoals->sortByDesc('hours')->values()->take(5);
-
-        return [
-
-            'data' => [
-                'most_cost' => $most_cost,
-                'most_days' => $most_days,
-                'most_hours' => $most_hours,
-            ]
-        ];
+    public static function compareDifficultySums($a, $b) {
+      return strcmp($a->difficultySum, $b->difficultySum);
     }
-    */
+
 
 }
