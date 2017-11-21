@@ -51,6 +51,17 @@ Route::prefix('api')->group(function() {
     });
 
 
+    //API Stats Middleware
+    //Stats Middleware should have some auth
+    Route::prefix('stats')->group(function() {
+        //This route group should require authentication
+
+        Route::get('totals', 'StatsController@totals');
+        Route::get('difficulty', 'StatsController@difficulty');
+        Route::get('most-and-least-difficult', 'StatsController@mostAndLeastDifficult');
+    });
+
+
     //API Admin Middleware
     //Admin Middleware should have some auth
     Route::group(['middleware' => ['admin']], function() {
@@ -66,15 +77,6 @@ Route::prefix('api')->group(function() {
 
       });
 
-    });
-
-    //API Stats Middleware
-    //Stats Middleware should have some auth
-    Route::prefix('stats')->group(function() {
-        //This route group should require authentication
-
-        Route::get('totals', 'StatsController@totals');
-        Route::get('difficulty', 'StatsController@difficulty');
     });
 
 });

@@ -41,12 +41,12 @@ class StatsController extends Controller
 
     }
 
+    /*
     public function difficulty(Request $request) {
 
       //Need some validation on the numbers here or things will break
       $user = Auth::user();
       $subgoals= Subgoal::with('goal')->where('user_id', $user->id)->get();
-      //$subgoals = $user->subgoals;
 
       $per_hour = $request->costPerHour;
       $per_day = $request->costPerDay;
@@ -74,6 +74,44 @@ class StatsController extends Controller
           'subgoals' => $subgoals,
           'new_subgoals' => $new_subgoals,
         ]
+      ];
+
+    }
+    */
+
+    public function mostAndLeastDifficult() {
+
+      $user = Auth::user();
+      $profile = $user->profile;
+
+      $subgoals= Subgoal::with('goal')->where('user_id', $user->id)->get();
+
+
+      $new_subgoals = [];
+
+      foreach ($subgoals as $goal) {
+
+        $costPercentage = $goal->cost/$profile->cost_per_year;
+        $daysPercentage = $goal->days/$profile->days_per_year;
+        $hoursPercentage = $goal->hours/$profile->hours_per_year;
+
+
+        $goal->difficultyPercentageSum = $costPercentage + $daysPercentage + $hoursPercentage;
+
+        array_push($new_subgoals, $goal);
+
+      }
+
+      usort($new_subgoals, function($a, $b) {
+          return $a->difficultyPercentageSum < $b->difficultyPercentageSum;
+      });
+
+
+      return [
+        'data' => [
+          'subgoals' => $new_subgoals,
+        ]
+
       ];
 
     }
