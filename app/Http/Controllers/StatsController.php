@@ -63,16 +63,8 @@ class StatsController extends Controller
 
       }
 
-      /*
-      function cmp($a, $b) {
-        return strcmp($a->difficultySum, $b->difficultySum);
-      }
-      */
-
-
       usort($new_subgoals, function($a, $b) {
           return $a->difficultySum < $b->difficultySum;
-          //return strcmp($a->difficultySum, $b->difficultySum);
       });
 
       return [
@@ -85,10 +77,5 @@ class StatsController extends Controller
       ];
 
     }
-
-    public static function compareDifficultySums($a, $b) {
-      return strcmp($a->difficultySum, $b->difficultySum);
-    }
-
 
 }

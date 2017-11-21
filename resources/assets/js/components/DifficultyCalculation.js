@@ -24,16 +24,6 @@ class DifficultyCalculation extends Component {
         this.calculateDifficulty = this.calculateDifficulty.bind(this);
     }
 
-    /*
-    componentDidMount() {
-        axios.get('/api/stats/difficulty')
-            .then(response => {
-                const difficulty = response.data;
-                this.setState({ difficulty })
-            });
-    }
-    */
-
     onPerDayChange(value) {
         this.setState({
             dayCost: value,

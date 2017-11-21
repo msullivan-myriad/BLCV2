@@ -45,6 +45,8 @@ class UserSubgoalsSection extends Component {
                     <Option value="hours-asc">Fewest Hours</Option>
                     <Option value="days-desc">Most Days</Option>
                     <Option value="days-asc">Fewest Days</Option>
+                    <Option value="popular-desc">Most Popular</Option>
+                    <Option value="popular-asc">Least Popular</Option>
                 </Select>
 
                 <div className="my-goals-pane">

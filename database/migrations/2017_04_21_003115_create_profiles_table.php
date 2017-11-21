@@ -16,8 +16,10 @@ class CreateProfilesTable extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->integer('age')->nullable()->default(7);
             $table->timestamps();
+            $table->integer('cost_per_year')->default(0);
+            $table->integer('days_per_year')->default(0);
+            $table->integer('hours_per_year')->default(0);
         });
     }
 

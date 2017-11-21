@@ -61,6 +61,23 @@ class SubgoalController extends Controller
           $subgoals= Subgoal::with('goal')->where('user_id', $user->id)->orderBy('days', 'asc')->get();
         }
 
+        else if ($order == 'popular-desc') {
+          $subgoals = Subgoal::with('goal')
+            ->join('goals', 'subgoals.goal_id', '=', 'goals.id')
+            ->where('user_id', $user->id)
+            ->orderBy('goals.subgoals_count', 'DESC')
+            ->get();
+        }
+
+        else if ($order == 'popular-asc') {
+
+          $subgoals = Subgoal::with('goal')
+            ->join('goals', 'subgoals.goal_id', '=', 'goals.id')
+            ->where('user_id', $user->id)
+            ->orderBy('goals.subgoals_count', 'ASC')
+            ->get();
+
+        }
 
         else {
           $subgoals= Subgoal::with('goal')->where('user_id', $user->id)->get();

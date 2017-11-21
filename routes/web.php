@@ -41,6 +41,16 @@ Route::prefix('api')->group(function() {
     Route::get('tags', 'GoalController@apiPopularTags');
     Route::get('tags/{tag}', 'GoalController@apiGoalsWithTag');
 
+
+    //Profile API Routes
+    Route::prefix('profile')->group(function() {
+
+      Route::get('dedicated-per-year', 'ProfileController@dedicatedPerYear');
+      Route::post('dedicated-per-year', 'ProfileController@setDedicatedPerYear');
+
+    });
+
+
     //API Admin Middleware
     //Admin Middleware should have some auth
     Route::group(['middleware' => ['admin']], function() {
@@ -55,6 +65,7 @@ Route::prefix('api')->group(function() {
         Route::post('goals/{goal}/edit', 'GoalController@apiEditTitle');
 
       });
+
     });
 
     //API Stats Middleware
@@ -70,9 +81,6 @@ Route::prefix('api')->group(function() {
 
 
 Route::group(['middleware' => ['auth']], function() {
-
-    Route::get('profile', 'ProfileController@view')->name('profile');
-    Route::post('profile', 'ProfileController@edit')->name('profile');
 
     Route::get('subgoals', 'SubgoalController@index')->name('subgoals');
     Route::get('subgoals/{subgoal}', 'SubgoalController@view')->name('view-subgoal');

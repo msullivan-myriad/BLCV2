@@ -8,14 +8,15 @@ class MyGoals extends Component {
         super(props);
 
         this.state = {
-            subgoals: []
+            subgoals: [],
+            sort: this.props.sort,
         }
 
     }
 
     componentDidMount() {
 
-        const url = '/api/subgoals/' + this.props.sort;
+        const url = '/api/subgoals/' + this.state.sort;
         axios.get(url)
             .then(response => {
                 const subgoals = response.data.data.subgoals;
@@ -24,15 +25,23 @@ class MyGoals extends Component {
 
     }
 
-    //This might be the cause of the issue... Every time the component is reupdating if is running an additional request
     componentDidUpdate() {
 
-        const url = '/api/subgoals/' + this.props.sort;
-        axios.get(url)
-            .then(response => {
-                const subgoals = response.data.data.subgoals;
-                this.setState({ subgoals });
-            });
+        //This if statement ensures that the ajax request only runs when the prop is changed to something new
+        if (this.props.sort != this.state.sort) {
+
+            this.setState({
+                sort: this.props.sort,
+            })
+
+            const url = '/api/subgoals/' + this.props.sort;
+            axios.get(url)
+                .then(response => {
+                    const subgoals = response.data.data.subgoals;
+                    this.setState({ subgoals });
+                });
+
+        }
 
     }
 

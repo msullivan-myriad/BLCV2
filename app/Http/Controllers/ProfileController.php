@@ -8,27 +8,35 @@ use Illuminate\Http\Request;
 class ProfileController extends Controller
 {
 
-    public function view() {
+    public function dedicatedPerYear() {
 
-        $user_profile = Auth::user()->profile;
+      $user = Auth::user();
 
-        return view('profile.edit')->with('profile', $user_profile);
+      $profile = $user->profile;
+
+      return [
+        'data' => [
+          'cost_per_year' => $profile->cost_per_year,
+          'days_per_year' => $profile->days_per_year,
+          'hours_per_year' => $profile->hours_per_year,
+        ]
+      ];
 
     }
 
-    public function edit(Request $request) {
+    public function setDedicatedPerYear(Request $request) {
+      //Need some auth here
 
-        $this->validate($request, [
-            'age' => 'required|numeric|min:1|max:150',
-        ]);
+      $user = Auth::user();
+      $profile = $user->profile;
 
-        $profile = Auth::user()->profile;
+      $profile->cost_per_year = $request->cost_per_year;
+      $profile->days_per_year = $request->days_per_year;
+      $profile->hours_per_year = $request->hours_per_year;
 
-        $profile->age = $request->age;
+      $profile->save();
 
-        $profile->save();
-
-        return back();
+      return $request;
 
     }
 
