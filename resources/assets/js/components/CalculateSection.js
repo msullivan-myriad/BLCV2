@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TotalsPane from './TotalsPane';
 import DedicatePerYear from './DedicatePerYear';
+import AgeSection from './AgeSection';
 
 import { Tabs } from 'antd';
 const TabPane = Tabs.TabPane;
@@ -13,10 +14,6 @@ class CalculateSection extends Component {
         super(props);
     }
 
-    componentDidMount() {
-
-    }
-
     render() {
         return (
             <div>
@@ -27,6 +24,7 @@ class CalculateSection extends Component {
                     <TabPane tab="Calculate" key="1">
                         <DedicatePerYear/>
                         <br/>
+                        <AgeSection/>
                         <br/>
                         <br/>
                         <br/>

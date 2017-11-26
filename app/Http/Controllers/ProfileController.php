@@ -19,6 +19,7 @@ class ProfileController extends Controller
           'cost_per_year' => $profile->cost_per_year,
           'days_per_year' => $profile->days_per_year,
           'hours_per_year' => $profile->hours_per_year,
+          'age' => $profile->age,
         ]
       ];
 
@@ -33,6 +34,7 @@ class ProfileController extends Controller
       $profile->cost_per_year = $request->cost_per_year;
       $profile->days_per_year = $request->days_per_year;
       $profile->hours_per_year = $request->hours_per_year;
+      $profile->age = $request->age;
 
       $profile->save();
 
