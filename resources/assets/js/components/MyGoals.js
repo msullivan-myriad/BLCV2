@@ -51,8 +51,8 @@ class MyGoals extends Component {
 
             <div>
 
-                {this.state.subgoals.map((goal,num) =>
-                    <YourGoal goal={goal} key={num}/>
+                {this.state.subgoals.map(goal =>
+                    <YourGoal goal={goal} key={goal.id}/>
                 )}
 
             </div>

@@ -15,6 +15,9 @@ class DedicatePerYear extends Component {
             cost: 0,
             hours: 0,
             days: 0,
+            subgoals: [],
+            first: [],
+            last: [],
         };
 
         this.onCostChange = this.onCostChange.bind(this);
@@ -40,6 +43,21 @@ class DedicatePerYear extends Component {
                     hours: hours,
                 })
             });
+
+        axios.get('/api/stats/most-and-least-difficult')
+            .then(response => {
+                const subgoals = response.data.data.subgoals;
+
+                //Need to think about how to handle this if users have less than 10 goals... What if they have a ton of goals and would like to load more?
+                const first = subgoals.slice(0,5);
+                const last = subgoals.slice(-5).reverse();
+
+                this.setState({
+                    subgoals: subgoals,
+                    last: last,
+                    first: first,
+                })
+            })
     }
 
     setProfileValues() {
@@ -119,6 +137,27 @@ class DedicatePerYear extends Component {
                         onChange={this.onDaysChange}
                     />
 
+                </div>
+
+                <div className="most-least-hardest-section">
+                    <div className="row">
+                        <div className="col-md-6">
+                            <p>Most here</p>
+
+                            {this.state.first.map(goal =>
+                                <YourGoal goal={goal} key={goal.id}/>
+                            )}
+
+                        </div>
+                        <div className="col-md-6">
+                            <p>Least here</p>
+
+                            {this.state.last.map(goal =>
+                                <YourGoal goal={goal} key={goal.id}/>
+                            )}
+
+                        </div>
+                    </div>
                 </div>
             </div>
         );
