@@ -33,6 +33,7 @@ class DedicatePerYear extends Component {
     }
 
     componentDidMount() {
+
         axios.get('/api/profile/dedicated-per-year')
             .then(response => {
                 console.log(response.data.data);

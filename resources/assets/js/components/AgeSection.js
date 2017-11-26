@@ -16,10 +16,62 @@ class AgeSection extends Component {
 
         this.state = {
             completionAge: 0,
+            barChartData: [
+                {
+                    name: '',
+                    Years: 0,
+                },
+                 {
+                    name: '',
+                    Years: 0,
+                },
+                 {
+                    name: '',
+                    Years: 0,
+                },
+            ]
         };
 
         this.onCompletionAgeChange = this.onCompletionAgeChange.bind(this);
         this.setAgeValues = this.setAgeValues.bind(this);
+
+    }
+
+    componentDidMount() {
+
+        axios.get('/api/stats/completion-age')
+            .then(response => {
+                console.log(response.data.data);
+
+                const data = response.data.data;
+                const cost_years = data.cost_years;
+                const days_years = data.days_years;
+                const hours_years = data.hours_years;
+
+                let newBarChartData = [];
+
+                newBarChartData.push(
+                    {name: 'Cost', Years: cost_years}
+                );
+                newBarChartData.push(
+                    {name: 'Days', Years: days_years}
+                );
+                newBarChartData.push(
+                    {name: 'Hours', Years: hours_years}
+                );
+
+                newBarChartData.sort(function(a, b) {
+                    return a.Years < b.Years;
+                });
+
+                console.log(newBarChartData);
+
+                this.setState({
+                    barChartData: newBarChartData,
+                    completionAge: newBarChartData[0].Years,
+                })
+
+            });
 
     }
 
@@ -36,32 +88,24 @@ class AgeSection extends Component {
 
     render() {
 
-        const data = [
-            {name: 'Page A', value: 4000 },
-            {name: 'Page B', value: 3000},
-            {name: 'Page C', value: 2000},
-            {name: 'Page D', value: 2780},
-            {name: 'Page E', value: 1890},
-            {name: 'Page F', value: 2390},
-            {name: 'Page G', value: 3490},
-        ];
-
         return (
             <div className="age-section">
-                <h2>Age Section</h2>
 
-                <BarChart width={600} height={300} data={data} layout={'vertical'}
+                <br/>
+                <h4>Estimated goal completion date: {this.state.completionAge} years</h4>
+                <br/>
+
+                <BarChart width={600} height={300} data={this.state.barChartData} layout={'vertical'}
                           margin={{top: 5, right: 5, left: 5, bottom: 5}}
                 >
-                    <XAxis type="number" dataKey="value"/>
+                    <XAxis type="number" dataKey="Years"/>
                     <YAxis type="category" dataKey="name"/>
                     <CartesianGrid strokeDasharray="3 3"/>
                     <Tooltip/>
                     <Legend />
-                    <Bar dataKey="value" fill="#8884d8" />
+                    <Bar dataKey="Years" fill="#8884d8" />
                 </BarChart>
 
-                <h4>Estimated goal completion date: </h4>
 
                 <p>At what age would you like to be completed with your list?</p>
 
