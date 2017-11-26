@@ -129,6 +129,9 @@ class DedicatePerYear extends Component {
 
                         <div className="calibrate-section">
 
+                            <br/>
+                            <h3>First we need some basic information</h3>
+                            <br/>
                             <p>How old are you?</p>
 
                             <InputNumber

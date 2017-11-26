@@ -29,6 +29,7 @@ class ProfileController extends Controller
       //Need some auth here
 
       $user = Auth::user();
+
       $profile = $user->profile;
 
       $profile->cost_per_year = $request->cost_per_year;

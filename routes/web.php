@@ -55,10 +55,10 @@ Route::prefix('api')->group(function() {
     //Stats Middleware should have some auth
     Route::prefix('stats')->group(function() {
         //This route group should require authentication
-
         Route::get('totals', 'StatsController@totals');
         Route::get('difficulty', 'StatsController@difficulty');
         Route::get('most-and-least-difficult', 'StatsController@mostAndLeastDifficult');
+        Route::get('completion-age', 'StatsController@completionAge');
     });
 
 

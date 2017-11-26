@@ -41,6 +41,51 @@ class StatsController extends Controller
 
     }
 
+    public function completionAge() {
+
+      $user = Auth::user();
+      $profile = $user->profile;
+
+      $subgoals = $user->subgoals;
+
+      $total_cost = $subgoals->sum('cost');
+      $total_days = $subgoals->sum('days');
+      $total_hours = $subgoals->sum('hours');
+
+      $profile_cost = $profile->cost_per_year;
+      $profile_days = $profile->days_per_year;
+      $profile_hours = $profile->hours_per_year;
+      $profile_age = $profile->age;
+
+      return [
+
+        //Subgoal Totals
+        'total_cost' => $total_cost,
+        'total_days' => $total_days,
+        'total_hours' => $total_hours,
+
+        //Profile Per Year Information
+        'profile_cost' => $profile_cost,
+        'profile_days' => $profile_days,
+        'profile_hours' => $profile_hours,
+        'profile_age' => $profile_age,
+
+        //Number of years it will take using profile per year information
+        'cost_years' => $total_cost/$profile_cost,
+        'days_years' => $total_days/$profile_days,
+        'hours_years' => $total_hours/$profile_hours,
+
+        //Convert the numbers into rounded month format
+        //Might need to consider just keeping it at years and dealing with the decimal, this might make more sense depending on the graph system I decide on
+        'cost_years_in_months' => round($total_cost/$profile_cost*365.25/30.4375),
+        'days_years_in_months' => round($total_days/$profile_days*365.25/30.4375),
+        'hours_years_in_monhts' => round($total_hours/$profile_hours*365.25/30.4375),
+
+
+      ];
+
+    }
+
     /*
     public function difficulty(Request $request) {
 
