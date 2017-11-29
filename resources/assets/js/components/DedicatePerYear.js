@@ -6,6 +6,8 @@ import { Button } from 'antd';
 import { InputNumber } from 'antd';
 import { Tabs } from 'antd';
 const TabPane = Tabs.TabPane;
+import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
+import { Slider } from 'antd';
 
 class DedicatePerYear extends Component {
 
@@ -21,6 +23,25 @@ class DedicatePerYear extends Component {
             subgoals: [],
             first: [],
             last: [],
+            barChartData: [
+                {
+                    name: '',
+                    Years: 0,
+                },
+                 {
+                    name: '',
+                    Years: 0,
+                },
+                 {
+                    name: '',
+                    Years: 0,
+                },
+            ],
+            currentAge: 0,
+            targetCompletionAge: 100,
+            targetCost: 0,
+            targetHours: 0,
+            targetDays: 0,
         };
 
         this.onCostChange = this.onCostChange.bind(this);
@@ -29,6 +50,10 @@ class DedicatePerYear extends Component {
         this.onAgeChange = this.onAgeChange.bind(this);
         this.setProfileValues = this.setProfileValues.bind(this);
         this.getMostAndLeastDifficult = this.getMostAndLeastDifficult.bind(this);
+        this.getCompletionAge = this.getCompletionAge.bind(this);
+        this.onTargetCompletionAgeChange = this.onTargetCompletionAgeChange.bind(this);
+        this.getTargetCompletionAgeData = this.getTargetCompletionAgeData.bind(this);
+        this.onTargetCompletionAgeChange = this.onTargetCompletionAgeChange.bind(this);
 
     }
 
@@ -36,7 +61,6 @@ class DedicatePerYear extends Component {
 
         axios.get('/api/profile/dedicated-per-year')
             .then(response => {
-                console.log(response.data.data);
                 const data = response.data.data;
 
                 const cost = data.cost_per_year;
@@ -53,6 +77,7 @@ class DedicatePerYear extends Component {
             });
 
         this.getMostAndLeastDifficult();
+        this.getCompletionAge();
 
     }
 
@@ -75,6 +100,41 @@ class DedicatePerYear extends Component {
 
     }
 
+    getCompletionAge() {
+
+        axios.get('/api/stats/completion-age')
+            .then(response => {
+
+                const data = response.data.data;
+                const cost_years = data.cost_years;
+                const days_years = data.days_years;
+                const hours_years = data.hours_years;
+
+                let newBarChartData = [];
+
+                newBarChartData.push(
+                    {name: 'Cost', Years: cost_years}
+                );
+                newBarChartData.push(
+                    {name: 'Days', Years: days_years}
+                );
+                newBarChartData.push(
+                    {name: 'Hours', Years: hours_years}
+                );
+
+                newBarChartData.sort(function(a, b) {
+                    return a.Years < b.Years;
+                });
+
+                this.setState({
+                    barChartData: newBarChartData,
+                    completionAge: newBarChartData[0].Years,
+                })
+
+            });
+
+    }
+
     setProfileValues() {
 
         var parent = this;
@@ -87,8 +147,8 @@ class DedicatePerYear extends Component {
             })
             .then(function (response) {
 
-                console.log(response);
                 parent.getMostAndLeastDifficult();
+                parent.getCompletionAge();
 
             })
             .catch(function (error) {
@@ -120,6 +180,44 @@ class DedicatePerYear extends Component {
             age: value,
         })
     }
+
+    onTargetCompletionAgeChange(value) {
+
+
+        this.setState({
+            targetCompletionAge: value,
+        },
+
+        this.getTargetCompletionAgeData(value)
+
+        )
+    }
+
+    getTargetCompletionAgeData(age) {
+
+        const url = '/api/stats/target-completion-age/' + age;
+
+        axios.get(url)
+
+            .then(response => {
+
+
+                const data = response.data.data;
+                const targetCost = data.cost_per_year;
+                const targetDays = data.days_per_year;
+                const targetHours = data.hours_per_year;
+
+                this.setState({
+                    targetCost: targetCost,
+                    targetDays: targetDays,
+                    targetHours: targetHours,
+                })
+
+
+            });
+
+    }
+
 
 
     render() {
@@ -189,7 +287,6 @@ class DedicatePerYear extends Component {
                                         <YourGoal goal={goal} key={goal.id}/>
                                     )}
 
-
                                 </TabPane>
 
                                 <TabPane tab="Least Difficult" key="2">
@@ -207,6 +304,40 @@ class DedicatePerYear extends Component {
                     </div>
 
                 </div>
+
+                <br/>
+                <h4>Estimated goal completion age: {this.state.completionAge + this.state.age}</h4>
+                <br/>
+
+                <BarChart width={600} height={300} data={this.state.barChartData} layout={'vertical'}
+                          margin={{top: 5, right: 5, left: 5, bottom: 5}}
+                >
+                    <XAxis type="number" dataKey="Years"/>
+                    <YAxis type="category" dataKey="name"/>
+                    <CartesianGrid strokeDasharray="3 3"/>
+                    <Tooltip/>
+                    <Legend />
+                    <Bar dataKey="Years" fill="#8884d8" />
+                </BarChart>
+
+
+                <p>At what age would you like to be completed with your goals?</p>
+
+                <Slider value={this.state.targetCompletionAge} min={this.state.age + 1} max={100} onChange={this.onTargetCompletionAgeChange}/>
+
+                <h2>{this.state.targetCompletionAge}</h2>
+
+                <p>Original Cost: {this.state.cost}</p>
+                <p>Target Cost: {this.state.targetCost}</p>
+                <br/>
+
+                <p>Original Days: {this.state.days}</p>
+                <p>Target Days: {this.state.targetDays}</p>
+                <br/>
+
+                <p>Original Hours: {this.state.hours}</p>
+                <p>Target Hours: {this.state.targetHours}</p>
+                <br/>
 
             </div>
         );

@@ -162,4 +162,32 @@ class StatsController extends Controller
 
     }
 
+    public function targetCompletionAge($age) {
+
+      //Need auth with age here
+
+      $user = Auth::user();
+      $profile = $user->profile;
+      $yearsLeft = $age - $profile->age;
+
+      $subgoals = $user->subgoals;
+      $total_cost = $subgoals->sum('cost');
+      $total_days = $subgoals->sum('days');
+      $total_hours = $subgoals->sum('hours');
+
+      $cost_per_year = $total_cost/$yearsLeft;
+      $days_per_year = $total_days/$yearsLeft;
+      $hours_per_year = $total_hours/$yearsLeft;
+
+
+
+      return [
+        'data' => [
+          'cost_per_year' => $cost_per_year,
+          'days_per_year' => $days_per_year,
+          'hours_per_year' => $hours_per_year,
+        ]
+      ];
+    }
+
 }
