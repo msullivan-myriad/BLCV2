@@ -73,6 +73,7 @@ class DedicatePerYear extends Component {
                     days: days,
                     hours: hours,
                     age: age,
+                    targetCompletionAge: age,
                 })
             });
 
@@ -221,6 +222,41 @@ class DedicatePerYear extends Component {
 
 
     render() {
+
+        //Set up the cost array for barcharts data
+        var costObject = {
+            name: 'Cost Per Year',
+        };
+
+        costObject.original = this.state.cost;
+        costObject.target = this.state.targetCost;
+
+        var costArray = [];
+        costArray.push(costObject);
+
+        //Set up the days array for barcharts data
+        var daysObject = {
+            name: 'Days Per Year',
+        };
+
+        daysObject.original = this.state.days;
+        daysObject.target = this.state.targetDays;
+
+        var daysArray = [];
+        daysArray.push(daysObject);
+
+        //Set up the hours array for barcharts data
+        var hoursObject = {
+            name: 'Hours Per Month',
+        };
+
+        hoursObject.original = this.state.hours;
+        hoursObject.target = this.state.targetHours/12;
+
+        var hoursArray = [];
+        hoursArray.push(hoursObject);
+
+
         return (
             <div>
                 <div className="row">
@@ -327,17 +363,44 @@ class DedicatePerYear extends Component {
 
                 <h2>{this.state.targetCompletionAge}</h2>
 
-                <p>Original Cost: {this.state.cost}</p>
-                <p>Target Cost: {this.state.targetCost}</p>
+                <br/>
                 <br/>
 
-                <p>Original Days: {this.state.days}</p>
-                <p>Target Days: {this.state.targetDays}</p>
-                <br/>
+                <BarChart width={240} height={300} data={costArray}
+                          margin={{top: 5, right: 30, left: 20, bottom: 5}} style={{display: 'inline-block'}}>
+                    <XAxis dataKey="name"/>
+                    <YAxis/>
+                    <CartesianGrid strokeDasharray="3 3"/>
+                    <Tooltip/>
+                    <Legend />
+                    <Bar dataKey="original" fill="#82ca9d" />
+                    <Bar dataKey="target" fill="#8884d8" />
+                </BarChart>
 
-                <p>Original Hours: {this.state.hours}</p>
-                <p>Target Hours: {this.state.targetHours}</p>
-                <br/>
+
+                <BarChart width={240} height={300} data={daysArray}
+                          margin={{top: 5, right: 30, left: 20, bottom: 5}} style={{display: 'inline-block'}}>
+                    <XAxis dataKey="name"/>
+                    <YAxis/>
+                    <CartesianGrid strokeDasharray="3 3"/>
+                    <Tooltip/>
+                    <Legend />
+                    <Bar dataKey="original" fill="#82ca9d" />
+                    <Bar dataKey="target" fill="#8884d8" />
+                </BarChart>
+
+
+                <BarChart width={240} height={300} data={hoursArray}
+                          margin={{top: 5, right: 30, left: 20, bottom: 5}} style={{display: 'inline-block'}}>
+                    <XAxis dataKey="name"/>
+                    <YAxis/>
+                    <CartesianGrid strokeDasharray="3 3"/>
+                    <Tooltip/>
+                    <Legend />
+                    <Bar dataKey="original" fill="#82ca9d" />
+                    <Bar dataKey="target" fill="#8884d8" />
+                </BarChart>
+
 
             </div>
         );

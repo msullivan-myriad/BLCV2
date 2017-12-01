@@ -22,13 +22,6 @@ class CalculateSection extends Component {
 
                     <TabPane tab="Calculate" key="1">
                         <DedicatePerYear/>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <p>List some very simple overview information here, and info about the average goal formatted a bit</p>
-                        <p>Estimated completion date section, allow user to input their current age and what date they would like to be done with all of their goals</p>
-                        <p>Maybe make this section have two panes, one that estimates starting with the date you would like to be done, the other showing what date you will be done based off of how much you can do per year</p>
-
                     </TabPane>
 
                     <TabPane tab="Tags" key="2">
