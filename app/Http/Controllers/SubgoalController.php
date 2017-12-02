@@ -92,6 +92,8 @@ class SubgoalController extends Controller
 
     }
 
+    /* Is this being used anymore? */
+
     public function view(Subgoal $subgoal) {
 
         $goal = $subgoal->goal;

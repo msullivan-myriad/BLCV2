@@ -60,6 +60,7 @@ Route::prefix('api')->group(function() {
         Route::get('most-and-least-difficult', 'StatsController@mostAndLeastDifficult');
         Route::get('completion-age', 'StatsController@completionAge');
         Route::get('target-completion-age/{age}', 'StatsController@targetCompletionAge');
+        Route::get('individual-goal-stats/{slug}', 'StatsController@individualGoalStats');
     });
 
 

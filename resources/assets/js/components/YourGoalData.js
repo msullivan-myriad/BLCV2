@@ -1,46 +1,48 @@
 import React, { Component } from 'react';
+import YourGoalStatsSection from './YourGoalStatsSection';
+import EditYourGoal from './EditYourGoal';
 
+import { Tabs } from 'antd';
+const TabPane = Tabs.TabPane;
 
 class YourGoalData extends Component {
 
     constructor(props) {
         super(props);
 
-        this.state = {
-            slug: '',
-            subgoal: '',
-        }
-
-    }
-
-    componentDidMount() {
-
         const baseSlug = window.location.pathname;
         const slug = baseSlug.split('/')[2];
 
-        const url = '/api/subgoal/' + slug;
+        this.state = {
+            slug: slug,
+        }
 
-        axios.get(url)
-            .then(response => {
-                    const subgoal = response.data.data.subgoal;
-                    this.setState({subgoal})
-            });
-
-        this.setState({slug})
 
     }
 
     render() {
 
-        const subgoal = this.state.subgoal;
 
         return (
             <div className="panel your-goal">
-                <h4>Your Goal Data</h4>
-                <h4>${subgoal.cost}</h4>
-                <h4>Days: {subgoal.days}</h4>
-                <h4>Hours: {subgoal.hours}</h4>
+
+                <p>Need some kind of conditional if this goal exists than display it differently</p>
+
+                <Tabs defaultActiveKey="1">
+
+                    <TabPane tab="Goal Stats" key="1">
+                        <YourGoalStatsSection slug={this.state.slug} />
+                    </TabPane>
+
+                    <TabPane tab="Edit Goal" key="2">
+                        <EditYourGoal slug={this.state.slug}/>
+                    </TabPane>
+
+                </Tabs>
+
+
             </div>
+
 
         );
 

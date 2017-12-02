@@ -190,4 +190,36 @@ class StatsController extends Controller
       ];
     }
 
+    public function individualGoalStats($slug) {
+
+      //Need some kind of auth for the slug here
+      $user = Auth::user();
+
+      $subgoals = $user->subgoals;
+
+      $total_goals = $subgoals->count();
+
+      $total_cost = $subgoals->sum('cost');
+      $total_days = $subgoals->sum('days');
+      $total_hours = $subgoals->sum('hours');
+
+      $subgoal = Subgoal::where('user_id', $user->id)
+        ->where('slug', $slug)
+        ->first();
+
+      $cost_percentage = round(($subgoal->cost/$total_cost)*100,2);
+      $hours_percentage = round(($subgoal->hours/$total_hours)*100,2);
+      $days_percentage = round(($subgoal->days/$total_days)*100, 2);
+
+      return [
+        'data' => [
+          'subgoal' => $subgoal,
+          'cost_percentage' => $cost_percentage,
+          'hours_percentage' => $hours_percentage,
+          'days_percentage' => $days_percentage,
+        ]
+      ];
+
+    }
+
 }

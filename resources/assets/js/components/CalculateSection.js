@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TotalsPane from './TotalsPane';
 import DedicatePerYear from './DedicatePerYear';
+import TagsStats from './TagsStats';
 
 import { Tabs } from 'antd';
 const TabPane = Tabs.TabPane;
@@ -25,6 +26,7 @@ class CalculateSection extends Component {
                     </TabPane>
 
                     <TabPane tab="Tags" key="2">
+                        <TagsStats/>
                         <p>Do stuff with tags here, how many of each.  Which tags will take the most time, which cost the most etc</p>
                     </TabPane>
 
