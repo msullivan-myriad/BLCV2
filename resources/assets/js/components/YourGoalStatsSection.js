@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CirclePie } from 'react-simple-charts'
+import { CirclePie, BarMetric } from 'react-simple-charts'
 
 
 class YourGoalStatsSection extends Component {
@@ -29,6 +29,9 @@ class YourGoalStatsSection extends Component {
                         costPercentage: data.cost_percentage,
                         hoursPercentage: data.hours_percentage,
                         daysPercentage: data.days_percentage,
+                        percentageMoreCost: data.percentage_more_cost,
+                        percentageMoreDays: data.percentage_more_days,
+                        percentageMoreHours: data.percentage_more_hours,
                     })
 
             })
@@ -42,9 +45,15 @@ class YourGoalStatsSection extends Component {
             width: '32%',
         }
 
+        const costMetricName = this.state.percentageMoreCost + '% of your goals';
+        const daysMetricName = this.state.percentageMoreDays + '% of your goals';
+        const hoursMetricName = this.state.percentageMoreHours + '% of your goals';
+
         return (
             <div className="your-goal-stats">
 
+                <br/>
+                <h3>This goal makes up this much of your goals total cost, days, and hours</h3>
                 <br/>
                 <br/>
 
@@ -82,7 +91,21 @@ class YourGoalStatsSection extends Component {
                 </div>
 
                 <br/>
-                <p>Based off the number you currently have entered in your difficulty calculations it is the nth hardest goal on your entire list </p>
+                <br/>
+                <br/>
+
+                <h6>Will cost more than</h6>
+                <BarMetric label="" percent={this.state.percentageMoreCost} metricName={costMetricName}/>
+                <br/>
+
+                <h6>Will take more days to complete than</h6>
+                <BarMetric label="" percent={this.state.percentageMoreDays} metricName={daysMetricName}/>
+                <br/>
+
+                <h6>Will take more hours than</h6>
+                <BarMetric label="" percent={this.state.percentageMoreHours} metricName={hoursMetricName}/>
+                <br/>
+
 
             </div>
 

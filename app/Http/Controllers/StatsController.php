@@ -211,12 +211,66 @@ class StatsController extends Controller
       $hours_percentage = round(($subgoal->hours/$total_hours)*100,0);
       $days_percentage = round(($subgoal->days/$total_days)*100, 0);
 
+      //Total number of subgoals for calculations below
+      $subgoals_total = $subgoals->count();
+
+
+      //Figure out how many goals cost less than this one
+      $cost_subgoals= Subgoal::with('goal')->where('user_id', $user->id)->orderBy('cost', 'asc')->get();
+
+      $cost_goals_larger_than = 0;
+
+      foreach ($cost_subgoals as $cost_goal) {
+
+        if ($cost_goal->id == $subgoal->id) {
+          break;
+        }
+
+        $cost_goals_larger_than++;
+
+      }
+
+      //Figure out how many goals have less days than this one
+      $days_subgoals= Subgoal::with('goal')->where('user_id', $user->id)->orderBy('days', 'asc')->get();
+
+      $days_goals_larger_than = 0;
+
+      foreach ($days_subgoals as $days_goal) {
+
+        if ($days_goal->id == $subgoal->id) {
+          break;
+        }
+
+        $days_goals_larger_than++;
+
+      }
+
+      //Figure out how many goals have less hours than this one
+      $hours_subgoals= Subgoal::with('goal')->where('user_id', $user->id)->orderBy('hours', 'asc')->get();
+
+      $hours_goals_larger_than = 0;
+
+      foreach ($hours_subgoals as $hours_goal) {
+
+        if ($hours_goal->id == $subgoal->id) {
+          break;
+        }
+
+        $hours_goals_larger_than++;
+
+      }
+
+
+
       return [
         'data' => [
           'subgoal' => $subgoal,
           'cost_percentage' => $cost_percentage,
           'hours_percentage' => $hours_percentage,
           'days_percentage' => $days_percentage,
+          'percentage_more_cost' => round(($cost_goals_larger_than/$subgoals_total)*100, 0),
+          'percentage_more_days' => round(($days_goals_larger_than/$subgoals_total)*100, 0),
+          'percentage_more_hours' => round(($hours_goals_larger_than/$subgoals_total)*100, 0),
         ]
       ];
 
