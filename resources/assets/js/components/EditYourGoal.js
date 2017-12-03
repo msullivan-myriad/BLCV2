@@ -11,7 +11,7 @@ class EditYourGoal extends Component {
 
     }
 
-    componentWillReceiveProps() {
+    componentDidMount() {
 
         const url = '/api/subgoal/' + this.props.slug;
 

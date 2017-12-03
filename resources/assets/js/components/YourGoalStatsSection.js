@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { CirclePie } from 'react-simple-charts'
+
 
 class YourGoalStatsSection extends Component {
 
@@ -13,7 +15,7 @@ class YourGoalStatsSection extends Component {
 
     }
 
-    componentWillReceiveProps() {
+    componentDidMount() {
 
         const url = '/api/stats/individual-goal-stats/' + this.props.slug;
 
@@ -35,13 +37,50 @@ class YourGoalStatsSection extends Component {
 
     render() {
 
+        const statPercentageStyles = {
+            display: 'inline-block',
+            width: '32%',
+        }
+
         return (
             <div className="your-goal-stats">
 
-                <p>{this.state.daysPercentage} of your days</p>
-                <p>{this.state.hoursPercentage} of your hours</p>
-                <p>{this.state.costPercentage} of your cost</p>
                 <br/>
+                <br/>
+
+                <div style={statPercentageStyles}  className="stat-percentage-div">
+                    <CirclePie
+                        percent={this.state.costPercentage}
+                        width={100}
+                        height={100}
+                        strokeWidth={5}
+                        labelFontSize={'16px'}
+                    />
+                    <h4>% of Cost</h4>
+                </div>
+
+                <div style={statPercentageStyles} className="stat-percentage-div">
+                    <CirclePie
+                        percent={this.state.daysPercentage}
+                        width={100}
+                        height={100}
+                        strokeWidth={5}
+                        labelFontSize={'16px'}
+                    />
+                    <h4>% of Days</h4>
+                </div>
+
+                <div style={statPercentageStyles} className="stat-percentage-div">
+                    <CirclePie
+                        percent={this.state.hoursPercentage}
+                        width={100}
+                        height={100}
+                        strokeWidth={5}
+                        labelFontSize={'16px'}
+                    />
+                    <h4>% of Hours</h4>
+                </div>
+
                 <br/>
                 <p>Based off the number you currently have entered in your difficulty calculations it is the nth hardest goal on your entire list </p>
 

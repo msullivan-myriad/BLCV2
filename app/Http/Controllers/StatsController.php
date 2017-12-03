@@ -207,9 +207,9 @@ class StatsController extends Controller
         ->where('slug', $slug)
         ->first();
 
-      $cost_percentage = round(($subgoal->cost/$total_cost)*100,2);
-      $hours_percentage = round(($subgoal->hours/$total_hours)*100,2);
-      $days_percentage = round(($subgoal->days/$total_days)*100, 2);
+      $cost_percentage = round(($subgoal->cost/$total_cost)*100,0);
+      $hours_percentage = round(($subgoal->hours/$total_hours)*100,0);
+      $days_percentage = round(($subgoal->days/$total_days)*100, 0);
 
       return [
         'data' => [
