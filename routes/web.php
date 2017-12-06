@@ -51,8 +51,10 @@ Route::prefix('api')->group(function() {
     //Profile API Routes
     Route::prefix('profile')->group(function() {
 
+      Route::get('profile-information', 'ProfileController@profileInformation');
       Route::get('dedicated-per-year', 'ProfileController@dedicatedPerYear');
       Route::post('dedicated-per-year', 'ProfileController@setDedicatedPerYear');
+      Route::post('set-birthdate', 'ProfileController@setBirthdate');
 
     });
 

@@ -43,4 +43,35 @@ class ProfileController extends Controller
 
     }
 
+    public function profileInformation() {
+
+      $user = Auth::user();
+
+      $profile = $user->profile;
+
+      return [
+        'data' => [
+          'profile' => $profile,
+        ]
+      ];
+
+    }
+
+    public function setBirthdate(Request $request) {
+
+      $user = Auth::user();
+
+      $profile = $user->profile;
+
+      $profile->birthday = $request->birthdate;
+
+      $profile->save();
+
+      return [
+        'data' => [
+          'success' => true,
+        ]
+      ];
+    }
+
 }
