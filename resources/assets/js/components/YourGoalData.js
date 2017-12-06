@@ -26,8 +26,6 @@ class YourGoalData extends Component {
         return (
             <div className="panel your-goal">
 
-                <p>Need some kind of conditional if this goal exists than display it differently</p>
-
                 <Tabs defaultActiveKey="1">
 
                     <TabPane tab="Goal Stats" key="1">

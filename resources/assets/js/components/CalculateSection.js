@@ -25,7 +25,7 @@ class CalculateSection extends Component {
                         <DedicatePerYear/>
                     </TabPane>
 
-                    <TabPane tab="Tags" key="2">
+                    <TabPane tab="Categories" key="2">
                         <TagsStats/>
                         <p>Do stuff with tags here, how many of each.  Which tags will take the most time, which cost the most etc</p>
                     </TabPane>

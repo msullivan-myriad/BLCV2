@@ -23,8 +23,6 @@ class YourGoalStatsSection extends Component {
             .then(response => {
                     const data = response.data.data;
 
-                    console.log(data);
-
                     this.setState({
                         costPercentage: data.cost_percentage,
                         hoursPercentage: data.hours_percentage,
