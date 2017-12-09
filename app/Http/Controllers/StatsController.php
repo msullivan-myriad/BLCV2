@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Subgoal;
-use Carbon\ Carbon;
+use App\Goal;
+use App\Tag;
+use Carbon\Carbon;
 
 class StatsController extends Controller
 {
@@ -281,6 +283,29 @@ class StatsController extends Controller
         ]
       ];
 
+    }
+
+    public function getAllUsersTags(){
+
+      $user = Auth::user();
+
+      $subgoals= Subgoal::with('goal')->where('user_id', $user->id)->get();
+
+      //Create an array of all the goal ids associated with the users subgoals
+      $goal_ids_array = [];
+
+      foreach ($subgoals as $sub){
+        array_push($goal_ids_array, $sub->goal->id);
+      }
+
+      //Get all tags with a goal id in the goal_ids_array
+      $tags = Tag::whereHas('goals', function($query) use ($goal_ids_array) {
+        $query->whereIn('goal_id', $goal_ids_array);
+      })->orderBy('count', 'desc')->get();
+
+      return [
+        'tags' => $tags,
+      ];
     }
 
 }

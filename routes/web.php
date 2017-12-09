@@ -68,6 +68,7 @@ Route::prefix('api')->group(function() {
         Route::get('completion-age', 'StatsController@completionAge');
         Route::get('target-completion-age/{age}', 'StatsController@targetCompletionAge');
         Route::get('individual-goal-stats/{slug}', 'StatsController@individualGoalStats');
+        Route::get('users-tags', 'StatsController@getAllUsersTags');
     });
 
 

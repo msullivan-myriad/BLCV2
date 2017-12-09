@@ -68,7 +68,6 @@ class CalculateSection extends Component {
 
                             <TabPane tab="Categories" key="2">
                                 <TagsStats/>
-                                <p>Do stuff with tags here, how many of each.  Which tags will take the most time, which cost the most etc</p>
                             </TabPane>
 
                             <TabPane tab="Fun Facts" key="3">
