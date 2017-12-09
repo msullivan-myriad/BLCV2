@@ -21,8 +21,8 @@ class CreateProfilesTable extends Migration
             $table->integer('days_per_year')->default(0);
             $table->integer('hours_per_year')->default(0);
             $table->date('birthday')->nullable(true);
-            $table->integer('age')->default(0);
-            $table->integer('completion_age')->default(0);
+            //$table->integer('age')->default(0);
+            //$table->integer('completion_age')->default(0);
         });
     }
 

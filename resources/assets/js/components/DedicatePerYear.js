@@ -8,6 +8,7 @@ import { Tabs } from 'antd';
 const TabPane = Tabs.TabPane;
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
 import { Slider } from 'antd';
+import moment from 'moment';
 
 class DedicatePerYear extends Component {
 
@@ -47,7 +48,6 @@ class DedicatePerYear extends Component {
         this.onCostChange = this.onCostChange.bind(this);
         this.onHoursChange = this.onHoursChange.bind(this);
         this.onDaysChange = this.onDaysChange.bind(this);
-        this.onAgeChange = this.onAgeChange.bind(this);
         this.setProfileValues = this.setProfileValues.bind(this);
         this.getMostAndLeastDifficult = this.getMostAndLeastDifficult.bind(this);
         this.getCompletionAge = this.getCompletionAge.bind(this);
@@ -57,8 +57,29 @@ class DedicatePerYear extends Component {
 
     }
 
+
     componentDidMount() {
 
+        axios.get('/api/profile/profile-information')
+            .then(response => {
+                const profile = response.data.data.profile;
+
+                const cost = profile.cost_per_year;
+                const days = profile.days_per_year;
+                const hours = profile.hours_per_year/12;
+                const age = moment().diff(profile.birthday, 'years', false);
+
+                this.setState({
+                    cost: cost,
+                    days: days,
+                    hours: hours,
+                    age: age,
+                    targetCompletionAge: age,
+                })
+
+            });
+
+        /*
         axios.get('/api/profile/dedicated-per-year')
             .then(response => {
                 const data = response.data.data;
@@ -76,6 +97,7 @@ class DedicatePerYear extends Component {
                     targetCompletionAge: age,
                 })
             });
+            */
 
         this.getMostAndLeastDifficult();
         this.getCompletionAge();
@@ -141,7 +163,7 @@ class DedicatePerYear extends Component {
         var parent = this;
 
         axios.post('/api/profile/dedicated-per-year', {
-                age: this.state.age,
+                //age: this.state.age,
                 cost_per_year: this.state.cost,
                 days_per_year: this.state.days,
                 hours_per_year: this.state.hours * 12,
@@ -173,12 +195,6 @@ class DedicatePerYear extends Component {
     onDaysChange(value) {
         this.setState({
             days: value,
-        })
-    }
-
-    onAgeChange(value) {
-        this.setState({
-            age: value,
         })
     }
 
@@ -251,7 +267,7 @@ class DedicatePerYear extends Component {
         };
 
         hoursObject.original = this.state.hours;
-        hoursObject.target = this.state.targetHours/12;
+        hoursObject.target = Math.round(this.state.targetHours/12);
 
         var hoursArray = [];
         hoursArray.push(hoursObject);
@@ -267,14 +283,6 @@ class DedicatePerYear extends Component {
                             <br/>
                             <h3>First we need some basic information</h3>
                             <br/>
-                            <p>How old are you?</p>
-
-                            <InputNumber
-                                min={0}
-                                max={200}
-                                value={this.state.age}
-                                onChange={this.onAgeChange}
-                            />
 
 
                             <p>I can set aside this much per year to accomplishing my bucket list goals:</p>

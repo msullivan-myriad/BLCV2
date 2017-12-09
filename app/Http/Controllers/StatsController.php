@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Subgoal;
+use Carbon\ Carbon;
 
 class StatsController extends Controller
 {
@@ -55,7 +56,7 @@ class StatsController extends Controller
       $profile_cost = $profile->cost_per_year;
       $profile_days = $profile->days_per_year;
       $profile_hours = $profile->hours_per_year;
-      $profile_age = $profile->age;
+      //$profile_age = $profile->age;
 
       return [
 
@@ -70,7 +71,7 @@ class StatsController extends Controller
           'profile_cost' => $profile_cost,
           'profile_days' => $profile_days,
           'profile_hours' => $profile_hours,
-          'profile_age' => $profile_age,
+          //'profile_age' => $profile_age,
 
           //Number of years it will take using profile per year information
           'cost_years' => round($total_cost/$profile_cost, 1),
@@ -168,16 +169,22 @@ class StatsController extends Controller
 
       $user = Auth::user();
       $profile = $user->profile;
-      $yearsLeft = $age - $profile->age;
+      //$yearsLeft = $age - $profile->age;
+      $user_birthday = Carbon::parse($profile->birthday);
+      $now = Carbon::now();
+      $current_age_in_days = $now->diffInDays($user_birthday);
+      $completion_age_days = round(($age * 365.25));
+
+      $yearsLeft = ($completion_age_days - $current_age_in_days)/365;
 
       $subgoals = $user->subgoals;
       $total_cost = $subgoals->sum('cost');
       $total_days = $subgoals->sum('days');
       $total_hours = $subgoals->sum('hours');
 
-      $cost_per_year = $total_cost/$yearsLeft;
-      $days_per_year = $total_days/$yearsLeft;
-      $hours_per_year = $total_hours/$yearsLeft;
+      $cost_per_year = round($total_cost/$yearsLeft, 0);
+      $days_per_year = round($total_days/$yearsLeft, 0);
+      $hours_per_year = round($total_hours/$yearsLeft, 0);
 
 
 
