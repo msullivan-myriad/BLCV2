@@ -310,11 +310,14 @@ class StatsController extends Controller
 
     public function getUsersIndividualTag(Tag $tag) {
 
-      $user = Auth::user();
+      //Left off here, still unsure how to deal with this?
+      //$subgoals = $tag->subgoals;
 
       return [
         'tag' => $tag,
+        //'subgoals' => $subgoals,
       ];
+
 
     }
 

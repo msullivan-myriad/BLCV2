@@ -19,7 +19,7 @@ class IndividualCategoryStats extends Component {
 
         axios.get(url)
             .then(response => {
-                console.log(response.data.tag);
+                console.log(response.data);
             });
 
     }
