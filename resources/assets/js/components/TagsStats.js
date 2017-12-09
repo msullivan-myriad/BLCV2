@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Collapse } from 'antd';
+import IndividualCategoryStats from './IndividualCategoryStats';
 const Panel = Collapse.Panel;
 
 class TagsStats extends Component {
@@ -36,7 +37,7 @@ class TagsStats extends Component {
                     {this.state.tags.map((tag, num) =>
 
                         <Panel header={tag.name} key={num + 1}>
-                            <p>{tag.name}</p>
+                            <IndividualCategoryStats tag={tag}/>
                         </Panel>
 
                     )}

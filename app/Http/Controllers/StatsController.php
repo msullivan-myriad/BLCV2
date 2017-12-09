@@ -308,4 +308,14 @@ class StatsController extends Controller
       ];
     }
 
+    public function getUsersIndividualTag(Tag $tag) {
+
+      $user = Auth::user();
+
+      return [
+        'tag' => $tag,
+      ];
+
+    }
+
 }
