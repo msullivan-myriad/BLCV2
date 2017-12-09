@@ -310,12 +310,56 @@ class StatsController extends Controller
 
     public function getUsersIndividualTag(Tag $tag) {
 
-      //Left off here, still unsure how to deal with this?
-      //$subgoals = $tag->subgoals;
+      $user = Auth::user();
+      $subgoals= Subgoal::with('goal')->where('user_id', $user->id)->get();
+
+      //Create an array of all the goal ids associated with the users subgoals
+      $goal_ids_array = [];
+
+      foreach ($subgoals as $sub){
+        array_push($goal_ids_array, $sub->goal->id);
+      }
+
+      //Get goals that have a tag id equal to the current tag id and are also in the goal_ids_array
+      $tagGoals = Goal::whereHas('tags', function($query) use ($tag, $goal_ids_array) {
+          $query->where('tag_id', $tag->id)->whereIn('goal_id', $goal_ids_array);
+      })->get();
+
+
+      //Create an array of all tag goals to use for the whereIn statement below
+      $tg_ids_array = [];
+
+      foreach ($tagGoals as $tg) {
+        array_push($tg_ids_array, $tg->id);
+      }
+
+      //Get subgoals associated with user also found in the
+      $tagSubgoals = Subgoal::where('user_id', $user->id)->whereIn('goal_id', $tg_ids_array)->with('goal')->get();
+
+      //Get totals for tag subgoals
+      $tagSubgoalsCount = $tagSubgoals->count();
+      $tagSubgoalsCost = $tagSubgoals->sum('cost');
+      $tagSubgoalsDays = $tagSubgoals->sum('days');
+      $tagSubgoalsHours = $tagSubgoals->sum('hours');
+
+      //Get totals for all subgoals
+      $subgoalsCount = $subgoals->count();
+      $subgoalsCost = $subgoals->sum('cost');
+      $subgoalsHours = $subgoals->sum('hours');
+      $subgoalsDays = $subgoals->sum('days');
 
       return [
-        'tag' => $tag,
-        //'subgoals' => $subgoals,
+        'tag_subgoals' => $tagSubgoals,
+        'tag_subgoals_count' => $tagSubgoalsCount,
+        'tag_subgoals_cost' => $tagSubgoalsCost,
+        'tag_subgoals_days' => $tagSubgoalsDays,
+        'tag_subgoals_hours' => $tagSubgoalsHours,
+
+        'subgoals_count' => $subgoalsCount,
+        'subgoals_cost' => $subgoalsCost,
+        'subgoals_hours' => $subgoalsHours,
+        'subgoals_days' => $subgoalsDays,
+
       ];
 
 

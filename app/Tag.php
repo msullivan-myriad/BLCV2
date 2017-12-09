@@ -15,13 +15,4 @@ class Tag extends Model
         $this->attributes['name'] = ucwords(strtolower($value));
     }
 
-    /*
-    public function subgoals() {
-      //Need to figure out what to do here...
-      //$test = $this->id;
-      //return $test;
-      return $this->belongsToMany(Goal::class);
-    }
-    */
-
 }

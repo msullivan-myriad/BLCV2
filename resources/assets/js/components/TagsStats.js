@@ -43,6 +43,9 @@ class TagsStats extends Component {
                     )}
 
                 </Collapse>
+                <br/>
+                <br/>
+                <br/>
 
 
             </div>
