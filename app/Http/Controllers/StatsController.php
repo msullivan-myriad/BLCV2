@@ -369,8 +369,48 @@ class StatsController extends Controller
 
       $goal = Goal::where('slug', $slug)->with('subgoals')->first();
 
+      $costArray = [];
+      $daysArray = [];
+      $hoursArray = [];
+
+      $currentCount = 1;
+
+      $costTotal = 0;
+      $daysTotal = 0;
+      $hoursTotal = 0;
+
+      foreach ($goal->subgoals as $subgoal) {
+        $costData = new \stdClass();
+        $hoursData = new \stdClass();
+        $daysData = new \stdClass();
+
+        $costData->time = $subgoal->created_at;
+        $hoursData->time = $subgoal->created_at;
+        $daysData->time = $subgoal->created_at;
+
+        $costTotal += $subgoal->cost;
+        $hoursTotal += $subgoal->hours;
+        $daysTotal += $subgoal->days;
+
+        $costData->costTotal = $costTotal/$currentCount;
+        $hoursData->costTotal = $hoursTotal/$currentCount;
+        $daysData->costTotal = $daysTotal/$currentCount;
+
+        array_push($costArray, $costData);
+        array_push($hoursArray, $hoursData);
+        array_push($daysArray, $daysData);
+
+        $currentCount++;
+
+      }
+
       return [
+        'cost_array' => $costArray,
+        'days_array' => $daysArray,
+        'hours_array' => $hoursArray,
+
         'goal' => $goal,
+
       ];
 
     }
