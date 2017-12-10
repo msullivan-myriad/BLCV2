@@ -20,6 +20,7 @@ import UserSubgoalsSection from './components/UserSubgoalsSection';
 import GoalsSearch from './components/GoalsSearch';
 import GoalsFeatured from './components/GoalsFeatured';
 import YourGoalData from './components/YourGoalData';
+import IndividualGoalGeneralStats from './components/IndividualGoalGeneralStats';
 
 /**
  *  Specify where React should render
@@ -51,5 +52,9 @@ if (document.getElementById('goals-featured')) {
 
 if (document.getElementById('your-goal-data')) {
     ReactDOM.render(<YourGoalData/>, document.getElementById('your-goal-data'));
+}
+
+if (document.getElementById('individual-goal-general-stats')) {
+    ReactDOM.render(<IndividualGoalGeneralStats/>, document.getElementById('individual-goal-general-stats'));
 }
 

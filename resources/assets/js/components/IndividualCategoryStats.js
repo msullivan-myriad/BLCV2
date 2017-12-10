@@ -58,7 +58,7 @@ class IndividualCategoryStats extends Component {
         return (
             <div className="individual-category-stats">
 
-                <h6>This category makes up</h6>
+                <h6>{this.props.tag.name} makes up</h6>
                 <BarMetric label="" percent={countPercentage} metricName={metricText}/>
                 <br/>
 
@@ -72,7 +72,7 @@ class IndividualCategoryStats extends Component {
                                 height={100}
                                 strokeWidth={5}
                                 labelFontSize={'16px'}/>
-                         <h4>% of Cost</h4>
+                         <h4>of Cost</h4>
 
                     </div>
 
@@ -84,7 +84,7 @@ class IndividualCategoryStats extends Component {
                                 height={100}
                                 strokeWidth={5}
                                 labelFontSize={'16px'}/>
-                         <h4>% of Days</h4>
+                         <h4>of Days</h4>
 
                     </div>
 
@@ -96,7 +96,7 @@ class IndividualCategoryStats extends Component {
                                 height={100}
                                 strokeWidth={5}
                                 labelFontSize={'16px'}/>
-                         <h4>% of Hours</h4>
+                         <h4>of Hours</h4>
 
                      </div>
 

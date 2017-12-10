@@ -18,7 +18,7 @@
                 <!-- Consider if I should build something cool here with React or if static content is more important... -->
                 <!-- Definitly should have some cool stats on this side of the page -->
 
-
+                <div id="individual-goal-general-stats"></div>
 
        </div>
         <div class="col-md-6">

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import TotalsPane from './TotalsPane';
 import DedicatePerYear from './DedicatePerYear';
 import TagsStats from './TagsStats';
 import SetBirthdate from './SetBirthdate';
@@ -70,10 +69,6 @@ class CalculateSection extends Component {
                                 <TagsStats/>
                             </TabPane>
 
-                            <TabPane tab="Fun Facts" key="3">
-                                <p>Fun facts section here, also have the totals and that kind of info in this section</p>
-                                <TotalsPane/>
-                            </TabPane>
                         </Tabs>
 
                     </div>

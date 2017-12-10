@@ -365,4 +365,14 @@ class StatsController extends Controller
 
     }
 
+    public function individualGoalGeneralStats($slug) {
+
+      $goal = Goal::where('slug', $slug)->with('subgoals')->first();
+
+      return [
+        'goal' => $goal,
+      ];
+
+    }
+
 }
