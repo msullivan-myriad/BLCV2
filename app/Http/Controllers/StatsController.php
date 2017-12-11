@@ -380,21 +380,24 @@ class StatsController extends Controller
       $hoursTotal = 0;
 
       foreach ($goal->subgoals as $subgoal) {
+
+        $createdAt = Carbon::parse($subgoal->created_at);
+
         $costData = new \stdClass();
         $hoursData = new \stdClass();
         $daysData = new \stdClass();
 
-        $costData->time = $subgoal->created_at;
-        $hoursData->time = $subgoal->created_at;
-        $daysData->time = $subgoal->created_at;
+        $costData->Date = $createdAt->month . '/' . $createdAt->day . '/' . $createdAt->year;
+        $hoursData->Date = $createdAt->month . '/' . $createdAt->day . '/' . $createdAt->year;
+        $daysData->Date = $createdAt->month . '/' . $createdAt->day . '/' . $createdAt->year;
 
         $costTotal += $subgoal->cost;
         $hoursTotal += $subgoal->hours;
         $daysTotal += $subgoal->days;
 
-        $costData->costTotal = $costTotal/$currentCount;
-        $hoursData->costTotal = $hoursTotal/$currentCount;
-        $daysData->costTotal = $daysTotal/$currentCount;
+        $costData->Cost = round($costTotal/$currentCount);
+        $hoursData->Hours = round($hoursTotal/$currentCount);
+        $daysData->Days = round($daysTotal/$currentCount);
 
         array_push($costArray, $costData);
         array_push($hoursArray, $hoursData);
@@ -403,6 +406,15 @@ class StatsController extends Controller
         $currentCount++;
 
       }
+
+      //Total number of users with goals could be done in much the same way as above here... If not just using this same information (right?)
+      //Maybe there is an issue with goals getting removed, I need to think on this
+
+
+      //At over 50 values in the array, start to eliminate based off of repeated dates
+
+      //Start a loop here, continue... something like if length is greater than or equal to 50 then remove every other value.
+      //Between 25 and 50 seems like a really good number of
 
       return [
         'cost_array' => $costArray,

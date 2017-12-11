@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { CirclePie, BarMetric, Area } from 'react-simple-charts'
+import { CirclePie, BarMetric, Area } from 'react-simple-charts';
 import axios from 'axios';
+import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
+
+
 
 
 class IndividualGoalGeneralStats extends Component {
@@ -13,6 +16,9 @@ class IndividualGoalGeneralStats extends Component {
 
         this.state = {
             slug: slug,
+            costChartData: [],
+            hoursChartData: [],
+            daysChartData: [],
         }
 
     }
@@ -23,25 +29,25 @@ class IndividualGoalGeneralStats extends Component {
 
         axios.get(url)
             .then(response => {
-                console.log(response);
+
+                const costChartData = response.data.cost_array;
+                const daysChartData = response.data.days_array;
+                const hoursChartData = response.data.hours_array;
+
+                this.setState({
+                    costChartData,
+                    daysChartData,
+                    hoursChartData,
+                })
+
             });
 
     }
 
     render() {
 
-        /*
         //Table this for now, more complex than I though... Numbers also need to go down rather than just up.  What if there are 1000 dates, they can't all fit on the graph.
         //There are a lot of things to think about when considering this graph
-        let data = [
-            {time:1422766800000, value: 1, label: "goals"},
-            {time:1422853200000, value: 2, label: "goals"},
-            {time:1422939600000, value: 3, label: "goals"},
-            {time:1422939700000, value: 4, label: "goals"},
-            {time:1422937600000, value: 5, label: "goals"},
-            {time:1422939700000, value: 6, label: "goals"},
-        ];
-        */
 
         return (
 
@@ -49,10 +55,35 @@ class IndividualGoalGeneralStats extends Component {
                 <br/>
                 <p>Individual goal general stats</p>
 
-                {/*
-                //Can't do this yet... See comments above
-                <Area width={900} height={300} data={data}/>
-                */}
+                <LineChart width={500} height={220} data={this.state.costChartData}  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <YAxis />
+                    <XAxis dataKey="Date" hide="true"/>
+                    <Tooltip />
+                    <Line type="monotone" dataKey="Cost" stroke="#8884d8" />
+                </LineChart>
+
+                <br/>
+
+                <LineChart width={500} height={220} data={this.state.daysChartData}  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <YAxis />
+                    <XAxis dataKey="Date" hide="true"/>
+                    <Tooltip />
+                    <Line type="monotone" dataKey="Days" stroke="#8884d8" />
+                </LineChart>
+
+                <br/>
+
+                <LineChart width={500} height={220} data={this.state.hoursChartData}  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <YAxis />
+                    <XAxis dataKey="Date" hide="true"/>
+                    <Tooltip />
+                    <Line type="monotone" dataKey="Hours" stroke="#8884d8" />
+                </LineChart>
+
+
 
             </div>
         );
