@@ -369,6 +369,7 @@ class StatsController extends Controller
 
       $goal = Goal::where('slug', $slug)->with('subgoals')->first();
 
+      $goalCountArray = [];
       $costArray = [];
       $daysArray = [];
       $hoursArray = [];
@@ -386,10 +387,12 @@ class StatsController extends Controller
         $costData = new \stdClass();
         $hoursData = new \stdClass();
         $daysData = new \stdClass();
+        $goalCountData = new \stdClass();
 
         $costData->Date = $createdAt->month . '/' . $createdAt->day . '/' . $createdAt->year;
         $hoursData->Date = $createdAt->month . '/' . $createdAt->day . '/' . $createdAt->year;
         $daysData->Date = $createdAt->month . '/' . $createdAt->day . '/' . $createdAt->year;
+        $goalCountData->Date = $createdAt->month . '/' . $createdAt->day . '/' . $createdAt->year;
 
         $costTotal += $subgoal->cost;
         $hoursTotal += $subgoal->hours;
@@ -398,28 +401,90 @@ class StatsController extends Controller
         $costData->Cost = round($costTotal/$currentCount);
         $hoursData->Hours = round($hoursTotal/$currentCount);
         $daysData->Days = round($daysTotal/$currentCount);
+        $goalCountData->Goals = $currentCount;
 
         array_push($costArray, $costData);
         array_push($hoursArray, $hoursData);
         array_push($daysArray, $daysData);
+        array_push($goalCountArray, $goalCountData);
 
         $currentCount++;
 
       }
 
-      //Total number of users with goals could be done in much the same way as above here... If not just using this same information (right?)
-      //Maybe there is an issue with goals getting removed, I need to think on this
+
+      //Remove the duplicates dates from the goalCountArray
+      $lastGoalDate = '';
+      $newGoalCountArray = [];
+
+      foreach ($goalCountArray as $goal) {
+
+        if ($goal->Date != $lastGoalDate) {
+          array_push($newGoalCountArray, $goal);
+        }
+
+        $lastGoalDate = $goal->Date;
+
+      }
+
+      //Remove the duplicates dates from the costArray
+      $lastGoalDate = '';
+      $newCostArray = [];
+
+      foreach ($costArray as $goal) {
+
+        if ($goal->Date != $lastGoalDate) {
+          array_push($newCostArray, $goal);
+        }
+
+        $lastGoalDate = $goal->Date;
+
+      }
+
+      //Remove the duplicates dates from the daysArray
+      $lastGoalDate = '';
+      $newDaysArray = [];
+
+      foreach ($daysArray as $goal) {
+
+        if ($goal->Date != $lastGoalDate) {
+          array_push($newDaysArray, $goal);
+        }
+
+        $lastGoalDate = $goal->Date;
+
+      }
+
+      //Remove the duplicates dates from the hoursArray
+      $lastGoalDate = '';
+      $newHoursArray = [];
+
+      foreach ($hoursArray as $goal) {
+
+        if ($goal->Date != $lastGoalDate) {
+          array_push($newHoursArray, $goal);
+        }
+
+        $lastGoalDate = $goal->Date;
+
+      }
 
 
-      //At over 50 values in the array, start to eliminate based off of repeated dates
 
-      //Start a loop here, continue... something like if length is greater than or equal to 50 then remove every other value.
-      //Between 25 and 50 seems like a really good number of
+      //Start a loop here, continue... something like if length is greater than or equal to 35 then remove every other value.
+      //Between 17 and 35 seems like a really good number of values for these
+
+
+      //I'm a little bit concerned down the line with the count data.. For example, it works great if goals are added every day,
+      //But if not the dates won't increase linearly... there will be potential gaps, but the data will still display as though it
+      //Is linear
+
 
       return [
-        'cost_array' => $costArray,
-        'days_array' => $daysArray,
-        'hours_array' => $hoursArray,
+        'goal_count_data' => $newGoalCountArray,
+        'cost_array' => $newCostArray,
+        'days_array' => $newDaysArray,
+        'hours_array' => $newHoursArray,
 
         'goal' => $goal,
 

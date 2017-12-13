@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { CirclePie, BarMetric, Area } from 'react-simple-charts';
 import axios from 'axios';
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
+import { Tabs } from 'antd';
+const TabPane = Tabs.TabPane;
 
 
 
@@ -30,11 +32,13 @@ class IndividualGoalGeneralStats extends Component {
         axios.get(url)
             .then(response => {
 
+                const goalCountChartData = response.data.goal_count_data;
                 const costChartData = response.data.cost_array;
                 const daysChartData = response.data.days_array;
                 const hoursChartData = response.data.hours_array;
 
                 this.setState({
+                    goalCountChartData,
                     costChartData,
                     daysChartData,
                     hoursChartData,
@@ -46,42 +50,75 @@ class IndividualGoalGeneralStats extends Component {
 
     render() {
 
-        //Table this for now, more complex than I though... Numbers also need to go down rather than just up.  What if there are 1000 dates, they can't all fit on the graph.
-        //There are a lot of things to think about when considering this graph
-
         return (
 
             <div className="individual-goal-genera-stats">
                 <br/>
-                <p>Individual goal general stats</p>
-
-                <LineChart width={500} height={220} data={this.state.costChartData}  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <YAxis />
-                    <XAxis dataKey="Date" hide="true"/>
-                    <Tooltip />
-                    <Line type="monotone" dataKey="Cost" stroke="#8884d8" />
-                </LineChart>
-
+                <br/>
+                <h4>How this goal is trending:</h4>
                 <br/>
 
-                <LineChart width={500} height={220} data={this.state.daysChartData}  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <YAxis />
-                    <XAxis dataKey="Date" hide="true"/>
-                    <Tooltip />
-                    <Line type="monotone" dataKey="Days" stroke="#8884d8" />
-                </LineChart>
+                <Tabs defaultActiveKey="1">
 
-                <br/>
+                    <TabPane tab="Popularity" key="1">
 
-                <LineChart width={500} height={220} data={this.state.hoursChartData}  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <YAxis />
-                    <XAxis dataKey="Date" hide="true"/>
-                    <Tooltip />
-                    <Line type="monotone" dataKey="Hours" stroke="#8884d8" />
-                </LineChart>
+                        <LineChart width={500} height={220} data={this.state.goalCountChartData}  >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <YAxis />
+                            <XAxis dataKey="Date" hide="true"/>
+                            <Tooltip />
+                            <Line type="monotone" dataKey="Goals" stroke="#8884d8" />
+                        </LineChart>
+                        <br/>
+
+                    </TabPane>
+
+
+                    <TabPane tab="Cost" key="2">
+
+                        <LineChart width={500} height={220} data={this.state.costChartData}  >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <YAxis />
+                            <XAxis dataKey="Date" hide="true"/>
+                            <Tooltip />
+                            <Line type="monotone" dataKey="Cost" stroke="#8884d8" />
+                        </LineChart>
+                        <br/>
+
+                    </TabPane>
+
+
+                    <TabPane tab="Hours" key="3">
+
+                        <LineChart width={500} height={220} data={this.state.hoursChartData}  >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <YAxis />
+                            <XAxis dataKey="Date" hide="true"/>
+                            <Tooltip />
+                            <Line type="monotone" dataKey="Hours" stroke="#8884d8" />
+                        </LineChart>
+                        <br/>
+
+                    </TabPane>
+
+
+                    <TabPane tab="Days" key="4">
+
+                        <LineChart width={500} height={220} data={this.state.daysChartData}  >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <YAxis />
+                            <XAxis dataKey="Date" hide="true"/>
+                            <Tooltip />
+                            <Line type="monotone" dataKey="Days" stroke="#8884d8" />
+                        </LineChart>
+                        <br/>
+
+                    </TabPane>
+
+
+                </Tabs>
+
+
 
 
 
