@@ -21,6 +21,7 @@ class IndividualGoalGeneralStats extends Component {
             costChartData: [],
             hoursChartData: [],
             daysChartData: [],
+            tags: [],
         }
 
     }
@@ -36,12 +37,14 @@ class IndividualGoalGeneralStats extends Component {
                 const costChartData = response.data.cost_array;
                 const daysChartData = response.data.days_array;
                 const hoursChartData = response.data.hours_array;
+                const tags = response.data.tags;
 
                 this.setState({
                     goalCountChartData,
                     costChartData,
                     daysChartData,
                     hoursChartData,
+                    tags,
                 })
 
             });
@@ -118,8 +121,10 @@ class IndividualGoalGeneralStats extends Component {
 
                 </Tabs>
 
-
-
+                <h4>This goal has the following tags:</h4>
+                {this.state.tags.map(tag =>
+                    <a href={'/category/' + tag.slug} className="label label-primary">{tag.name}</a>
+                )}
 
 
             </div>

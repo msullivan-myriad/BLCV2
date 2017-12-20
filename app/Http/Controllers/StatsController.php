@@ -368,6 +368,7 @@ class StatsController extends Controller
     public function individualGoalGeneralStats($slug) {
 
       $goal = Goal::where('slug', $slug)->with('subgoals')->first();
+      $tags = $goal->tags;
 
       $goalCountArray = [];
       $costArray = [];
@@ -469,11 +470,8 @@ class StatsController extends Controller
 
       }
 
-
-
       //Start a loop here, continue... something like if length is greater than or equal to 35 then remove every other value.
       //Between 17 and 35 seems like a really good number of values for these
-
 
       //I'm a little bit concerned down the line with the count data.. For example, it works great if goals are added every day,
       //But if not the dates won't increase linearly... there will be potential gaps, but the data will still display as though it
@@ -485,9 +483,8 @@ class StatsController extends Controller
         'cost_array' => $newCostArray,
         'days_array' => $newDaysArray,
         'hours_array' => $newHoursArray,
-
         'goal' => $goal,
-
+        'tags' => $tags,
       ];
 
     }

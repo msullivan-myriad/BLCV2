@@ -101,11 +101,11 @@ class GoalController extends Controller
         //Some kind of validation
 
         $goal = Goal::where('slug', $slug)->first();
-        $subgoals = $goal->subgoals;
+        //$subgoals = $goal->subgoals;
 
         return view('goals.view')->with([
             'goal' => $goal,
-            'subgoals' => $subgoals,
+            //'subgoals' => $subgoals,
        ] );
 
     }
@@ -163,6 +163,7 @@ class GoalController extends Controller
         if (!$tag) {
             $tag = new Tag;
             $tag->name = $request->tag_name;
+            $tag->slug = str_slug($request->tag_name, "-");
             $tag->count = 1;
             $tag->save();
         }

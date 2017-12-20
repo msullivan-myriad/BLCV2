@@ -23,20 +23,24 @@ Route::get('/home', 'HomeController@index');
 Route::get('search', 'GoalController@search')->name('search-goals');
 Route::get('goals', 'GoalController@index')->name('goals');
 Route::get('goal/{goal}', 'GoalController@view')->name('view-goal');
+Route::get('category/{tag}', 'TagsController@view')->name('view-tags');
 
 
 Route::prefix('api')->group(function() {
 
-    //Basic API Routes
+    //Basic API Routes that don't require auth
     Route::get('/goals/', 'GoalController@apiIndex');
     Route::get('/popular', 'GoalController@apiPopular');
     Route::get('/search/', 'GoalController@apiSearch');
+    Route::get('tags', 'GoalController@apiPopularTags');
+    Route::get('tags/{tag}', 'GoalController@apiGoalsWithTag');
+    Route::get('category-goals/{category}', 'TagsController@categoryGoalsFiltering');
+
+
 
     //Basic API Routes (These should require auth)
     Route::get('subgoals', 'SubgoalController@apiIndex');
-
     Route::get('subgoals/{order}', 'SubgoalController@apiSorted');
-
     Route::get('subgoal/{subgoal}', 'SubgoalController@apiView');
     Route::post('subgoals/{subgoal}/', 'SubgoalController@apiUpdate');
     Route::delete('subgoals/{subgoal}/', 'SubgoalController@apiDelete');
@@ -44,8 +48,6 @@ Route::prefix('api')->group(function() {
     Route::post('/goals/', 'GoalController@apiNew');
     Route::post('/goals/create', 'GoalController@apiCreate');
 
-    Route::get('tags', 'GoalController@apiPopularTags');
-    Route::get('tags/{tag}', 'GoalController@apiGoalsWithTag');
 
 
     //Profile API Routes

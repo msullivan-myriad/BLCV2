@@ -21,6 +21,7 @@ import GoalsSearch from './components/GoalsSearch';
 import GoalsFeatured from './components/GoalsFeatured';
 import YourGoalData from './components/YourGoalData';
 import IndividualGoalGeneralStats from './components/IndividualGoalGeneralStats';
+import TagsSortingSection from './components/TagsSortingSection';
 
 /**
  *  Specify where React should render
@@ -57,4 +58,9 @@ if (document.getElementById('your-goal-data')) {
 if (document.getElementById('individual-goal-general-stats')) {
     ReactDOM.render(<IndividualGoalGeneralStats/>, document.getElementById('individual-goal-general-stats'));
 }
+
+if (document.getElementById('tags-sorting-section')) {
+    ReactDOM.render(<TagsSortingSection/>, document.getElementById('tags-sorting-section'));
+}
+
 
