@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+  return view('welcome');
 });
 
 
@@ -26,112 +26,110 @@ Route::get('goal/{goal}', 'GoalController@view')->name('view-goal');
 Route::get('category/{tag}', 'TagsController@view')->name('view-tags');
 
 
-Route::prefix('api')->group(function() {
+Route::prefix('api')->group(function () {
 
-    //Basic API Routes that don't require auth
-    Route::get('/goals/', 'GoalController@apiIndex');
-    Route::get('/popular', 'GoalController@apiPopular');
-    Route::get('/search/', 'GoalController@apiSearch');
-    Route::get('tags', 'GoalController@apiPopularTags');
-    Route::get('tags/{tag}', 'GoalController@apiGoalsWithTag');
-    Route::get('category-goals/{category}', 'TagsController@categoryGoalsFiltering');
-
-
-
-    //Basic API Routes (These should require auth)
-    Route::get('subgoals', 'SubgoalController@apiIndex');
-    Route::get('subgoals/{order}', 'SubgoalController@apiSorted');
-    Route::get('subgoal/{subgoal}', 'SubgoalController@apiView');
-    Route::post('subgoals/{subgoal}/', 'SubgoalController@apiUpdate');
-    Route::delete('subgoals/{subgoal}/', 'SubgoalController@apiDelete');
-
-    Route::post('/goals/', 'GoalController@apiNew');
-    Route::post('/goals/create', 'GoalController@apiCreate');
+  //Basic API Routes that don't require auth
+  Route::get('/goals/', 'GoalController@apiIndex');
+  Route::get('/popular', 'GoalController@apiPopular');
+  Route::get('/search/', 'GoalController@apiSearch');
+  Route::get('tags', 'GoalController@apiPopularTags');
+  Route::get('tags/{tag}', 'GoalController@apiGoalsWithTag');
+  Route::get('category-goals/{category}', 'TagsController@categoryGoalsFiltering');
 
 
+  //Basic API Routes (These should require auth)
+  Route::get('subgoals', 'SubgoalController@apiIndex');
+  Route::get('subgoals/{order}', 'SubgoalController@apiSorted');
+  Route::get('subgoal/{subgoal}', 'SubgoalController@apiView');
+  Route::post('subgoals/{subgoal}/', 'SubgoalController@apiUpdate');
+  Route::delete('subgoals/{subgoal}/', 'SubgoalController@apiDelete');
 
-    //Profile API Routes
-    Route::prefix('profile')->group(function() {
-
-      Route::get('profile-information', 'ProfileController@profileInformation');
-      Route::post('dedicated-per-year', 'ProfileController@setDedicatedPerYear');
-      Route::post('set-birthdate', 'ProfileController@setBirthdate');
-
-    });
-
-
-    //API Stats Middleware
-    //Stats Middleware should have some auth
-    Route::prefix('stats')->group(function() {
-        //This route group should require authentication
-        Route::get('totals', 'StatsController@totals');
-        Route::get('difficulty', 'StatsController@difficulty');
-        Route::get('most-and-least-difficult', 'StatsController@mostAndLeastDifficult');
-        Route::get('completion-age', 'StatsController@completionAge');
-        Route::get('target-completion-age/{age}', 'StatsController@targetCompletionAge');
-        Route::get('individual-goal-stats/{slug}', 'StatsController@individualGoalStats');
-        Route::get('users-tags', 'StatsController@getAllUsersTags');
-        Route::get('users-tags/{tag}', 'StatsController@getUsersIndividualTag');
-
-        //These stats routes do not need authentication
-        Route::get('individual-goal-general-stats/{slug}', 'StatsController@individualGoalGeneralStats');
-
-    });
+  Route::post('/goals/', 'GoalController@apiNew');
+  Route::post('/goals/create', 'GoalController@apiCreate');
 
 
-    //API Admin Middleware
-    //Admin Middleware should have some auth
-    Route::group(['middleware' => ['admin']], function() {
+  //Profile API Routes
+  Route::prefix('profile')->group(function () {
 
-      Route::prefix('admin')->group(function() {
+    Route::get('profile-information', 'ProfileController@profileInformation');
+    Route::post('dedicated-per-year', 'ProfileController@setDedicatedPerYear');
+    Route::post('set-birthdate', 'ProfileController@setBirthdate');
 
-        Route::get('api-tags', 'AdminController@apiTags');
-        Route::get('api-tags/{tag}', 'AdminController@apiIndividualTag');
-        Route::delete('/goals/{goal}/tag', 'GoalController@apiRemoveTag');
-        Route::post('goals/{goal}/tag', 'GoalController@apiTag');
-        Route::delete('goals/{goal}', 'GoalController@apiDelete');
-        Route::post('goals/{goal}/edit', 'GoalController@apiEditTitle');
+  });
 
-      });
+
+  //API Stats Middleware
+  //Stats Middleware should have some auth
+  Route::prefix('stats')->group(function () {
+    //This route group should require authentication
+    Route::get('totals', 'StatsController@totals');
+    Route::get('difficulty', 'StatsController@difficulty');
+    Route::get('most-and-least-difficult', 'StatsController@mostAndLeastDifficult');
+    Route::get('completion-age', 'StatsController@completionAge');
+    Route::get('target-completion-age/{age}', 'StatsController@targetCompletionAge');
+    Route::get('individual-goal-stats/{slug}', 'StatsController@individualGoalStats');
+    Route::get('users-tags', 'StatsController@getAllUsersTags');
+    Route::get('users-tags/{tag}', 'StatsController@getUsersIndividualTag');
+
+    //These stats routes do not need authentication
+    Route::get('individual-goal-general-stats/{slug}', 'StatsController@individualGoalGeneralStats');
+
+  });
+
+
+  //API Admin Middleware
+  //Admin Middleware should have some auth
+  Route::group(['middleware' => ['admin']], function () {
+
+    Route::prefix('admin')->group(function () {
+
+      Route::get('api-tags', 'AdminController@apiTags');
+      Route::get('api-tags/{tag}', 'AdminController@apiIndividualTag');
+      Route::delete('/goals/{goal}/tag', 'GoalController@apiRemoveTag');
+      Route::post('goals/{goal}/tag', 'GoalController@apiTag');
+      Route::delete('goals/{goal}', 'GoalController@apiDelete');
+      Route::post('goals/{goal}/edit', 'GoalController@apiEditTitle');
 
     });
+
+  });
 
 });
 
 
-Route::group(['middleware' => ['auth']], function() {
+Route::group(['middleware' => ['auth']], function () {
 
-    Route::get('subgoals', 'SubgoalController@index')->name('subgoals');
-    Route::get('subgoals/{subgoal}', 'SubgoalController@view')->name('view-subgoal');
-    Route::post('subgoals/{subgoal}/', 'SubgoalController@update')->name('update-subgoal');
-    Route::delete('subgoals/{subgoal}/', 'SubgoalController@delete')->name('delete-subgoal');
+  Route::get('subgoals', 'SubgoalController@index')->name('subgoals');
+  Route::get('subgoals/{subgoal}', 'SubgoalController@view')->name('view-subgoal');
+  Route::post('subgoals/{subgoal}/', 'SubgoalController@update')->name('update-subgoal');
+  Route::delete('subgoals/{subgoal}/', 'SubgoalController@delete')->name('delete-subgoal');
 
 
-    Route::post('goals/', 'GoalController@create')->name('create-goal');
-    Route::post('goals/{goal}', 'GoalController@new')->name('new-goal');
+  Route::post('goals/', 'GoalController@create')->name('create-goal');
+  //Route::post('goals/{goal}', 'GoalController@new')->name('new-goal');
 
-    Route::get('stats', 'StatsController@index')->name('stats');
+  Route::get('stats', 'StatsController@index')->name('stats');
 
 });
 
 
-Route::group(['middleware' => ['admin']], function() {
+Route::group(['middleware' => ['admin']], function () {
 
-    Route::prefix('blc-admin')->group(function() {
+  Route::prefix('blc-admin')->group(function () {
 
-        Route::get('/', 'AdminController@index')->name('admin-panel');
-        Route::get('tags', 'AdminController@tags')->name('admin-tags');
-        Route::get('tags/individual', 'AdminController@individualTag')->name('individual-tag');
-        Route::get('/goals/{goal}', 'AdminController@goal')->name('admin-goal');
+    Route::get('/', 'AdminController@index')->name('admin-panel');
+    Route::get('tags', 'AdminController@tags')->name('admin-tags');
+    Route::get('tags/individual', 'AdminController@individualTag')->name('individual-tag');
+    Route::get('/goals/{goal}', 'AdminController@goal')->name('admin-goal');
 
-    });
+  });
 
 
-    Route::post('goals/{goal}/tag', 'GoalController@tag')->name('tag-goal');
-    Route::delete('goals/{goal}/tag', 'GoalController@removeTag')->name('remove-tag');
+  Route::post('goals/{goal}/tag', 'GoalController@tag')->name('tag-goal');
+  Route::delete('goals/{goal}/tag', 'GoalController@removeTag')->name('remove-tag');
 
-    Route::delete('goals/{goal}', 'GoalController@delete')->name('delete-goal');
-    Route::post('goals/{goal}/edit', 'GoalController@edit')->name('edit-goal');
+  Route::delete('goals/{goal}', 'GoalController@delete')->name('delete-goal');
+  Route::post('goals/{goal}/edit', 'GoalController@edit')->name('edit-goal');
 
 });
 

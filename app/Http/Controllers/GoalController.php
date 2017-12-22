@@ -10,280 +10,227 @@ use App\Http\Requests\CreateNewSubgoalRequest;
 use Illuminate\Support\Facades\Auth;
 use TomLingham\Searchy\Facades\Searchy;
 
-class GoalController extends Controller
-{
-    public function index() {
+class GoalController extends Controller {
 
-        $all_goals = Goal::orderBy('subgoals_count', 'desc')->get();
+  public function index() {
 
-        return view('goals.index')->with( 'goals', $all_goals);
-    }
+    $all_goals = Goal::getAllGoals();
 
-    public function apiIndex() {
+    return view('goals.index')->with('goals', $all_goals);
+  }
 
-        $all_goals = Goal::orderBy('subgoals_count', 'desc')->get();
+  public function apiIndex() {
 
-        return [
-            'data' => [
-                'all_goals' => $all_goals
-            ]
-        ];
+    $all_goals = Goal::getAllGoals();
 
-    }
+    return [
+      'data' => [
+        'all_goals' => $all_goals,
+      ],
+    ];
 
-    public function apiPopular() {
+  }
 
+  public function apiPopular() {
 
-        $popular_goals = Goal::orderBy('subgoals_count', 'desc')->paginate(10);
+    $popular_goals = Goal::getPaginatedPopularGoals();
 
-        return [
-            'data' => [
-                'popular_goals' => $popular_goals
-            ]
-        ];
+    return [
+      'data' => [
+        'popular_goals' => $popular_goals,
+      ],
+    ];
 
-    }
+  }
 
-    public function new(CreateNewSubgoalRequest $request, Goal $goal) {
-        //When a user creates a new subgoal from an existing goal
-        $user = Auth::user();
+  /*
+  public function new(CreateNewSubgoalRequest $request, Goal $goal) {
+    //When a user creates a new subgoal from an existing goal
+    $user = Auth::user();
 
-        $cost = $request->cost;
-        $hours = $request->hours;
-        $days = $request->days;
+    $user->addUniqueGoal($goal, $request->cost, $request->hours, $request->days);
+    return redirect()->route('subgoals');
+  }
+  */
 
-        $user->addUniqueGoal($goal, $cost, $hours, $days);
-        return redirect()->route('subgoals');
-    }
+  public function apiNew(CreateNewSubgoalRequest $request) {
+    //When a user creates a new subgoal from an existing goal
 
-    public function apiNew(CreateNewSubgoalRequest $request) {
-        //When a user creates a new subgoal from an existing goal
+    $user = Auth::user();
+    $goal = Goal::find($request->goal_id);
 
-        $user = Auth::user();
+    $user->addUniqueGoal($goal, $request->cost, $request->hours, $request->days);
 
-        $cost = $request->cost;
-        $hours = $request->hours;
-        $days = $request->days;
-        $goal = Goal::find($request->goal_id);
+    return [
+      'data' => [
+        'success' => true,
+      ],
+    ];
 
-        $user->addUniqueGoal($goal, $cost, $hours, $days);
+  }
 
-        return [
-            'data' => [
-                'success' => true,
-            ]
-        ];
+  public function create(CreateNewGoalRequest $request) {
+    //When a user creates an entirely new goal
 
-    }
+    //Need some validation here
+    $user = Auth::user();
+    $user->newGoal($request->title, $request->cost, $request->days, $request->hours);
+    return redirect()->route('subgoals');
+  }
 
-    public function create(CreateNewGoalRequest $request) {
-        //When a user creates an entirely new goal
+  public function apiCreate(CreateNewGoalRequest $request) {
+    //When a user creates an entirely new goal
 
-        //Need some validation here
-        $user = Auth::user();
-        $user->newGoal($request->title, $request->cost, $request->days, $request->hours);
-        return redirect()->route('subgoals');
-    }
+    $user = Auth::user();
+    $user->newGoal($request->title, $request->cost, $request->days, $request->hours);
+    return [
+      'data' => [
+        'success' => true,
+      ],
+    ];
+  }
 
-    public function apiCreate(CreateNewGoalRequest $request) {
-        //When a user creates an entirely new goal
+  public function view($slug) {
+    //Some kind of validation
 
-        $user = Auth::user();
-        $user->newGoal($request->title, $request->cost, $request->days, $request->hours);
-        return [
-            'data' => [
-                'success' => true,
-            ]
-        ];
-    }
+    $goal = Goal::where('slug', $slug)->first();
 
-    public function view($slug) {
-        //Some kind of validation
+    return view('goals.view')->with([
+      'goal' => $goal,
+    ]);
 
-        $goal = Goal::where('slug', $slug)->first();
-        //$subgoals = $goal->subgoals;
+  }
 
-        return view('goals.view')->with([
-            'goal' => $goal,
-            //'subgoals' => $subgoals,
-       ] );
+  public function apiView(Goal $goal) {
+    $goal->subgoals;
+    return $goal;
+  }
 
-    }
+  public function search(Request $request) {
+    //Need some validation that this is actually a string and safe to search with
+    $term = $request->search;
+    $results = Searchy::search('goals')->fields('name')->query($term)->get();
 
-    public function apiView(Goal $goal) {
-       $goal->subgoals;
-        return $goal;
-    }
+    return view('goals.search')->with('results', $results);
+  }
 
-    public function search(Request $request) {
-        //Need some validation that this is actually a string and safe to search with
-        $term = $request->search;
-        $results = Searchy::search('goals')->fields('name')->query($term)->get();
+  public function apiSearch(Request $request) {
+    //Need some validation that this is actually a string and safe to search with
 
-        return view('goals.search')->with('results', $results);
-    }
+    $term = $request->search;
+    $results = Searchy::search('goals')->fields('name')->query($term)->get();
 
-    public function apiSearch(Request $request) {
-        //Need some validation that this is actually a string and safe to search with
+    return $results;
+  }
 
-        $term = $request->search;
-        $results = Searchy::search('goals')->fields('name')->query($term)->get();
+  public function tag(Request $request, Goal $goal) {
+    //Need to add tags to the database seeder... Maybe it's not nessesary
+    //Need to validate this name better, maybe something in the model?
+    $name = $request->tag_name;
 
-        return $results;
-    }
+    $goal->attachTagToGoal($name);
 
-    public function tag(Request $request, Goal $goal) {
-        // Need to add tags to the database seeder... Maybe it's not nessesary
-        // Request for tags?
+    return redirect()->back();
+  }
 
-        //Search via name here rather than id in the case the tag already exists
-        $tag = Tag::where('name', $request->tag_name)->first();
+  public function apiTag(Request $request, Goal $goal) {
+    //Need to add tags to the database seeder... Maybe it's not nessesary
+    //Need to validate this name better, maybe something in the model?
+    $name = $request->tag_name;
 
-        //Create a new tag if the tag doesn't yet exist
-        if (!$tag) {
-            $tag = new Tag;
-            $tag->name = $request->tag_name;
-            $tag->save();
-        }
+    $tagId = $goal->attachTagToGoal($name);
 
-        $goal->tags()->attach($tag);
+    return [
+      'data' => [
+        'success' => true,
+        'tag_id' => $tagId,
+      ],
+    ];
 
-        return redirect()->back();
-    }
+  }
 
-    public function apiTag(Request $request, Goal $goal) {
-        // Need to add tags to the database seeder... Maybe it's not nessesary
-        // Request for tags?
-        //Request validation for tags?
 
-        //Search via name here rather than id in the case the tag already exists
-        $tag = Tag::where('name', $request->tag_name)->first();
+  public function removeTag(Request $request, Goal $goal) {
+    //Detach the requested tag from goal
+    // Need to add validation on this request
 
-        //Create a new tag if the tag doesn't yet exist
-        if (!$tag) {
-            $tag = new Tag;
-            $tag->name = $request->tag_name;
-            $tag->slug = str_slug($request->tag_name, "-");
-            $tag->count = 1;
-            $tag->save();
-        }
-        else {
-          $tag->count++;
-          $tag->save();
-        }
+    $tagId = $request->tag_name;
+    $goal->removeTagFromGoal($tagId);
 
+    return redirect()->back();
 
-        $goal->tags()->attach($tag);
+  }
 
-        //Need to validate better
-        return [
-              'data' => [
-                  'success' => true,
-                  'tag_id' => $tag->id
-              ]
-          ];
+  public function apiRemoveTag(Request $request, Goal $goal) {
+    //Detach the requested tag from goal
+    //Need to add validation on this request
 
-    }
+    $tagId = $request->tag_id;
+    $goal->removeTagFromGoal($tagId);
 
+    return [
+      'data' => [
+        'success' => true,
+      ],
+    ];
 
-    public function removeTag(Request $request, Goal $goal) {
-        //Detach the requested tag from goal
-        // Need to add validation on this request
+  }
 
-        $tagId = $request->tag_name;
-        $tag = Tag::where('id', $tagId)->first();
+  public function delete(Goal $goal) {
+    //Delete this goal and all of its subgoals
+    $goal->deleteGoal();
+    return redirect()->route('admin-panel');
+  }
 
-        $goal->tags()->detach($tag);
+  public function apiDelete(Goal $goal) {
+    //Delete this goal and all of its subgoals
+    $goal->deleteGoal();
+    return [
+      'data' => [
+        'success' => true,
+      ],
+    ];
+  }
 
-        return redirect()->back();
+  /*
+  public function edit(Request $request, Goal $goal) {
+    $goal->editGoal('Test');
+    return redirect()->back();
+  }
+  */
 
-    }
+  public function apiEditTitle(Request $request, Goal $goal) {
 
-    public function apiRemoveTag(Request $request, Goal $goal) {
-        //Detach the requested tag from goal
-        // Need to add validation on this request
+    $goal->editGoal($request->newTitle);
 
-        $tagId = $request->tag_id;
+    return [
+      'data' => [
+        'success' => true,
+      ],
+    ];
+  }
 
-        $tag = Tag::where('id', $tagId)->first();
+  public function apiPopularTags() {
+    //Return most popular tags
+    $tags = Tag::mostPopularTags();
 
+    return [
 
-        $goal->tags()->detach($tag);
+      'data' => [
+        'tags' => $tags,
+      ],
 
-        $tag->count--;
-        $tag->save();
+    ];
 
-        //Need to validate better
-        return [
-              'data' => [
-                  'success' => true
-              ]
-          ];
+  }
 
-    }
+  public function apiGoalsWithTag(Tag $tag) {
+    //Return goals that have this tag
+    //Need some validation here on the tag
+    $goals = Goal::getPaginatedGoalsWithTag($tag->id);
 
-    public function delete(Goal $goal) {
-        //Delete this goal and all of its subgoals
-        $goal->deleteGoal();
-        return redirect()->route('admin-panel');
-    }
-
-    public function apiDelete(Goal $goal) {
-        //Delete this goal and all of its subgoals
-        $goal->deleteGoal();
-        return [
-          'data' => [
-            'success' => true
-          ]
-        ];
-    }
-
-    public function edit(Request $request, Goal $goal) {
-        $goal->editGoal('Test');
-        return redirect()->back();
-    }
-
-    public function apiEditTitle(Request $request, Goal $goal) {
-
-        $goal->editGoal($request->newTitle);
-        return [
-          'data' => [
-            'success' => true
-          ]
-        ];
-    }
-
-    public function apiPopularTags() {
-        //Return all tags in order from most to least popular
-        $tags = Tag::orderBy('count', 'desc')->get();
-
-
-        return [
-
-          'data' => [
-              'tags' => $tags,
-          ]
-
-        ];
-
-    }
-
-    public function apiGoalsWithTag(Tag $tag) {
-      //Return goals that have this tag
-
-
-      //Need some validation here before running the following query
-
-      $id = $tag->id;
-
-      //Get goals with tags where goal has a tag assosiated with it with an id equal to the tag id
-
-      $goals = Goal::whereHas('tags', function ($query) use ($id) {
-        $query->where('tags.id', '=', $id);
-      })->with('tags')->paginate(3);
-
-      return $goals;
-    }
+    return $goals;
+  }
 
 
 }

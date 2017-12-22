@@ -27,12 +27,18 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function profile() {
-        return $this->hasOne(Profile::class);
+    public function addDefaultGoal(Goal $goal) {
+        //Creates a subgoal with the goal it takes as an argument as it's parent goal
+
+        //Still need some validation here
+        $goal->createDefaultSubgoal(this);
+        // Still needs to make sure the user doesn't already have this goal on their list
     }
 
-    public function subgoals() {
-        return $this->hasMany(Subgoal::class);
+    public function addUniqueGoal(Goal $goal, $cost, $hours, $days) {
+        //Creates a subgoal that has different values than the parent goal
+
+        $goal->createNewSubgoal($cost, $hours, $days);
     }
 
     public function createProfile() {
@@ -57,20 +63,13 @@ class User extends Authenticatable
         // Still need to make sure goal without this name exists, etc.
     }
 
-    public function addDefaultGoal(Goal $goal) {
-        //Creates a subgoal with the goal it takes as an argument as it's parent goal
-
-        //Still need some validation here
-        $goal->createDefaultSubgoal(this);
-        // Still needs to make sure the user doesn't already have this goal on their list
+    public function profile() {
+        return $this->hasOne(Profile::class);
     }
 
-    public function addUniqueGoal(Goal $goal, $cost, $hours, $days) {
-        //Creates a subgoal that has different values than the parent goal
-
-        $goal->createNewSubgoal($cost, $hours, $days);
+    public function subgoals() {
+        return $this->hasMany(Subgoal::class);
     }
-
 
 
 }
