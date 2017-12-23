@@ -14,14 +14,14 @@ class GoalController extends Controller {
 
   public function index() {
 
-    $all_goals = Goal::getAllGoals();
+    $all_goals = Goal::allGoals()->get();
 
     return view('goals.index')->with('goals', $all_goals);
   }
 
   public function apiIndex() {
 
-    $all_goals = Goal::getAllGoals();
+    $all_goals = Goal::allGoals()->get();
 
     return [
       'data' => [
@@ -33,7 +33,7 @@ class GoalController extends Controller {
 
   public function apiPopular() {
 
-    $popular_goals = Goal::getPaginatedPopularGoals();
+    $popular_goals = Goal::allGoals()->paginate(10);
 
     return [
       'data' => [
@@ -227,7 +227,7 @@ class GoalController extends Controller {
   public function apiGoalsWithTag(Tag $tag) {
     //Return goals that have this tag
     //Need some validation here on the tag
-    $goals = Goal::getPaginatedGoalsWithTag($tag->id);
+    $goals = Goal::goalsWithSpecificTag($tag->id)->paginate(3);
 
     return $goals;
   }

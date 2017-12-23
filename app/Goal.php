@@ -9,11 +9,6 @@ use App\Tag;
 
 class Goal extends Model {
 
-  /*
-  protected $fillable = [
-      'name', 'cost', 'time'
-  ];
-  */
 
   public function attachTagToGoal($name) {
     //Takes the name of the tag, checks if the tag already exists, if not creates it, then attaches the tag to the goal
@@ -95,36 +90,32 @@ class Goal extends Model {
     $this->save();
   }
 
-  public static function getAllGoals() {
-    //Get all goals sorted by their popularity
-
-    $all_goals = self::orderBy('subgoals_count', 'desc')->get();
+  public static function allGoals() {
+    //All goals sorted by their popularity
+    $all_goals = self::orderBy('subgoals_count', 'desc');
     return $all_goals;
   }
 
-  public static function getPaginatedGoalsWithTag($tagId) {
-    //Get goals with tags where goal has a tag assosiated with it with an id equal to the tag id
+  public static function allGoalsWithTags() {
+    //All goals with tags, sorted by their popularity
+    $all_goals = self::allGoals()->with('tags');
+    return $all_goals;
+  }
+
+  public static function goalsWithSpecificTag($tagId) {
 
     $goals = self::whereHas('tags', function ($query) use ($tagId) {
       $query->where('tags.id', '=', $tagId);
-    })->with('tags')->paginate(10);
+    })->with('tags');
 
     return $goals;
-  }
 
-  public static function getPaginatedPopularGoals() {
-    //Get most popular goals paginated by 10
-
-    $popular_goals = self::orderBy('subgoals_count', 'desc')->paginate(10);
-    return $popular_goals;
   }
 
   public function removeTagFromGoal($tagId) {
-     
+
     $tag = Tag::where('id', $tagId)->first();
-
     $this->tags()->detach($tag);
-
     $tag->count--;
     $tag->save();
 

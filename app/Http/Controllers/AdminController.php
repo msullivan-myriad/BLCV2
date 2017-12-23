@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Goal;
 use App\Tag;
 
@@ -16,9 +15,8 @@ class AdminController extends Controller
 
     public function tags() {
 
-        $goals = Goal::with('tags')->orderBy('subgoals_count', 'desc')->get();
-        //Should probably sort by popularity or something eventually
-        $tags= Tag::all();
+        $goals = Goal::allGoalsWithTags()->get();
+        $tags= Tag::mostPopularTags();
 
         return view('admin.tags')->with([
                 'goals' =>$goals,
@@ -28,9 +26,9 @@ class AdminController extends Controller
     }
 
     public function apiTags() {
-        $goals = Goal::with('tags')->orderBy('subgoals_count', 'desc')->get();
-        //Should probably sort by popularity or something eventually
-        $tags= Tag::all();
+
+        $goals = Goal::allGoalsWithTags()->get();
+        $tags= Tag::mostPopularTags();
 
         return [
 
@@ -50,12 +48,7 @@ class AdminController extends Controller
     public function apiIndividualTag(Tag $tag) {
 
         $id = $tag->id;
-
-        //Get goals with tags where goal has a tag assosiated with it with an id equal to the tag id
-        $goals = Goal::whereHas('tags', function ($query) use ($id) {
-          $query->where('tags.id', '=', $id);
-        })->with('tags')->get();
-
+        $goals = Goal::goalsWithSpecificTag($id)->get();
 
         return [
 
