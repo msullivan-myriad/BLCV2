@@ -9,7 +9,6 @@ use App\Tag;
 
 class Goal extends Model {
 
-
   public function attachTagToGoal($name) {
     //Takes the name of the tag, checks if the tag already exists, if not creates it, then attaches the tag to the goal
     //Returns the tag id
