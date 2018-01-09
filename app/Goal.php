@@ -9,38 +9,47 @@ use App\Tag;
 
 class Goal extends Model {
 
-  public function attachTagToGoal($name) {
-    //Takes the name of the tag, checks if the tag already exists, if not creates it, then attaches the tag to the goal
-    //Returns the tag id
+    public function attachTagToGoal($name) {
+      //Takes the name of the tag, checks if the tag already exists, if not creates it, then attaches the tag to the goal
+      //Returns the tag id
 
-    //Search via name here rather than id in the case the tag already exists
-    $tag = Tag::where('name', $name)->first();
+      //Search via name here rather than id in the case the tag already exists
+      $tag = Tag::where('name', $name)->first();
 
-    //Create a new tag if the tag doesn't yet exist
-    if (!$tag) {
-      $tag = new Tag;
+      //Create a new tag if the tag doesn't yet exist
+      if (!$tag) {
+        $tag = new Tag;
 
-      $tag->name = $name;
-      $tag->slug = str_slug($name, "-");
-      $tag->count = 1;
-      $tag->save();
+        $tag->name = $name;
+        $tag->slug = str_slug($name, "-");
+        $tag->count = 1;
+        $tag->save();
 
-    } else {
+      } else {
 
-      $tag->count++;
-      $tag->save();
-    }
+        $tag->count++;
+        $tag->save();
+      }
 
-    $this->tags()->attach($tag);
+      $this->tags()->attach($tag);
 
-    return $tag->id;
+      return $tag->id;
 
   }
 
-  public function createDefaultSubgoal(User $user) {
+  public function createDefaultSubgoal(User $user = null) {
     //Create subgoal using defaults of the parent goal
     // Decided to pass user through as argument to make mocking data easier
     // Might need some validation on the user here...
+
+
+
+    //Need to fix the database seeder if I would like to get rid of the below conditional and the default of null being passed through
+
+    if (is_null($user)) {
+      $user = Auth::user();
+    }
+
     $subgoal = new Subgoal;
     $subgoal->user_id = $user->id;
     $subgoal->goal_id = $this->id;
@@ -158,6 +167,7 @@ class Goal extends Model {
     //  But after checking it apprears that the other numbers are returning strings....
     //  I was expecting integers, are there stringsin in the database?  Need to look into this
     //  Using average should work for now
+
   }
 
 

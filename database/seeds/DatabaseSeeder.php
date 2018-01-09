@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use App\Goal;
 use App\User;
 use App\Subgoal;
+use Illuminate\Foundation\Testing\Concerns\InteractsWithAuthentication;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,6 +13,8 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
+    use InteractsWithAuthentication;
+
     public function run()
     {
 
@@ -127,12 +130,14 @@ class DatabaseSeeder extends Seeder
             $user->newGoal($goalName, $goalCost, $goalHours, $goalDays);
         });
 
+        /*
         //Get the 100 users and 100 goals as collections
         $users = User::take(100)->get();
         $goals = Goal::take(100)->get();
 
         //For each user add a random goal to their bucket list
         foreach ($users as $user)  {
+
             $rand = rand(1, 99);
 
             if ($rand != $user->id) {
@@ -160,6 +165,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $user->createProfile();
+        */
 
     }
 }
