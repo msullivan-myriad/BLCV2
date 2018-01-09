@@ -130,7 +130,6 @@ class DatabaseSeeder extends Seeder
             $user->newGoal($goalName, $goalCost, $goalHours, $goalDays);
         });
 
-        /*
         //Get the 100 users and 100 goals as collections
         $users = User::take(100)->get();
         $goals = Goal::take(100)->get();
@@ -165,7 +164,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $user->createProfile();
-        */
 
     }
 }
