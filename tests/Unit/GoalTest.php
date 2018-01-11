@@ -165,8 +165,111 @@ class GoalTest extends TestCase {
       $this->assertNull($searchDefaultGoal);
       $this->assertNull($searchDefaultSubgoal);
 
+    }
 
-      //Condense the default create goal and subgoal and assert they work
+
+    /** @test */
+    public function goal_can_create_subgoal_with_different_numbers() {
+
+      $this->createBaseGoal();
+
+      $goal = Goal::where([
+        'name' => 'Test Goal Name',
+        'slug' => 'test-goal-name',
+        'cost' => 700,
+        'days' => 10,
+        'hours' => 100,
+      ])->first();
+
+      $this->assertNotNull($goal);
+
+      $this->createBaseUser();
+      $this->be($this->user);
+      $this->goal->createNewSubgoal(701, 4, 203);
+
+      $subgoal = Subgoal::where([
+        'name' => 'Test Goal Name',
+        'slug' => 'test-goal-name',
+        'cost' => 701,
+        'hours' => 4,
+        'days' => 203,
+      ])->first();
+
+      $this->assertNotNull($subgoal);
+
+    }
+
+    /** @test */
+    public function goal_averages_can_be_updated() {
+
+      $this->createBaseGoal();
+      $this->createBaseUser();
+
+      $subgoal1 = new Subgoal();
+      $subgoal1->user_id = $this->user->id;
+      $subgoal1->goal_id = $this->goal->id;
+      $subgoal1->name = 'Test Goal Name';
+      $subgoal1->slug = 'test-goal-name';
+      $subgoal1->cost = 0;
+      $subgoal1->days = 1;
+      $subgoal1->hours = 30;
+      $subgoal1->save();
+
+      $subgoal2 = new Subgoal();
+      $subgoal2->user_id = $this->user->id;
+      $subgoal2->goal_id = $this->goal->id;
+      $subgoal2->name = 'Test Goal Name';
+      $subgoal2->slug = 'test-goal-name';
+      $subgoal2->cost = 10;
+      $subgoal2->days = 3;
+      $subgoal2->hours = 20;
+      $subgoal2->save();
+
+      $this->goal->updateGoalAverages();
+
+      $goal = Goal::find($this->goal->id);
+
+      $this->assertEquals(5, $goal->cost);
+      $this->assertEquals(2, $goal->days);
+      $this->assertEquals(25, $goal->hours);
+
+
+    }
+
+
+    /** @test */
+    public function updating_goal_averages_will_delete_goal_if_it_has_no_subgoals() {
+
+      $this->createBaseGoal();
+      $this->createBaseUser();
+      $goalId = $this->goal->id;
+
+      $goal = Goal::find($goalId);;
+
+      $this->assertNotNull($goal);
+
+      $this->goal->updateGoalAverages();
+
+      $searchForGoalAfterUpdate = Goal::find($goalId);
+
+      $this->assertNull($searchForGoalAfterUpdate);
+
+    }
+
+    /** @test */
+    public function first_letter_of_each_word_in_goal_name_will_be_capitalized() {
+
+      $this->goal = new Goal;
+      $this->goal->name = 'checK the GOALS capiTALization';
+      $this->goal->slug = 'check-the-goals-capitalization';
+      $this->goal->cost = 700;
+      $this->goal->days = 10;
+      $this->goal->hours= 100;
+      $this->goal->subgoals_count = 0;
+      $this->goal->save();
+
+      $this->assertEquals('Check The Goals Capitalization', $this->goal->name);
+
     }
 
 }

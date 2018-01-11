@@ -43,7 +43,6 @@ class Goal extends Model {
     // Might need some validation on the user here...
 
 
-
     //Need to fix the database seeder if I would like to get rid of the below conditional and the default of null being passed through
 
     if (is_null($user)) {
@@ -162,11 +161,6 @@ class Goal extends Model {
     } else {
       $this->forceDelete();
     }
-
-    //  I have some work to do here... gettype returns a float, at least sometimes.
-    //  But after checking it apprears that the other numbers are returning strings....
-    //  I was expecting integers, are there stringsin in the database?  Need to look into this
-    //  Using average should work for now
 
   }
 
