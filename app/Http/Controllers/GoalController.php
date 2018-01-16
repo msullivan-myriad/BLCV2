@@ -43,23 +43,11 @@ class GoalController extends Controller {
 
   }
 
-  /*
-  public function new(CreateNewSubgoalRequest $request, Goal $goal) {
-    //When a user creates a new subgoal from an existing goal
-    $user = Auth::user();
-
-    $user->addUniqueGoal($goal, $request->cost, $request->hours, $request->days);
-    return redirect()->route('subgoals');
-  }
-  */
-
   public function apiNew(CreateNewSubgoalRequest $request) {
     //When a user creates a new subgoal from an existing goal
 
-    $user = Auth::user();
     $goal = Goal::find($request->goal_id);
-
-    $user->addUniqueGoal($goal, $request->cost, $request->hours, $request->days);
+    $goal->createNewSubgoal($request->cost, $request->hours, $request->days);
 
     return [
       'data' => [
@@ -72,17 +60,16 @@ class GoalController extends Controller {
   public function create(CreateNewGoalRequest $request) {
     //When a user creates an entirely new goal
 
-    //Need some validation here
-    $user = Auth::user();
-    $user->newGoal($request->title, $request->cost, $request->days, $request->hours);
+    Goal::newGoal($request->title, $request->cost, $request->days, $request->hours);
+
     return redirect()->route('subgoals');
   }
 
   public function apiCreate(CreateNewGoalRequest $request) {
     //When a user creates an entirely new goal
 
-    $user = Auth::user();
-    $user->newGoal($request->title, $request->cost, $request->days, $request->hours);
+    Goal::newGoal($request->title, $request->cost, $request->days, $request->hours);
+
     return [
       'data' => [
         'success' => true,

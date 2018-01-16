@@ -37,17 +37,12 @@ class Goal extends Model {
 
   }
 
-  public function createDefaultSubgoal(User $user = null) {
+  public function createDefaultSubgoal() {
     //Create subgoal using defaults of the parent goal
     // Decided to pass user through as argument to make mocking data easier
     // Might need some validation on the user here...
 
-
-    //Need to fix the database seeder if I would like to get rid of the below conditional and the default of null being passed through
-
-    if (is_null($user)) {
-      $user = Auth::user();
-    }
+    $user = Auth::user();
 
     $subgoal = new Subgoal;
     $subgoal->user_id = $user->id;
@@ -161,6 +156,26 @@ class Goal extends Model {
     } else {
       $this->forceDelete();
     }
+
+  }
+
+  public static function newGoal($name, $cost, $hours, $days) {
+         // Creates a new parent goal, as well as a child goal
+
+        $slug= str_slug($name, "-");
+
+        $goal = new Goal;
+        $goal->name = $name;
+        $goal->slug = $slug;
+        $goal->cost = $cost;
+        $goal->days = $days;
+        $goal->hours= $hours;
+        $goal->subgoals_count = 1;
+        $goal->save();
+        $goal->createDefaultSubgoal();
+        // Still need to make sure goal without this name exists, etc.
+
+        return $goal;
 
   }
 

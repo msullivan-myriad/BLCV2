@@ -3,8 +3,6 @@
 use Illuminate\Database\Seeder;
 use App\Goal;
 use App\User;
-use App\Subgoal;
-use Illuminate\Foundation\Testing\Concerns\InteractsWithAuthentication;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,14 +11,10 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    use InteractsWithAuthentication;
 
-    public function run()
-    {
+    public function run() {
 
-        //Create 100 users each with one goal from the list
-        factory(App\User::class, 100)->create()->each(function ($user) {
-            $bucketList = [
+      $bucketList = [
                 'Go Skydiving',
                 'Compete in One MMA Fight',
                 'Visit All 50 States',
@@ -123,15 +117,32 @@ class DatabaseSeeder extends Seeder
                 'Go Spelunking',
             ];
 
-            $goalName = $bucketList[$user->id - 1];
-            $goalCost = rand(0, 10000);
-            $goalHours = rand(0, 300);
-            $goalDays = rand(0, 30);
-            $user->newGoal($goalName, $goalCost, $goalHours, $goalDays);
+
+        //Create 100 users each with one goal from the list
+        factory(App\User::class, 100)->create()->each(function ($user) {
         });
 
         //Get the 100 users and 100 goals as collections
         $users = User::take(100)->get();
+        //$goals = Goal::take(100)->get();
+
+        foreach ($users as $user) {
+
+          Auth::login($user);
+
+          $goalName = $bucketList[$user->id - 1];
+
+          $goalCost = rand(0, 10000);
+          $goalHours = rand(0, 300);
+          $goalDays = rand(0, 30);
+
+          Goal::newGoal($goalName, $goalCost, $goalHours, $goalDays);
+
+          Auth::logout();
+
+
+        }
+
         $goals = Goal::take(100)->get();
 
         //For each user add a random goal to their bucket list
@@ -139,10 +150,16 @@ class DatabaseSeeder extends Seeder
 
             $rand = rand(1, 99);
 
-            if ($rand != $user->id) {
-                $goal = $goals[$rand];
-                $goal->createDefaultSubgoal($user);
-            }
+            $goalCost = rand(0, 10000);
+            $goalHours = rand(0, 300);
+            $goalDays = rand(0, 30);
+
+            Auth::login($user);
+
+            $goal = $goals[$rand];
+            $goal->createNewSubgoal($goalCost, $goalHours, $goalDays);
+
+            Auth::logout();
 
         }
 
@@ -153,7 +170,6 @@ class DatabaseSeeder extends Seeder
         $all->each(function($g) {
             $g->updateGoalAverages();
         });
-
 
         //Create base user for myself
         $user = User::create([

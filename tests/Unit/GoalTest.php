@@ -40,6 +40,35 @@ class GoalTest extends TestCase {
 
     }
 
+    private function createBaseGoalWithMultipleSubgoals($count) {
+
+      $this->createBaseGoal();
+      $this->createBaseUser();
+      $this->be($this->user);
+
+      $this->goal->createDefaultSubgoal();
+
+      $currentCount = 0;
+
+      $user = factory(User::class, 10)->create();
+
+      //Left off right here, factory is working!!!
+
+
+      while ($currentCount < $count) {
+
+        $cost = rand(0, 10000);
+        $hours = rand(0, 300);
+        $days = rand(0, 30);
+
+        $this->goal->createNewSubgoal($cost, $hours, $days);
+
+        $currentCount++;
+      }
+
+
+    }
+
     private function createBaseUser() {
 
       $this->user = User::create([
@@ -62,22 +91,6 @@ class GoalTest extends TestCase {
         'slug' => 'test-goal-name',
       ])->first();
 
-
-      $this->assertNotNull($subgoal);
-
-    }
-
-    /** @test */
-    public function goal_can_create_default_subgoal_using_user_as_argument() {
-
-      $this->createBaseUser();
-      $this->createBaseGoal();
-      $this->goal->createDefaultSubgoal($this->user);
-
-      $subgoal = Subgoal::where([
-        'name' => 'Test Goal Name',
-        'slug' => 'test-goal-name',
-      ])->first();
 
       $this->assertNotNull($subgoal);
 
@@ -271,5 +284,58 @@ class GoalTest extends TestCase {
       $this->assertEquals('Check The Goals Capitalization', $this->goal->name);
 
     }
+
+
+    /** @test */
+    public function can_create_goal_with_static_method() {
+
+      $this->createBaseUser();
+      $this->be($this->user);
+
+      Goal::newGoal('Testing static method', 270, 11, 1);
+
+      $findGoal = Subgoal::where([
+        'name' => 'Testing Static Method',
+        'slug' => 'testing-static-method',
+        'cost' => 270,
+        'hours' => 11,
+        'days' => 1,
+      ])->first();
+
+      $findSubgoal = Subgoal::where([
+        'name' => 'Testing Static Method',
+        'slug' => 'testing-static-method',
+        'cost' => 270,
+        'hours' => 11,
+        'days' => 1,
+      ])->first();
+
+      $this->assertNotNull($findGoal);
+      $this->assertNotNull($findSubgoal);
+
+    }
+
+    /** @test */
+
+    public function goal_can_return_subgoals() {
+
+      $this->createBaseGoalWithMultipleSubgoals(8);
+
+
+      //$findSubgoals =  $this->goal->subgoals->count();
+
+      //$subgoals = $findSubgoals->subgoals;
+
+      //dd($findSubgoals);
+      //dd($subgoals);
+    }
+
+
+
+
+
+
+    //Should probably run a commit right now too
+
 
 }
