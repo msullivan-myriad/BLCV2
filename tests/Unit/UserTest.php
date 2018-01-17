@@ -15,12 +15,7 @@ class UserTest extends TestCase {
 
     private function createBaseUser() {
 
-      $this->user = User::create([
-          'name' => 'Jonathan',
-          'email' => 'jonathan@email.com',
-          'password' => bcrypt('password'),
-          'admin' => false,
-      ]);
+      $this->user = factory(User::class, 'base-test-user')->create();
 
     }
 

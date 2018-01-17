@@ -8,6 +8,7 @@ use App\Subgoal;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Auth;
 
 class GoalTest extends TestCase {
 
@@ -17,17 +18,9 @@ class GoalTest extends TestCase {
     private $goal;
     private $user;
 
-  //Goal should be able to have a static method to created rather than have to require that it is called from the user object
     private function createBaseGoal() {
-      $this->goal = new Goal;
 
-      $this->goal->name = 'Test Goal Name';
-      $this->goal->slug = 'test-goal-name';
-      $this->goal->cost = 700;
-      $this->goal->days = 10;
-      $this->goal->hours= 100;
-      $this->goal->subgoals_count = 0;
-      $this->goal->save();
+      $this->goal = factory(Goal::class, 'base-test-goal')->create();
 
     }
 
@@ -40,6 +33,7 @@ class GoalTest extends TestCase {
 
     }
 
+    /*
     private function createBaseGoalWithMultipleSubgoals($count) {
 
       $this->createBaseGoal();
@@ -50,10 +44,7 @@ class GoalTest extends TestCase {
 
       $currentCount = 0;
 
-      $user = factory(User::class, 10)->create();
-
-      //Left off right here, factory is working!!!
-
+      $users = factory(User::class, $count)->create();
 
       while ($currentCount < $count) {
 
@@ -61,13 +52,19 @@ class GoalTest extends TestCase {
         $hours = rand(0, 300);
         $days = rand(0, 30);
 
+        //$this->be($users[$currentCount]);
+
+        Auth::login($users[$currentCount]);
+
         $this->goal->createNewSubgoal($cost, $hours, $days);
+
+        Auth::logout();
 
         $currentCount++;
       }
 
-
     }
+    */
 
     private function createBaseUser() {
 
@@ -317,21 +314,23 @@ class GoalTest extends TestCase {
 
     /** @test */
 
+    /*
+     *
+     * Think about coming back to this
+     *
+     *
     public function goal_can_return_subgoals() {
 
       $this->createBaseGoalWithMultipleSubgoals(8);
 
 
-      //$findSubgoals =  $this->goal->subgoals->count();
+      $subgoals =  $this->goal->subgoals;
 
-      //$subgoals = $findSubgoals->subgoals;
-
-      //dd($findSubgoals);
-      //dd($subgoals);
+      foreach ($subgoals as $sub) {
+        echo 'TEST';
+      }
     }
-
-
-
+    */
 
 
 

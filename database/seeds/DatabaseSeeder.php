@@ -4,8 +4,7 @@ use Illuminate\Database\Seeder;
 use App\Goal;
 use App\User;
 
-class DatabaseSeeder extends Seeder
-{
+class DatabaseSeeder extends Seeder {
     /**
      * Run the database seeds.
      *
@@ -14,6 +13,7 @@ class DatabaseSeeder extends Seeder
 
     public function run() {
 
+      /*
       $bucketList = [
                 'Go Skydiving',
                 'Compete in One MMA Fight',
@@ -116,12 +116,27 @@ class DatabaseSeeder extends Seeder
                 'Invest in Real Estate',
                 'Go Spelunking',
             ];
+      */
 
+        //Create 100 goals
+        $goals = factory(App\Goal::class, 100)->create();
 
-        //Create 100 users each with one goal from the list
-        factory(App\User::class, 100)->create()->each(function ($user) {
+        //Create 100 users
+        factory(App\User::class, 100)->create()->each(function ($user) use ($goals) {
+
+          $user->createProfile();
+
+          Auth::login($user);
+
+          $goals[rand(0, 33)]->createNewSubgoal(rand(0, 10000), rand(0, 300), rand(0,30));
+          $goals[rand(34, 66)]->createNewSubgoal(rand(0, 10000), rand(0, 300), rand(0,30));
+          $goals[rand(67, 99)]->createNewSubgoal(rand(0, 10000), rand(0, 300), rand(0,30));
+
+          Auth::logout();
+
         });
 
+        /*
         //Get the 100 users and 100 goals as collections
         $users = User::take(100)->get();
         //$goals = Goal::take(100)->get();
@@ -139,7 +154,6 @@ class DatabaseSeeder extends Seeder
           Goal::newGoal($goalName, $goalCost, $goalHours, $goalDays);
 
           Auth::logout();
-
 
         }
 
@@ -162,6 +176,7 @@ class DatabaseSeeder extends Seeder
             Auth::logout();
 
         }
+        */
 
         //Get all goals as collection, then loop through and update the goal averages
         // I still am kind of shaky on why this is necessary, should readdress this later
@@ -171,15 +186,14 @@ class DatabaseSeeder extends Seeder
             $g->updateGoalAverages();
         });
 
-        //Create base user for myself
-        $user = User::create([
-            'name' => 'Mike',
-            'email' => 'mike@email.com',
-            'password' => bcrypt('password'),
-            'admin' => true,
-        ]);
 
-        $user->createProfile();
+        $mike = factory(App\User::class, 'mike')->create();
+        $mike->createProfile();
+
+
+
+        //Shift to using the new goal factory, rather than the prexisting list of goals
+        //factory(App\Goal::class, 100)->create();
 
     }
 }
