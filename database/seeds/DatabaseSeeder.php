@@ -132,8 +132,6 @@ class DatabaseSeeder extends Seeder {
           $goals[rand(34, 66)]->createNewSubgoalWithRandomValues();
           $goals[rand(67, 99)]->createNewSubgoalWithRandomValues();
 
-          //Consider makeing createNewSubgoalWithRandomTestValues method rather than repeating this here and
-
           Auth::logout();
 
         });

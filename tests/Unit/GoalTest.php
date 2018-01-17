@@ -33,38 +33,25 @@ class GoalTest extends TestCase {
 
     }
 
-    /*
     private function createBaseGoalWithMultipleSubgoals($count) {
 
       $this->createBaseGoal();
-      $this->createBaseUser();
-      $this->be($this->user);
+      $goal = $this->goal;
 
-      $this->goal->createDefaultSubgoal();
+      factory(User::class, $count)->create()->each(function($user) use ($goal) {
 
-      $currentCount = 0;
+          echo('  0  ');
+          Auth::login($user);
 
-      $users = factory(User::class, $count)->create();
+          $goal->createNewSubgoalWithRandomValues();
 
-      while ($currentCount < $count) {
+          Auth::logout();
 
-        $cost = rand(0, 10000);
-        $hours = rand(0, 300);
-        $days = rand(0, 30);
+      });
 
-        //$this->be($users[$currentCount]);
-
-        Auth::login($users[$currentCount]);
-
-        $this->goal->createNewSubgoal($cost, $hours, $days);
-
-        Auth::logout();
-
-        $currentCount++;
-      }
+      echo 'Need to address base goal with multiple subgoals';
 
     }
-    */
 
     private function createBaseUser() {
 
@@ -312,26 +299,6 @@ class GoalTest extends TestCase {
 
     }
 
-    /** @test */
-
-    /*
-     *
-     * Think about coming back to this
-     *
-     *
-    public function goal_can_return_subgoals() {
-
-      $this->createBaseGoalWithMultipleSubgoals(8);
-
-
-      $subgoals =  $this->goal->subgoals;
-
-      foreach ($subgoals as $sub) {
-        echo 'TEST';
-      }
-    }
-    */
-
 
     /** @test */
     public function goal_can_create_subgoal_with_random_values() {
@@ -351,6 +318,16 @@ class GoalTest extends TestCase {
       $this->assertNotNull($findSubgoal);
 
     }
+
+    /** @test */
+    public function goal_can_return_subgoals() {
+
+      $this->createBaseGoalWithMultipleSubgoals(8);
+
+      $subgoals =  $this->goal->subgoals;
+
+    }
+
 
 
 }
