@@ -333,8 +333,24 @@ class GoalTest extends TestCase {
     */
 
 
+    /** @test */
+    public function goal_can_create_subgoal_with_random_values() {
 
-    //Should probably run a commit right now too
+      $this->createBaseUser();
+      $this->createBaseGoal();
+      $this->be($this->user);
+
+      $this->goal->createNewSubgoalWithRandomValues();
+
+
+      $findSubgoal = Subgoal::where([
+        'name' => 'Test Goal Name',
+        'slug' => 'test-goal-name',
+      ])->first();
+
+      $this->assertNotNull($findSubgoal);
+
+    }
 
 
 }

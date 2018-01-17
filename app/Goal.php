@@ -180,4 +180,9 @@ class Goal extends Model {
   }
 
 
+  public function createNewSubgoalWithRandomValues() {
+      $this->createNewSubgoal(rand(0, 10000), rand(0, 300), rand(0,30));
+  }
+
+
 }
