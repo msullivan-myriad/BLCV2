@@ -97,4 +97,29 @@ $factory->defineAs(App\Goal::class, 'base-test-goal', function () {
 
 });
 
+/*
+ *  Tag Factories
+ */
 
+$factory->define(App\Tag::class, function (Faker\Generator $faker) {
+
+  $theName = $faker->unique()->sentence(2, true);
+  $theSlug = str_slug($theName, "-");
+
+  return [
+    'name' => $theName,
+    'slug' => $theSlug,
+
+  ];
+
+});
+
+
+$factory->defineAs(App\Tag::class, 'base-test-tag', function() {
+
+  return [
+    'name' => 'Test Tag',
+    'slug' => 'test-tag',
+  ];
+
+});

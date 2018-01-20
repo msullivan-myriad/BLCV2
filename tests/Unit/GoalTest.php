@@ -4,9 +4,9 @@ namespace Tests\Unit;
 
 use App\User;
 use App\Goal;
+use App\Tag;
 use App\Subgoal;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Auth;
 
@@ -59,6 +59,12 @@ class GoalTest extends TestCase {
           'password' => bcrypt('password'),
           'admin' => false,
       ]);
+
+    }
+
+    private function createBaseTag() {
+
+      $this->tag = factory(Tag::class, 'base-test-tag')->create();
 
     }
 
@@ -317,5 +323,37 @@ class GoalTest extends TestCase {
 
     }
 
+    /** @test  */
+    public function can_attach_tag_that_has_not_been_created_to_goal() {
+
+      $this->createBaseGoal();
+
+      $this->goal->attachTagToGoal('New Test Tag');
+
+      $this->assertDatabaseHas('goal_tag', [
+        'goal_id' => $this->goal->id,
+      ]);
+
+      $findTag = Tag::where('name', 'New Test Tag')->first();
+
+      $this->assertNotNull($findTag);
+
+    }
+
+    /** @test */
+    public function can_attach_existing_tag_to_goal() {
+
+      $this->createBaseGoal();
+      $this->createBaseTag();
+
+      $this->goal->attachTagToGoal($this->tag->name);
+
+
+      $this->assertDatabaseHas('goal_tag', [
+        'goal_id' => $this->goal->id,
+        'tag_id' => $this->tag->id,
+      ]);
+
+    }
 
 }
