@@ -40,7 +40,6 @@ class GoalTest extends TestCase {
 
       factory(User::class, $count)->create()->each(function($user) use ($goal) {
 
-          echo('  0  ');
           Auth::login($user);
 
           $goal->createNewSubgoalWithRandomValues();
@@ -49,7 +48,6 @@ class GoalTest extends TestCase {
 
       });
 
-      echo 'Need to address base goal with multiple subgoals';
 
     }
 
@@ -318,16 +316,6 @@ class GoalTest extends TestCase {
       $this->assertNotNull($findSubgoal);
 
     }
-
-    /** @test */
-    public function goal_can_return_subgoals() {
-
-      $this->createBaseGoalWithMultipleSubgoals(8);
-
-      $subgoals =  $this->goal->subgoals;
-
-    }
-
 
 
 }
