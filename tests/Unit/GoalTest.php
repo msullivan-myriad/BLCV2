@@ -356,4 +356,27 @@ class GoalTest extends TestCase {
 
     }
 
+    /** @test */
+    public function can_remove_a_tag_from_a_goal() {
+
+      $this->createBaseGoal();
+      $this->createBaseTag();
+
+      $this->goal->attachTagToGoal($this->tag->name);
+
+      $this->assertDatabaseHas('goal_tag', [
+        'goal_id' => $this->goal->id,
+        'tag_id' => $this->tag->id,
+      ]);
+
+      $this->goal->removeTagFromGoal($this->tag->id);
+
+      $this->assertDatabaseMissing('goal_tag', [
+        'goal_id' => $this->goal->id,
+        'tag_id' => $this->tag->id,
+      ]);
+
+
+    }
+
 }
