@@ -411,6 +411,26 @@ class GoalTest extends TestCase {
     /** @test */
     public function can_return_all_goals_with_associated_tags() {
 
+        $this->createBaseTag();
+
+        $moreTags = factory(Tag::class, 2)->create();
+
+        $tag1 = $moreTags[0];
+        $tag2 = $moreTags[1];
+
+        $goals = factory(Goal::class, 10)->create()->each(function($goal) use ($tag1, $tag2) {
+
+          $goal->attachTagToGoal($tag1->name);
+          $goal->attachTagToGoal($tag2->name);
+
+        });
+
+        $findGoalsWithTags = Goal::allGoalsWithTags()->get();
+
+        foreach ($findGoalsWithTags as $goal) {
+          $this->assertEquals(2, count($goal->tags));
+        }
+
     }
 
 }
