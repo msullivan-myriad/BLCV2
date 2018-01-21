@@ -386,6 +386,19 @@ class GoalTest extends TestCase {
     /** @test */
     public function can_return_all_goals_with_associated_tags() {
 
+      $this->createBaseTag();
+
+      /*
+      factory(Goal::class, 6)->create()->each(function($goal) {
+          $goal->attachTagToGoal($this->tag->name);
+      });
+      */
+
+
+      $findAllGoals = Goal::allGoals()->get();
+
+      //dd($findAllGoals);
+
     }
 
     /** @test */
