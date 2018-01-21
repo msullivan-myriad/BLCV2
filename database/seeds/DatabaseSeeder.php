@@ -123,7 +123,6 @@ class DatabaseSeeder extends Seeder {
         //Create 100 goals
         $goals = factory(App\Goal::class, 100)->create()->each(function ($goal) use ($tags) {
 
-          //There is an off by one error on somewhere in this factory
 
           if (rand(0,2)) {
             $tag = $tags[rand(0,99)];
