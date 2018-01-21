@@ -376,6 +376,20 @@ class GoalTest extends TestCase {
         'tag_id' => $this->tag->id,
       ]);
 
+    }
+
+    /** @test */
+    public function can_return_all_goals_with_specific_tag() {
+
+    }
+
+    /** @test */
+    public function can_return_all_goals_with_associated_tags() {
+
+    }
+
+    /** @test */
+    public function can_return_all_goals() {
 
     }
 

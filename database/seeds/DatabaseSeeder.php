@@ -134,6 +134,7 @@ class DatabaseSeeder extends Seeder {
 
           Auth::logout();
 
+
         });
 
         /*
