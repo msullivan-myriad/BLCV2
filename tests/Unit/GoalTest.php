@@ -391,6 +391,16 @@ class GoalTest extends TestCase {
     /** @test */
     public function can_return_all_goals() {
 
+      //This test is going to require that a test specific database exists
+
+      factory(Goal::class, 12)->create();
+
+      $findAllGoals = Goal::allGoals()->get();
+
+
+      foreach ($findAllGoals as $goal) {
+        echo $goal->name;
+      }
     }
 
 }
