@@ -27,6 +27,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+
+    /*
+     *  Regular Public Methods
+     */
+
     public function createProfile() {
         $profile = new Profile;
         $profile->user_id = $this->id;

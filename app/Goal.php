@@ -5,9 +5,62 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Snipe\BanBuilder\CensorWords;
-use App\Tag;
 
 class Goal extends Model {
+
+
+    /*
+     *  Static Methods
+     */
+
+    public static function allGoals() {
+      //All goals sorted by their popularity
+      $all_goals = self::orderBy('subgoals_count', 'desc');
+      return $all_goals;
+    }
+
+
+    public static function allGoalsWithTags() {
+      //All goals with tags, sorted by their popularity
+      $all_goals = self::allGoals()->with('tags');
+      return $all_goals;
+    }
+
+
+    public static function newGoal($name, $cost, $hours, $days) {
+           // Creates a new parent goal, as well as a child goal
+
+          $slug= str_slug($name, "-");
+
+          $goal = new Goal;
+          $goal->name = $name;
+          $goal->slug = $slug;
+          $goal->cost = $cost;
+          $goal->days = $days;
+          $goal->hours= $hours;
+          $goal->subgoals_count = 1;
+          $goal->save();
+          $goal->createDefaultSubgoal();
+          // Still need to make sure goal without this name exists, etc.
+
+          return $goal;
+    }
+
+
+    public static function goalsWithSpecificTag($tagId) {
+
+      $goals = self::whereHas('tags', function ($query) use ($tagId) {
+        $query->where('tags.id', '=', $tagId);
+      })->with('tags');
+
+      return $goals;
+
+    }
+
+
+    /*
+     *  Regular Public Methods
+     */
 
     public function attachTagToGoal($name) {
       //Takes the name of the tag, checks if the tag already exists, if not creates it, then attaches the tag to the goal
@@ -58,6 +111,7 @@ class Goal extends Model {
     $this->updateGoalAverages();
   }
 
+
   public function createNewSubgoal($cost, $hours, $days) {
     //Create subgoal that has different numbers than the parent goal
     $user = Auth::user();
@@ -76,6 +130,11 @@ class Goal extends Model {
 
   }
 
+  public function createNewSubgoalWithRandomValues() {
+      $this->createNewSubgoal(rand(0, 10000), rand(0, 300), rand(0,30));
+  }
+
+
   public function deleteGoal() {
     $this->subgoals()->delete();
     $this->forceDelete();
@@ -92,27 +151,6 @@ class Goal extends Model {
     $this->save();
   }
 
-  public static function allGoals() {
-    //All goals sorted by their popularity
-    $all_goals = self::orderBy('subgoals_count', 'desc');
-    return $all_goals;
-  }
-
-  public static function allGoalsWithTags() {
-    //All goals with tags, sorted by their popularity
-    $all_goals = self::allGoals()->with('tags');
-    return $all_goals;
-  }
-
-  public static function goalsWithSpecificTag($tagId) {
-
-    $goals = self::whereHas('tags', function ($query) use ($tagId) {
-      $query->where('tags.id', '=', $tagId);
-    })->with('tags');
-
-    return $goals;
-
-  }
 
   public function removeTagFromGoal($tagId) {
 
@@ -122,6 +160,7 @@ class Goal extends Model {
     $tag->save();
 
   }
+
 
   public function setNameAttribute($value) {
     //Temporarily remove the censorship
@@ -135,13 +174,16 @@ class Goal extends Model {
     $this->attributes['name'] = ucwords(strtolower($value));
   }
 
+
   public function subgoals() {
     return $this->hasMany(Subgoal::class);
   }
 
+
   public function tags() {
     return $this->belongsToMany(Tag::class);
   }
+
 
   public function updateGoalAverages() {
     //Update the parent goal to match the subgoals average
@@ -158,31 +200,5 @@ class Goal extends Model {
     }
 
   }
-
-  public static function newGoal($name, $cost, $hours, $days) {
-         // Creates a new parent goal, as well as a child goal
-
-        $slug= str_slug($name, "-");
-
-        $goal = new Goal;
-        $goal->name = $name;
-        $goal->slug = $slug;
-        $goal->cost = $cost;
-        $goal->days = $days;
-        $goal->hours= $hours;
-        $goal->subgoals_count = 1;
-        $goal->save();
-        $goal->createDefaultSubgoal();
-        // Still need to make sure goal without this name exists, etc.
-
-        return $goal;
-
-  }
-
-
-  public function createNewSubgoalWithRandomValues() {
-      $this->createNewSubgoal(rand(0, 10000), rand(0, 300), rand(0,30));
-  }
-
 
 }

@@ -5,10 +5,6 @@
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
 */
 
 Route::get('/', function () {
@@ -18,7 +14,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
-//Basic Application Routes
+/*
+ *  Basic application routes
+ */
+
 Route::get('/home', 'HomeController@index');
 Route::get('search', 'GoalController@search')->name('search-goals');
 Route::get('goals', 'GoalController@index')->name('goals');
@@ -26,9 +25,16 @@ Route::get('goal/{goal}', 'GoalController@view')->name('view-goal');
 Route::get('category/{tag}', 'TagsController@view')->name('view-tags');
 
 
+/*
+ *  Basic API routes
+ */
+
 Route::prefix('api')->group(function () {
 
-  //Basic API Routes that don't require auth
+  /*
+   *  API routes that don't require auth
+   */
+
   Route::get('/goals/', 'GoalController@apiIndex');
   Route::get('/popular', 'GoalController@apiPopular');
   Route::get('/search/', 'GoalController@apiSearch');
@@ -37,18 +43,25 @@ Route::prefix('api')->group(function () {
   Route::get('category-goals/{category}', 'TagsController@categoryGoalsFiltering');
 
 
-  //Basic API Routes (These should require auth)
+  /*
+   *  API routes that should require auth,
+   *  NEED TO ADD AUTH MIDDLEWARE HERE
+   *  DO THIS WHILE CREATING ROUTE TESTS
+   */
+
   Route::get('subgoals', 'SubgoalController@apiIndex');
   Route::get('subgoals/{order}', 'SubgoalController@apiSorted');
   Route::get('subgoal/{subgoal}', 'SubgoalController@apiView');
   Route::post('subgoals/{subgoal}/', 'SubgoalController@apiUpdate');
   Route::delete('subgoals/{subgoal}/', 'SubgoalController@apiDelete');
-
   Route::post('/goals/', 'GoalController@apiNew');
   Route::post('/goals/create', 'GoalController@apiCreate');
 
 
-  //Profile API Routes
+  /*
+   *  API routes dedicated to working with profile
+   */
+
   Route::prefix('profile')->group(function () {
 
     Route::get('profile-information', 'ProfileController@profileInformation');
@@ -58,9 +71,14 @@ Route::prefix('api')->group(function () {
   });
 
 
-  //API Stats Middleware
-  //Stats Middleware should have some auth
+
+  /*
+   *  API routes dedicated to working with stats
+   *  SOME OF THESE ROUTES WILL REQUIRE AUTH
+   */
+
   Route::prefix('stats')->group(function () {
+
     //This route group should require authentication
     Route::get('totals', 'StatsController@totals');
     Route::get('difficulty', 'StatsController@difficulty');
@@ -77,8 +95,11 @@ Route::prefix('api')->group(function () {
   });
 
 
-  //API Admin Middleware
-  //Admin Middleware should have some auth
+  /*
+   *  API Admin Middleware
+   *  TEST THAT THESE ROUTES ALL NEED AUTH
+   */
+
   Route::group(['middleware' => ['admin']], function () {
 
     Route::prefix('admin')->group(function () {
@@ -96,6 +117,9 @@ Route::prefix('api')->group(function () {
 
 });
 
+/*
+ *  Routes that require authentication
+ */
 
 Route::group(['middleware' => ['auth']], function () {
 
@@ -103,15 +127,15 @@ Route::group(['middleware' => ['auth']], function () {
   Route::get('subgoals/{subgoal}', 'SubgoalController@view')->name('view-subgoal');
   Route::post('subgoals/{subgoal}/', 'SubgoalController@update')->name('update-subgoal');
   Route::delete('subgoals/{subgoal}/', 'SubgoalController@delete')->name('delete-subgoal');
-
-
   Route::post('goals/', 'GoalController@create')->name('create-goal');
-  //Route::post('goals/{goal}', 'GoalController@new')->name('new-goal');
-
   Route::get('stats', 'StatsController@index')->name('stats');
 
 });
 
+
+/*
+ *  Routes that require admin user
+ */
 
 Route::group(['middleware' => ['admin']], function () {
 
@@ -124,10 +148,8 @@ Route::group(['middleware' => ['admin']], function () {
 
   });
 
-
   Route::post('goals/{goal}/tag', 'GoalController@tag')->name('tag-goal');
   Route::delete('goals/{goal}/tag', 'GoalController@removeTag')->name('remove-tag');
-
   Route::delete('goals/{goal}', 'GoalController@delete')->name('delete-goal');
   Route::post('goals/{goal}/edit', 'GoalController@edit')->name('edit-goal');
 
