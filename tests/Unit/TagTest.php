@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Goal;
 use Tests\TestCase;
 use App\Tag;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -37,6 +38,44 @@ class TagTest extends TestCase {
       ])->first();
 
       $this->assertNotNull($searchForTag);
+
+    }
+
+    /** @test */
+
+    public function can_return_most_popular_tags_statically() {
+
+      $tags = factory(Tag::class, 3)->create();
+      $goals = factory(Goal::class, 3)->create();
+
+      $currentGoalCount = 0;
+
+      foreach($goals as $goal) {
+        $currentGoalCount++;
+
+        switch ($currentGoalCount) {
+
+          case 1:
+            $goal->attachTagToGoal($tags[0]);
+            $goal->attachTagToGoal($tags[1]);
+            $goal->attachTagToGoal($tags[2]);
+            break;
+          case 2:
+            $goal->attachTagToGoal($tags[0]);
+            $goal->attachTagToGoal($tags[1]);
+            break;
+          case 3:
+            $goal->attachTagToGoal($tags[0]);
+            break;
+        }
+
+      }
+
+      $mostPopularTags = Tag::mostPopularTags();
+
+      $this->assertEquals(3, $mostPopularTags[0]->count);
+      $this->assertEquals(2, $mostPopularTags[1]->count);
+      $this->assertEquals(1, $mostPopularTags[2]->count);
 
     }
 
