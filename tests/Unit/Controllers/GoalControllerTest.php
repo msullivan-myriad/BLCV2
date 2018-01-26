@@ -11,23 +11,25 @@ class GoalControllerTest extends TestCase {
 
     use DatabaseTransactions;
 
+    private function canBeViewedByAnyone($url) {
+      $response = $this->get($url);
+      $response->assertStatus(200);
+    }
+
     /** @test */
     public function index_can_be_viewed_by_anyone() {
-      $response = $this->get('goals');
-      $response->assertStatus(200);
+      $this->canBeViewedByAnyone('goals');
     }
 
     /** @test */
     public function individual_goal_can_be_viewed_by_anyone() {
       factory(Goal::class, 'base-test-goal')->create();
-      $response = $this->get('goal/test-goal-name');
-      $response->assertStatus(200);
+      $this->canBeViewedByAnyone('goal/test-goal-name');
     }
 
     /** @test */
     public function api_index_can_be_viewed_by_anyone() {
-      $response = $this->get('api/goals');
-      $response->assertStatus(200);
+      $this->canBeViewedByAnyone('api/goals');
     }
 
     /** @test */
@@ -40,5 +42,11 @@ class GoalControllerTest extends TestCase {
       $jsonGoalsCount = sizeof($jsonAsArray->data->all_goals);
       $this->assertEquals(5, $jsonGoalsCount);
     }
+
+    /** @test */
+    public function api_popular_can_be_viewed_by_anyone() {
+      $this->canBeViewedByAnyone('api/popular');
+    }
+
 
 }
