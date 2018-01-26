@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Goal;
 use App\Tag;
 
-class AdminController extends Controller
-{
+class AdminController extends Controller {
+
     public function index() {
 
         return view('admin.index');

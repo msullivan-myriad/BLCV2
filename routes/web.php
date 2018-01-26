@@ -12,6 +12,12 @@ Route::get('/', function () {
 });
 
 
+
+//I think I would prefer if the prefix is always on the outside of the route group
+//The middleware would always then be on the inside
+//Once I have enough tests to feel more comfortable with refactoring I will make the switch
+
+
 Auth::routes();
 
 /*
@@ -19,7 +25,6 @@ Auth::routes();
  */
 
 Route::get('/home', 'HomeController@index');
-Route::get('search', 'GoalController@search')->name('search-goals');
 Route::get('goals', 'GoalController@index')->name('goals');
 Route::get('goal/{goal}', 'GoalController@view')->name('view-goal');
 Route::get('category/{tag}', 'TagsController@view')->name('view-tags');

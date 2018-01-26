@@ -10,10 +10,9 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Auth;
 
-class GoalTest extends TestCase {
+class GoalModelTest extends TestCase {
 
     use DatabaseTransactions;
-
 
     private $goal;
     private $user;

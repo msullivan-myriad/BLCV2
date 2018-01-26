@@ -7,7 +7,7 @@ use Tests\TestCase;
 use App\Tag;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class TagTest extends TestCase {
+class TagModelTest extends TestCase {
 
     use DatabaseTransactions;
 
