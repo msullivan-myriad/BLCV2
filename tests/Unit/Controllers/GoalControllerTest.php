@@ -10,10 +10,15 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class GoalControllerTest extends TestCase {
 
     use DatabaseTransactions;
+    private $testGoal;
 
     private function canBeViewedByAnyone($url) {
       $response = $this->get($url);
       $response->assertStatus(200);
+    }
+
+    private function createTestGoal() {
+      $this->testGoal = factory(Goal::class, 'base-test-goal')->create();
     }
 
     /** @test */
@@ -71,6 +76,13 @@ class GoalControllerTest extends TestCase {
     /** @test */
     public function api_search_can_search_for_goals() {
 
+      factory(Goal::class, 5)->create();
+      $this->createTestGoal();
+
+      $request = $this->get('api/search?search=Test Goal Name');
+      $jsonAsArray = json_decode($request->getContent());
+
+      $this->assertEquals($this->testGoal->id, $jsonAsArray[0]->id);
     }
 
 
