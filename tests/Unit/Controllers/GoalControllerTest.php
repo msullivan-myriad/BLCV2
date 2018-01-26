@@ -46,6 +46,31 @@ class GoalControllerTest extends TestCase {
     /** @test */
     public function api_popular_can_be_viewed_by_anyone() {
       $this->canBeViewedByAnyone('api/popular');
+
+    }
+
+    /** @test */
+    public function api_popular_is_paginated() {
+
+      factory(Goal::class, 21)->create();
+
+      $response = $this->get('api/popular');
+      $jsonAsArray = json_decode($response->getContent());
+      $popularGoals = $jsonAsArray->data->popular_goals;
+
+      $this->assertEquals(1, $popularGoals->current_page);
+      $this->assertEquals(10, $popularGoals->per_page);
+      $this->assertEquals(21, $popularGoals->total);
+    }
+
+    /** @test */
+    public function api_search_can_be_viewed_by_anyone() {
+      $this->canBeViewedByAnyone('api/search');
+    }
+
+    /** @test */
+    public function api_search_can_search_for_goals() {
+
     }
 
 

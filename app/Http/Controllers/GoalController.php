@@ -78,7 +78,8 @@ class GoalController extends Controller {
   }
 
   public function view($slug) {
-    //Some kind of validation
+
+    //What is the best way to validate this?  Do I
 
     $goal = Goal::where('slug', $slug)->first();
 
