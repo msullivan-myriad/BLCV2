@@ -24,4 +24,21 @@ class GoalControllerTest extends TestCase {
       $response->assertStatus(200);
     }
 
+    /** @test */
+    public function api_index_can_be_viewed_by_anyone() {
+      $response = $this->get('api/goals');
+      $response->assertStatus(200);
+    }
+
+    /** @test */
+    public function api_index_returns_all_goals() {
+
+      factory(Goal::class, 5)->create();
+
+      $response = $this->get('api/goals');
+      $jsonAsArray = json_decode($response->getContent());
+      $jsonGoalsCount = sizeof($jsonAsArray->data->all_goals);
+      $this->assertEquals(5, $jsonGoalsCount);
+    }
+
 }
