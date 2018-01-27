@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Goal;
 use App\User;
+use App\Tag;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -117,7 +118,7 @@ class GoalControllerTest extends TestCase {
     }
 
     /** @test */
-    public function api_tag_only_allows_properly_formatted_tag_names() {
+    public function api_tag_validates_tag_names() {
 
       $this->createTestGoal();
       $user = factory(User::class, 'admin')->create();
@@ -142,7 +143,7 @@ class GoalControllerTest extends TestCase {
     }
 
     /** @test */
-    public function api_tag_returns_the_proper_json_response() {
+    public function api_tag_returns_proper_json_response() {
 
       $this->createTestGoal();
       $user = factory(User::class, 'admin')->create();
@@ -165,10 +166,72 @@ class GoalControllerTest extends TestCase {
       $this->be($user);
       $url = 'api/admin/goals/1/tag';
       $response = $this->post($url, ['tag_name' => 'Normal Name']);
-
       $response->assertStatus(404);
 
+    }
+
+    /** @test */
+    public function api_remove_tag_requires_admin_user() {
+
+      $this->createTestGoal();
+      $tag = factory(Tag::class, 'base-test-tag')->create();
+
+      $this->testGoal->attachTagToGoal('Test Tag');
+
+      $url = 'api/admin/goals/' . $this->testGoal->id . '/tag';
+
+      $request = $this->delete($url, ['tag_id' => $tag->id]);
+      $request->assertStatus(302);
+
+      $user = factory(User::class, 'admin')->create();
+
+      $secondRequest = $this->actingAs($user)->delete($url, ['tag_id' => $tag->id]);
+      $secondRequest->assertStatus(200);
 
     }
+
+    /** @test */
+    public function api_remove_tag_returns_proper_json_response() {
+
+      $this->createTestGoal();
+      $tag = factory(Tag::class, 'base-test-tag')->create();
+
+      $this->testGoal->attachTagToGoal('Test Tag');
+
+      $url = 'api/admin/goals/' . $this->testGoal->id . '/tag';
+      $user = factory(User::class, 'admin')->create();
+
+      $response = $this->actingAs($user)->delete($url, ['tag_id' => $tag->id]);
+      $response->assertStatus(200);
+
+      $jsonAsArray = json_decode($response->getContent());
+      $this->assertTrue($jsonAsArray->data->success);
+
+    }
+
+    /** @test */
+    public function api_remove_tag_validates_tag_id() {
+
+      $this->createTestGoal();
+      $tag = factory(Tag::class, 'base-test-tag')->create();
+
+      $this->testGoal->attachTagToGoal('Test Tag');
+
+      $url = 'api/admin/goals/' . $this->testGoal->id . '/tag';
+      $user = factory(User::class, 'admin')->create();
+
+      $this->be($user);
+
+      $response1 = $this->delete($url, ['tag_id' => '']);
+      $response1->assertStatus(302);
+
+      $response2 = $this->delete($url, ['tag_id' => 'string']);
+      $response2->assertStatus(302);
+
+      $response3 = $this->delete($url, ['tag_id' => $tag->id]);
+      $response3->assertStatus(200);
+
+    }
+
 
 }

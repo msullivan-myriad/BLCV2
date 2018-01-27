@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\CreateNewGoalRequest;
 use App\Http\Requests\CreateNewSubgoalRequest;
 use App\Http\Requests\TagGoalRequest;
+use App\Http\Requests\RemoveTagRequest;
 use Illuminate\Support\Facades\Auth;
 use TomLingham\Searchy\Facades\Searchy;
 
@@ -131,6 +132,7 @@ class GoalController extends Controller {
   }
 
 
+  /*
   public function removeTag(Request $request, Goal $goal) {
     //Detach the requested tag from goal
     // Need to add validation on this request
@@ -141,8 +143,9 @@ class GoalController extends Controller {
     return redirect()->back();
 
   }
+  */
 
-  public function apiRemoveTag(Request $request, Goal $goal) {
+  public function apiRemoveTag(RemoveTagRequest $request, Goal $goal) {
     //Detach the requested tag from goal
     //Need to add validation on this request
 
