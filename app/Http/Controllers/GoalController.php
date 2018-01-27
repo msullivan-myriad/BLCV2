@@ -165,9 +165,8 @@ class GoalController extends Controller {
 
   public function apiDelete(Goal $goal) {
 
-    //Does deleting goal update each of that goals tag numbers when deleted?
-
     $goal->deleteGoal();
+
     return [
       'data' => [
         'success' => true,

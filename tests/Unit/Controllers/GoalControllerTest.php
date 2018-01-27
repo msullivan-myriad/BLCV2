@@ -239,6 +239,30 @@ class GoalControllerTest extends TestCase {
     /** @test */
     public function api_delete_requires_admin_user() {
 
+      $this->createTestGoal();
+
+      $response1 = $this->delete('api/admin/goals/' . $this->testGoal->id);
+      $response1->assertStatus(302);
+
+      $user = factory(User::class, 'admin')->create();
+
+      $response2 = $this->actingAs($user)->delete('api/admin/goals/' . $this->testGoal->id);
+      $response2->assertStatus(200);
+
+    }
+
+    /** @test */
+    public function api_delete_returns_proper_json_response() {
+
+      $this->createTestGoal();
+      $user = factory(User::class, 'admin')->create();
+
+      $response = $this->actingAs($user)->delete('api/admin/goals/' . $this->testGoal->id);
+
+      $jsonAsArray = json_decode($response->getContent());
+
+      $this->assertTrue($jsonAsArray->data->success);
+
     }
 
 
