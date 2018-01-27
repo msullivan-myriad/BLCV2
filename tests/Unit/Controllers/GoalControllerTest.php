@@ -22,6 +22,9 @@ class GoalControllerTest extends TestCase {
     private function canOnlyBeViewedByAdmin($url) {
 
       //I think the thought process is right here, but it probably only makes sense for get requests
+      //Consider making this wide reaching enough for other kinds of requests too, it seems like this is something that is
+      //Going to be nessesary across pretty much all controllers
+
       $request = $this->post($url);
       $request->assertStatus(302);
 
@@ -230,6 +233,11 @@ class GoalControllerTest extends TestCase {
 
       $response3 = $this->delete($url, ['tag_id' => $tag->id]);
       $response3->assertStatus(200);
+
+    }
+
+    /** @test */
+    public function api_delete_requires_admin_user() {
 
     }
 

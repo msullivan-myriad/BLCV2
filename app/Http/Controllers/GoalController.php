@@ -155,14 +155,18 @@ class GoalController extends Controller {
 
   }
 
+  /*
   public function delete(Goal $goal) {
     //Delete this goal and all of its subgoals
     $goal->deleteGoal();
     return redirect()->route('admin-panel');
   }
+  */
 
   public function apiDelete(Goal $goal) {
-    //Delete this goal and all of its subgoals
+
+    //Does deleting goal update each of that goals tag numbers when deleted?
+
     $goal->deleteGoal();
     return [
       'data' => [
