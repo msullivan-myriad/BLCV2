@@ -117,6 +117,8 @@ class GoalController extends Controller {
   public function apiTag(Request $request, Goal $goal) {
     //Since you are passing through the goal... might this as well just be a static method?
     //Probably can move to that, but lets get the tests working first
+    //But $this... wouldn't be accessible by a static method, we aren't working with models anymore, is there a better way to pass through goal?
+    //Probably could just get this via the request right?
 
 
     //Need to validate this name better

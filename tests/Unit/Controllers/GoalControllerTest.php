@@ -107,5 +107,19 @@ class GoalControllerTest extends TestCase {
       $this->canOnlyBeViewedByAdmin('api/admin/goals/' . $this->testGoal->id . '/tag');
     }
 
+    /** @test */
+    public function api_tag_only_allows_properly_formatted_tag_names() {
+      //Need this test still
+      $this->assertTrue(true);
+    }
+
+    /** @test */
+    public function api_tag_returns_the_proper_json_response() {
+      //Need this test still
+      $this->assertTrue(true);
+    }
+
+
+    //Possibly test that attaching tag to goal that doesn't exist breaks
 
 }
