@@ -9,7 +9,6 @@ use App\Http\Requests\CreateNewGoalRequest;
 use App\Http\Requests\CreateNewSubgoalRequest;
 use App\Http\Requests\TagGoalRequest;
 use App\Http\Requests\RemoveTagRequest;
-use Illuminate\Support\Facades\Auth;
 use TomLingham\Searchy\Facades\Searchy;
 
 class GoalController extends Controller {
@@ -81,8 +80,6 @@ class GoalController extends Controller {
 
   public function view($slug) {
 
-    //What is the best way to validate this?  Do I
-
     $goal = Goal::where('slug', $slug)->first();
 
     return view('goals.view')->with([
@@ -146,8 +143,6 @@ class GoalController extends Controller {
   */
 
   public function apiRemoveTag(RemoveTagRequest $request, Goal $goal) {
-    //Detach the requested tag from goal
-    //Need to add validation on this request
 
     $tagId = $request->tag_id;
     $goal->removeTagFromGoal($tagId);
