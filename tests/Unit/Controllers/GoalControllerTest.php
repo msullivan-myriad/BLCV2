@@ -21,6 +21,7 @@ class GoalControllerTest extends TestCase {
 
     private function canOnlyBeViewedByAdmin($url) {
 
+      //I think the thought process is right here, but it probably only makes sense for get requests
       $request = $this->post($url);
       $request->assertStatus(302);
 
@@ -104,7 +105,16 @@ class GoalControllerTest extends TestCase {
 
       $this->createTestGoal();
 
-      $this->canOnlyBeViewedByAdmin('api/admin/goals/' . $this->testGoal->id . '/tag');
+      $url = 'api/admin/goals/' . $this->testGoal->id . '/tag';
+
+      $request = $this->post($url, ['tag_name' => 'filler']);
+      $request->assertStatus(302);
+
+      $user = factory(User::class, 'admin')->create();
+
+      $secondRequest = $this->actingAs($user)->post($url, ['tag_name' => 'filler']);
+      $secondRequest->assertStatus(200);
+
     }
 
     /** @test */

@@ -23,8 +23,7 @@ class CreateNewSubgoalRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules() {
         $user = Auth::user();
         return [
             'cost' => 'required|numeric|max:10000000000',
