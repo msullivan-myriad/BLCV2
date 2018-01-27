@@ -103,8 +103,8 @@ class GoalController extends Controller {
     return $results;
   }
 
+  /*
   public function tag(Request $request, Goal $goal) {
-    //Need to add tags to the database seeder... Maybe it's not nessesary
     //Need to validate this name better, maybe something in the model?
     $name = $request->tag_name;
 
@@ -112,10 +112,14 @@ class GoalController extends Controller {
 
     return redirect()->back();
   }
+  */
 
   public function apiTag(Request $request, Goal $goal) {
-    //Need to add tags to the database seeder... Maybe it's not nessesary
-    //Need to validate this name better, maybe something in the model?
+    //Since you are passing through the goal... might this as well just be a static method?
+    //Probably can move to that, but lets get the tests working first
+
+
+    //Need to validate this name better
     $name = $request->tag_name;
 
     $tagId = $goal->attachTagToGoal($name);

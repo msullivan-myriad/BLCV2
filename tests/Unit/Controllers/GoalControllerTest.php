@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Goal;
+use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -10,11 +11,24 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class GoalControllerTest extends TestCase {
 
     use DatabaseTransactions;
+
     private $testGoal;
 
     private function canBeViewedByAnyone($url) {
-      $response = $this->get($url);
-      $response->assertStatus(200);
+        $response = $this->get($url);
+        $response->assertStatus(200);
+    }
+
+    private function canOnlyBeViewedByAdmin($url) {
+
+      $request = $this->post($url);
+      $request->assertStatus(302);
+
+      $user = factory(User::class, 'admin')->create();
+
+      $secondRequest = $this->actingAs($user)->post($url);
+      $secondRequest->assertStatus(200);
+
     }
 
     private function createTestGoal() {
@@ -83,6 +97,14 @@ class GoalControllerTest extends TestCase {
       $jsonAsArray = json_decode($request->getContent());
 
       $this->assertEquals($this->testGoal->id, $jsonAsArray[0]->id);
+    }
+
+    /** @test */
+    public function api_tag_requires_admin_user() {
+
+      $this->createTestGoal();
+
+      $this->canOnlyBeViewedByAdmin('api/admin/goals/' . $this->testGoal->id . '/tag');
     }
 
 
