@@ -5,7 +5,6 @@ namespace Tests\Unit;
 use App\Goal;
 use App\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class GoalControllerTest extends TestCase {
@@ -144,11 +143,32 @@ class GoalControllerTest extends TestCase {
 
     /** @test */
     public function api_tag_returns_the_proper_json_response() {
-      //Need this test still
-      $this->assertTrue(true);
+
+      $this->createTestGoal();
+      $user = factory(User::class, 'admin')->create();
+      $this->be($user);
+      $url = 'api/admin/goals/' . $this->testGoal->id . '/tag';
+      $response = $this->post($url, ['tag_name' => 'Normal Name']);
+
+      $jsonAsArray = json_decode($response->getContent());
+
+      $this->assertTrue($jsonAsArray->data->success);
+      $this->assertInternalType("int", $jsonAsArray->data->tag_id);
+
+
     }
 
+    /** @test */
+    public function api_tag_requires_a_goal() {
 
-    //Possibly test that attaching tag to goal that doesn't exist breaks
+      $user = factory(User::class, 'admin')->create();
+      $this->be($user);
+      $url = 'api/admin/goals/1/tag';
+      $response = $this->post($url, ['tag_name' => 'Normal Name']);
+
+      $response->assertStatus(404);
+
+
+    }
 
 }
