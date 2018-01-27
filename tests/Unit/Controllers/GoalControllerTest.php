@@ -119,8 +119,27 @@ class GoalControllerTest extends TestCase {
 
     /** @test */
     public function api_tag_only_allows_properly_formatted_tag_names() {
-      //Need this test still
-      $this->assertTrue(true);
+
+      $this->createTestGoal();
+      $user = factory(User::class, 'admin')->create();
+      $this->be($user);
+      $url = 'api/admin/goals/' . $this->testGoal->id . '/tag';
+
+      $request = $this->post($url);
+      $request->assertStatus(302);
+
+      $request1 = $this->post($url, ['tag_name' => 1]);
+      $request1->assertStatus(302);
+
+      $request2 = $this->post($url, ['tag_name' => 'tw']);
+      $request2->assertStatus(302);
+
+      $request3 = $this->post($url, ['tag_name' => 'Really really long string that is over fifty characters']);
+      $request3->assertStatus(302);
+
+      $request4 = $this->post($url, ['tag_name' => 'Normal Name']);
+      $request4->assertStatus(200);
+
     }
 
     /** @test */
