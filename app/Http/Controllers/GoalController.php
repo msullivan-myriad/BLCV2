@@ -138,7 +138,6 @@ class GoalController extends Controller {
     $goal->removeTagFromGoal($tagId);
 
     return redirect()->back();
-
   }
   */
 

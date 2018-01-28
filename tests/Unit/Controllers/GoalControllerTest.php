@@ -265,5 +265,10 @@ class GoalControllerTest extends TestCase {
 
     }
 
+    /** @test */
+    public function api_edit_title_requires_admin_user() {
+        //This is the next thing that needs work
+        $this->assertTrue(true);
+    }
 
 }

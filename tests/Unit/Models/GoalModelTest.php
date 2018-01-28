@@ -417,7 +417,7 @@ class GoalModelTest extends TestCase {
         $tag1 = $moreTags[0];
         $tag2 = $moreTags[1];
 
-        $goals = factory(Goal::class, 10)->create()->each(function($goal) use ($tag1, $tag2) {
+        factory(Goal::class, 10)->create()->each(function($goal) use ($tag1, $tag2) {
 
           $goal->attachTagToGoal($tag1->name);
           $goal->attachTagToGoal($tag2->name);
@@ -430,6 +430,12 @@ class GoalModelTest extends TestCase {
           $this->assertEquals(2, count($goal->tags));
         }
 
+    }
+
+    /** @test */
+    public function when_a_goal_is_deleted_tag_counts_are_updated() {
+      //Need to work on this
+      $this->assertTrue(true);
     }
 
 }
