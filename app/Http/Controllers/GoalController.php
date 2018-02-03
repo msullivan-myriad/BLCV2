@@ -7,6 +7,7 @@ use App\Tag;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateNewGoalRequest;
 use App\Http\Requests\CreateNewSubgoalRequest;
+use App\Http\Requests\EditGoalTitleRequest;
 use App\Http\Requests\TagGoalRequest;
 use App\Http\Requests\RemoveTagRequest;
 use TomLingham\Searchy\Facades\Searchy;
@@ -180,7 +181,7 @@ class GoalController extends Controller {
   }
   */
 
-  public function apiEditTitle(Request $request, Goal $goal) {
+  public function apiEditTitle(EditGoalTitleRequest $request, Goal $goal) {
 
     $goal->editGoal($request->newTitle);
 

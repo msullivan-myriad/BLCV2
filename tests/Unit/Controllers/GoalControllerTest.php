@@ -278,16 +278,38 @@ class GoalControllerTest extends TestCase {
     /** @test */
     public function api_edit_title_requires_admin_user() {
 
-      //This is the next thing that needs work
       $this->createTestGoal();
 
       $url = 'api/admin/goals/' . $this->testGoal->id . '/edit';
 
       $this->canOnlyBeViewedByAdmin('POST', $url, ['newTitle' => 'something']);
 
+    }
 
-      //Need more tests on api_edit_title
+    /** @test */
+    public function api_edit_title_has_validation_on_title() {
+
+      $this->createTestGoal();
+      //$this->createAndBeAdminUser();
+
+      $user = factory(User::class, 'admin')->create();
+      $this->be($user);
+
+      $url = 'api/admin/goals/' . $this->testGoal->id . '/edit';
+
+      $request1 = $this->post($url);
+      $request1->assertStatus(302);
+
+      $request2 = $this->post($url, ['newTitle' => '']);
+      $request2->assertStatus(302);
+
+      $request3 = $this->post($url, ['newTitle' => 88]);
+      $request3->assertStatus(302);
+
+      $request4 = $this->post($url, ['newTitle' => 'Filler Title']);
+      $request4->assertStatus(200);
 
     }
+
 
 }
