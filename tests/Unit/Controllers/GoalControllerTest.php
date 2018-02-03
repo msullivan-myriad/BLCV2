@@ -329,10 +329,7 @@ class GoalControllerTest extends TestCase {
     }
 
     /** @test */
-    public function api_create_required_authenticated_user() {
-
-      //$user = factory(User::class, 'base-test-user')->create();
-      //$this->be($user);
+    public function api_create_requires_authenticated_user() {
 
       $url = 'api/goals/create';
 
@@ -342,6 +339,51 @@ class GoalControllerTest extends TestCase {
         'days' => 10,
         'hours' => 2,
       ]);
+
+    }
+
+    /** @test */
+    public function api_create_has_proper_validation() {
+
+      $user = factory(User::class, 'admin')->create();
+      $this->be($user);
+
+      $response1 = $this->post('api/goals/create', [
+        'title' => 'A really really really really long title that is over a hundred characters',
+        'cost' => 10,
+        'days' => 10,
+        'hours' => 10,
+      ]);
+
+      $response2 = $this->post('api/goals/create', [
+        'title' => 'something',
+        'cost' => 10,
+        'days' => 10,
+        'hours' => 10,
+      ]);
+
+      $response3 = $this->post('api/goals/create', [
+        'title' => 'something',
+        'cost' => 10,
+        'days' => 10,
+        'hours' => 10,
+      ]);
+
+      $response4 = $this->post('api/goals/create', [
+        'title' => 'something',
+        'cost' => 10,
+        'days' => 10,
+        'hours' => 10,
+      ]);
+
+      /*
+      $response1->assertStatus(302);
+      $response2->assertStatus(302);
+      $response3->assertStatus(302);
+      $response4->assertStatus(302);
+      */
+
+
 
 
     }
