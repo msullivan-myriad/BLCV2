@@ -62,6 +62,7 @@ class GoalController extends Controller {
   }
 
 
+  /*
   public function create(CreateNewGoalRequest $request) {
     //When a user creates an entirely new goal
 
@@ -69,6 +70,7 @@ class GoalController extends Controller {
 
     return redirect()->route('subgoals');
   }
+  */
 
 
   public function apiCreate(CreateNewGoalRequest $request) {

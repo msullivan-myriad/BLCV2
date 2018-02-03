@@ -47,11 +47,9 @@ Route::prefix('api')->group(function () {
   Route::get('tags/{tag}', 'GoalController@apiGoalsWithTag');
   Route::get('category-goals/{category}', 'TagsController@categoryGoalsFiltering');
 
-
   /*
    *  API routes that should require auth,
-   *  NEED TO ADD AUTH MIDDLEWARE HERE
-   *  DO THIS WHILE CREATING ROUTE TESTS
+   *  NEED TO ADD AUTH MIDDLEWARE HERE DO THIS WHILE CREATING TESTS
    */
 
   Route::get('subgoals', 'SubgoalController@apiIndex');
@@ -59,8 +57,16 @@ Route::prefix('api')->group(function () {
   Route::get('subgoal/{subgoal}', 'SubgoalController@apiView');
   Route::post('subgoals/{subgoal}/', 'SubgoalController@apiUpdate');
   Route::delete('subgoals/{subgoal}/', 'SubgoalController@apiDelete');
-  Route::post('/goals/', 'GoalController@apiNew');
-  Route::post('/goals/create', 'GoalController@apiCreate');
+
+
+  /*
+   * API routes that require basic auth
+   */
+
+  Route::group(['middleware' => ['auth']], function () {
+    Route::post('/goals/', 'GoalController@apiNew');
+    Route::post('/goals/create', 'GoalController@apiCreate');
+  });
 
 
   /*
@@ -131,7 +137,7 @@ Route::group(['middleware' => ['auth']], function () {
   Route::get('subgoals/{subgoal}', 'SubgoalController@view')->name('view-subgoal');
   Route::post('subgoals/{subgoal}/', 'SubgoalController@update')->name('update-subgoal');
   Route::delete('subgoals/{subgoal}/', 'SubgoalController@delete')->name('delete-subgoal');
-  Route::post('goals/', 'GoalController@create')->name('create-goal');
+  //Route::post('goals/', 'GoalController@create')->name('create-goal');
   Route::get('stats', 'StatsController@index')->name('stats');
 
 });

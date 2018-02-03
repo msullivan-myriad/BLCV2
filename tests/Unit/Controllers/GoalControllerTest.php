@@ -328,6 +328,35 @@ class GoalControllerTest extends TestCase {
 
     }
 
+    /** @test */
+    public function api_create_required_authenticated_user() {
+
+      //$user = factory(User::class, 'base-test-user')->create();
+      //$this->be($user);
+
+      $url = 'api/goals/create';
+
+      $this->canOnlyBeViewedByAdmin('POST', $url, [
+        'title' => 'something',
+        'cost' => 89,
+        'days' => 10,
+        'hours' => 2,
+      ]);
+
+
+    }
+
+    /** @test */
+    public function api_new_requires_authenticated_user() {
+
+      //$user = factory(User::class, 'base-test-user')->create();
+      //$this->be($user);
+      $this->assertTrue(true);
+
+    }
+
+
+
     //Test api popular tags
 
     //Test api goals with tags
