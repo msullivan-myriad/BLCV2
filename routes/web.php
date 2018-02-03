@@ -155,7 +155,7 @@ Route::group(['middleware' => ['admin']], function () {
   //Route::post('goals/{goal}/tag', 'GoalController@tag')->name('tag-goal');
   //Route::delete('goals/{goal}/tag', 'GoalController@removeTag')->name('remove-tag');
   //Route::delete('goals/{goal}', 'GoalController@delete')->name('delete-goal');
-  Route::post('goals/{goal}/edit', 'GoalController@edit')->name('edit-goal');
+  //Route::post('goals/{goal}/edit', 'GoalController@edit')->name('edit-goal');
 
 });
 

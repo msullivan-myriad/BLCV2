@@ -290,26 +290,46 @@ class GoalControllerTest extends TestCase {
     public function api_edit_title_has_validation_on_title() {
 
       $this->createTestGoal();
-      //$this->createAndBeAdminUser();
 
       $user = factory(User::class, 'admin')->create();
       $this->be($user);
 
       $url = 'api/admin/goals/' . $this->testGoal->id . '/edit';
 
-      $request1 = $this->post($url);
-      $request1->assertStatus(302);
+      $response1 = $this->post($url);
+      $response1->assertStatus(302);
 
-      $request2 = $this->post($url, ['newTitle' => '']);
-      $request2->assertStatus(302);
+      $response2 = $this->post($url, ['newTitle' => '']);
+      $response2->assertStatus(302);
 
-      $request3 = $this->post($url, ['newTitle' => 88]);
-      $request3->assertStatus(302);
+      $response3 = $this->post($url, ['newTitle' => 88]);
+      $response3->assertStatus(302);
 
-      $request4 = $this->post($url, ['newTitle' => 'Filler Title']);
-      $request4->assertStatus(200);
+      $response4 = $this->post($url, ['newTitle' => 'Filler Title']);
+      $response4->assertStatus(200);
 
     }
 
+    /** @test */
+    public function api_edit_title_returns_proper_json_response() {
+
+      $this->createTestGoal();
+      $user = factory(User::class, 'admin')->create();
+      $this->be($user);
+
+      $url = 'api/admin/goals/' . $this->testGoal->id . '/edit';
+
+      $response = $this->post($url, ['newTitle' => 'Filler Title']);
+
+      $jsonAsArray = json_decode($response->getContent());
+
+      $this->assertTrue($jsonAsArray->data->success);
+
+
+    }
+
+    //Test api popular tags
+
+    //Test api goals with tags
 
 }

@@ -33,6 +33,7 @@ class GoalController extends Controller {
 
   }
 
+
   public function apiPopular() {
 
     $popular_goals = Goal::allGoals()->paginate(10);
@@ -44,6 +45,7 @@ class GoalController extends Controller {
     ];
 
   }
+
 
   public function apiNew(CreateNewSubgoalRequest $request) {
     //When a user creates a new subgoal from an existing goal
@@ -59,6 +61,7 @@ class GoalController extends Controller {
 
   }
 
+
   public function create(CreateNewGoalRequest $request) {
     //When a user creates an entirely new goal
 
@@ -66,6 +69,7 @@ class GoalController extends Controller {
 
     return redirect()->route('subgoals');
   }
+
 
   public function apiCreate(CreateNewGoalRequest $request) {
     //When a user creates an entirely new goal
@@ -79,6 +83,7 @@ class GoalController extends Controller {
     ];
   }
 
+
   public function view($slug) {
 
     $goal = Goal::where('slug', $slug)->first();
@@ -89,10 +94,14 @@ class GoalController extends Controller {
 
   }
 
+
+  /*
   public function apiView(Goal $goal) {
     $goal->subgoals;
     return $goal;
   }
+  */
+
 
   public function apiSearch(Request $request) {
     //Need some validation that this is actually a string and safe to search with
@@ -103,16 +112,6 @@ class GoalController extends Controller {
     return $results;
   }
 
-  /*
-  public function tag(Request $request, Goal $goal) {
-    //Need to validate this name better, maybe something in the model?
-    $name = $request->tag_name;
-
-    $goal->attachTagToGoal($name);
-
-    return redirect()->back();
-  }
-  */
 
   public function apiTag(TagGoalRequest $request, Goal $goal) {
 
@@ -130,18 +129,6 @@ class GoalController extends Controller {
   }
 
 
-  /*
-  public function removeTag(Request $request, Goal $goal) {
-    //Detach the requested tag from goal
-    // Need to add validation on this request
-
-    $tagId = $request->tag_name;
-    $goal->removeTagFromGoal($tagId);
-
-    return redirect()->back();
-  }
-  */
-
   public function apiRemoveTag(RemoveTagRequest $request, Goal $goal) {
 
     $tagId = $request->tag_id;
@@ -155,13 +142,6 @@ class GoalController extends Controller {
 
   }
 
-  /*
-  public function delete(Goal $goal) {
-    //Delete this goal and all of its subgoals
-    $goal->deleteGoal();
-    return redirect()->route('admin-panel');
-  }
-  */
 
   public function apiDelete(Goal $goal) {
 
@@ -174,12 +154,6 @@ class GoalController extends Controller {
     ];
   }
 
-  /*
-  public function edit(Request $request, Goal $goal) {
-    $goal->editGoal('Test');
-    return redirect()->back();
-  }
-  */
 
   public function apiEditTitle(EditGoalTitleRequest $request, Goal $goal) {
 
@@ -193,6 +167,11 @@ class GoalController extends Controller {
   }
 
   public function apiPopularTags() {
+
+
+    //This seems like it should be in the TagController....?
+
+
     //Return most popular tags
     $tags = Tag::mostPopularTags();
 
@@ -207,6 +186,11 @@ class GoalController extends Controller {
   }
 
   public function apiGoalsWithTag(Tag $tag) {
+
+
+    //This seems like it should be in the TagController....?
+
+
     //Return goals that have this tag
     //Need some validation here on the tag
     $goals = Goal::goalsWithSpecificTag($tag->id)->paginate(3);
