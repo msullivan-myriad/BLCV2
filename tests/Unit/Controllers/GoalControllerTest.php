@@ -19,18 +19,46 @@ class GoalControllerTest extends TestCase {
         $response->assertStatus(200);
     }
 
-    private function canOnlyBeViewedByAdmin($url) {
+    private function canOnlyBeViewedByAdmin($postType, $url, $array = false) {
 
-      //I think the thought process is right here, but it probably only makes sense for get requests
-      //Consider making this wide reaching enough for other kinds of requests too, it seems like this is something that is
-      //Going to be nessesary across pretty much all controllers
-
-      $request = $this->post($url);
-      $request->assertStatus(302);
+      //Going to be useful across pretty much all controllers
+      //Maybe make this a trait?
 
       $user = factory(User::class, 'admin')->create();
 
-      $secondRequest = $this->actingAs($user)->post($url);
+      if ($postType == 'GET') {
+
+      }
+
+      else if ($postType == 'POST') {
+
+        if ($array) {
+          $request = $this->post($url, $array);
+          $secondRequest = $this->actingAs($user)->post($url, $array);
+        }
+        else {
+          $request = $this->post($url);
+          $secondRequest = $this->actingAs($user)->post($url);
+        }
+      }
+
+      else if ($postType == 'DELETE') {
+
+        if ($array) {
+          $request = $this->delete($url, $array);
+          $secondRequest = $this->actingAs($user)->delete($url, $array);
+        }
+        else {
+          $request = $this->delete($url);
+          $secondRequest = $this->actingAs($user)->delete($url);
+        }
+      }
+
+      else {
+        $this->assertTrue(false);
+      }
+
+      $request->assertStatus(302);
       $secondRequest->assertStatus(200);
 
     }
@@ -110,13 +138,7 @@ class GoalControllerTest extends TestCase {
 
       $url = 'api/admin/goals/' . $this->testGoal->id . '/tag';
 
-      $request = $this->post($url, ['tag_name' => 'filler']);
-      $request->assertStatus(302);
-
-      $user = factory(User::class, 'admin')->create();
-
-      $secondRequest = $this->actingAs($user)->post($url, ['tag_name' => 'filler']);
-      $secondRequest->assertStatus(200);
+      $this->canOnlyBeViewedByAdmin('POST', $url, ['tag_name' => 'filler']);
 
     }
 
@@ -183,13 +205,7 @@ class GoalControllerTest extends TestCase {
 
       $url = 'api/admin/goals/' . $this->testGoal->id . '/tag';
 
-      $request = $this->delete($url, ['tag_id' => $tag->id]);
-      $request->assertStatus(302);
-
-      $user = factory(User::class, 'admin')->create();
-
-      $secondRequest = $this->actingAs($user)->delete($url, ['tag_id' => $tag->id]);
-      $secondRequest->assertStatus(200);
+      $this->canOnlyBeViewedByAdmin('DELETE', $url, ['tag_id' => $tag->id]);
 
     }
 
@@ -241,13 +257,7 @@ class GoalControllerTest extends TestCase {
 
       $this->createTestGoal();
 
-      $response1 = $this->delete('api/admin/goals/' . $this->testGoal->id);
-      $response1->assertStatus(302);
-
-      $user = factory(User::class, 'admin')->create();
-
-      $response2 = $this->actingAs($user)->delete('api/admin/goals/' . $this->testGoal->id);
-      $response2->assertStatus(200);
+      $this->canOnlyBeViewedByAdmin('DELETE', 'api/admin/goals/' . $this->testGoal->id);
 
     }
 
@@ -267,8 +277,17 @@ class GoalControllerTest extends TestCase {
 
     /** @test */
     public function api_edit_title_requires_admin_user() {
-        //This is the next thing that needs work
-        $this->assertTrue(true);
+
+      //This is the next thing that needs work
+      $this->createTestGoal();
+
+      $url = 'api/admin/goals/' . $this->testGoal->id . '/edit';
+
+      $this->canOnlyBeViewedByAdmin('POST', $url, ['newTitle' => 'something']);
+
+
+      //Need more tests on api_edit_title
+
     }
 
 }
