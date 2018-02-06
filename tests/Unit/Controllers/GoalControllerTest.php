@@ -19,12 +19,19 @@ class GoalControllerTest extends TestCase {
         $response->assertStatus(200);
     }
 
-    private function canOnlyBeViewedByAdmin($postType, $url, $array = false) {
+    private function canOnlyBeViewedBy($userType, $postType, $url, $array = false) {
 
       //Going to be useful across pretty much all controllers
       //Maybe make this a trait?
 
-      $user = factory(User::class, 'admin')->create();
+      if($userType == 'admin') {
+        $user = factory(User::class, 'admin')->create();
+
+      }
+      else if ($userType == 'auth') {
+        $user = factory(User::class, 'base-test-user')->create();
+      }
+
 
       if ($postType == 'GET') {
 
@@ -138,7 +145,7 @@ class GoalControllerTest extends TestCase {
 
       $url = 'api/admin/goals/' . $this->testGoal->id . '/tag';
 
-      $this->canOnlyBeViewedByAdmin('POST', $url, ['tag_name' => 'filler']);
+      $this->canOnlyBeViewedBy('admin', 'POST', $url, ['tag_name' => 'filler']);
 
     }
 
@@ -205,7 +212,7 @@ class GoalControllerTest extends TestCase {
 
       $url = 'api/admin/goals/' . $this->testGoal->id . '/tag';
 
-      $this->canOnlyBeViewedByAdmin('DELETE', $url, ['tag_id' => $tag->id]);
+      $this->canOnlyBeViewedBy('admin', 'DELETE', $url, ['tag_id' => $tag->id]);
 
     }
 
@@ -257,7 +264,7 @@ class GoalControllerTest extends TestCase {
 
       $this->createTestGoal();
 
-      $this->canOnlyBeViewedByAdmin('DELETE', 'api/admin/goals/' . $this->testGoal->id);
+      $this->canOnlyBeViewedBy('admin', 'DELETE', 'api/admin/goals/' . $this->testGoal->id);
 
     }
 
@@ -282,7 +289,7 @@ class GoalControllerTest extends TestCase {
 
       $url = 'api/admin/goals/' . $this->testGoal->id . '/edit';
 
-      $this->canOnlyBeViewedByAdmin('POST', $url, ['newTitle' => 'something']);
+      $this->canOnlyBeViewedBy('admin', 'POST', $url, ['newTitle' => 'something']);
 
     }
 
@@ -333,7 +340,7 @@ class GoalControllerTest extends TestCase {
 
       $url = 'api/goals/create';
 
-      $this->canOnlyBeViewedByAdmin('POST', $url, [
+      $this->canOnlyBeViewedBy('auth', 'POST', $url, [
         'title' => 'something',
         'cost' => 89,
         'days' => 10,
@@ -349,55 +356,111 @@ class GoalControllerTest extends TestCase {
       $this->be($user);
 
       $response1 = $this->post('api/goals/create', [
-        'title' => 'A really really really really long title that is over a hundred characters',
+        'title' => 'Something',
         'cost' => 10,
         'days' => 10,
         'hours' => 10,
       ]);
 
       $response2 = $this->post('api/goals/create', [
-        'title' => 'something',
+        'title' => 'Something',
         'cost' => 10,
         'days' => 10,
         'hours' => 10,
       ]);
 
-      $response3 = $this->post('api/goals/create', [
-        'title' => 'something',
-        'cost' => 10,
-        'days' => 10,
-        'hours' => 10,
-      ]);
-
-      $response4 = $this->post('api/goals/create', [
-        'title' => 'something',
-        'cost' => 10,
-        'days' => 10,
-        'hours' => 10,
-      ]);
-
-      /*
-      $response1->assertStatus(302);
+      $response1->assertStatus(200);
       $response2->assertStatus(302);
-      $response3->assertStatus(302);
-      $response4->assertStatus(302);
-      */
-
-
-
 
     }
 
     /** @test */
-    public function api_new_requires_authenticated_user() {
+    public function api_create_returns_proper_json_response() {
 
-      //$user = factory(User::class, 'base-test-user')->create();
-      //$this->be($user);
-      $this->assertTrue(true);
+
+      $user = factory(User::class, 'admin')->create();
+      $this->be($user);
+
+      $response = $this->post('api/goals/create', [
+        'title' => 'Something',
+        'cost' => 10,
+        'days' => 10,
+        'hours' => 10,
+      ]);
+
+
+      $jsonAsArray = json_decode($response->getContent());
+
+      $this->assertTrue($jsonAsArray->data->success);
+
 
     }
 
 
+    /** @test */
+    public function api_new_requires_authenticated_user() {
+
+      $url = 'api/goals';
+      $this->createTestGoal();
+
+      $this->canOnlyBeViewedBy('auth', 'POST', $url, [
+        'cost' => 89,
+        'days' => 10,
+        'hours' => 2,
+        'goal_id' => $this->testGoal->id,
+      ]);
+
+    }
+
+    /** @test */
+    public function api_new_has_proper_validation() {
+
+      $user = factory(User::class, 'base-test-user')->create();
+      $this->be($user);
+
+      $this->createTestGoal();
+
+      $response1 = $this->post('api/goals', [
+        'cost' => 10,
+        'days' => 10,
+        'hours' => 10,
+        'goal_id' => $this->testGoal->id,
+      ]);
+
+      $response1->assertStatus(200);
+
+      $response2 = $this->post('api/goals', [
+        'cost' => 8,
+        'days' => 1,
+        'hours' => 134,
+        'goal_id' => $this->testGoal->id,
+      ]);
+
+      $response2->assertStatus(302);
+
+    }
+
+    /** @test */
+    public function api_new_returns_proper_json_response() {
+
+      $user = factory(User::class, 'base-test-user')->create();
+      $this->be($user);
+
+      $this->createTestGoal();
+
+      $response = $this->post('api/goals', [
+        'cost' => 10,
+        'days' => 10,
+        'hours' => 10,
+        'goal_id' => $this->testGoal->id,
+      ]);
+
+      $jsonAsArray = json_decode($response->getContent());
+
+      $this->assertTrue($jsonAsArray->data->success);
+
+
+    }
 
     //Test api popular tags
 

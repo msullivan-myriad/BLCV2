@@ -34,6 +34,7 @@ class CreateNewSubgoalRequest extends FormRequest
                 //Require that subgoal is unique, but only to the auth user
                 Rule::unique('subgoals')->where('user_id', $user->id),
             ],
+
         ];
     }
 

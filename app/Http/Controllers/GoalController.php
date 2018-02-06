@@ -51,6 +51,7 @@ class GoalController extends Controller {
     //When a user creates a new subgoal from an existing goal
 
     $goal = Goal::find($request->goal_id);
+
     $goal->createNewSubgoal($request->cost, $request->hours, $request->days);
 
     return [
