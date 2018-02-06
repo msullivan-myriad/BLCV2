@@ -7,8 +7,7 @@ use App\Goal;
 use Illuminate\Http\Request;
 
 
-class TagsController extends Controller
-{
+class TagsController extends Controller {
 
     public function view($tagSlug) {
         //maybe need some auth here?

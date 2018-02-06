@@ -14,6 +14,7 @@ class GoalControllerTest extends TestCase {
 
     private $testGoal;
 
+    //Need to move to parent controller test object
     private function canBeViewedByAnyone($url) {
         $response = $this->get($url);
         $response->assertStatus(200);
@@ -461,9 +462,5 @@ class GoalControllerTest extends TestCase {
 
 
     }
-
-    //Test api popular tags
-
-    //Test api goals with tags
 
 }

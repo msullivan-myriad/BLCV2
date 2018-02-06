@@ -43,7 +43,7 @@ class TagModelTest extends TestCase {
 
     /** @test */
 
-    public function can_return_most_popular_tags_statidly() {
+    public function can_return_most_popular_tags_staticly() {
 
       $tags = factory(Tag::class, 3)->create();
       $goals = factory(Goal::class, 3)->create();
