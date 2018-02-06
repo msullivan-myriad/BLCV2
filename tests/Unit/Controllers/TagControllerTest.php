@@ -35,6 +35,18 @@ class TagControllerTest extends TestCase {
         'tags' => [
         ]
       ]]);
-
     }
+
+    /** @test */
+    public function api_goals_with_tags_can_be_viewed_by_anyone() {
+      $tag = factory(Tag::class, 'base-test-tag')->create();
+      $this->canBeViewedByAnyone('api/tags/' . $tag->id);
+    }
+
+    /** @test */
+    public function api_goals_with_tags_returns_proper_json_response() {
+      //Left off here
+      $this->assertTrue(true);
+    }
+
 }
