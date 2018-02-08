@@ -73,4 +73,26 @@ class TagsController extends Controller {
 
     }
 
+  public function apiPopularTags() {
+
+    $tags = Tag::mostPopularTags();
+
+    return [
+
+      'data' => [
+        'tags' => $tags,
+      ],
+
+    ];
+
+  }
+
+  public function apiGoalsWithTag(Tag $tag) {
+
+    $goals = Goal::goalsWithSpecificTag($tag->id)->paginate(3);
+
+    return $goals;
+  }
+
+
 }

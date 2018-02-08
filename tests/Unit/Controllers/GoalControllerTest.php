@@ -5,75 +5,10 @@ namespace Tests\Unit;
 use App\Goal;
 use App\User;
 use App\Tag;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\ControllerTestCase;
 
-class GoalControllerTest extends TestCase {
+class GoalControllerTest extends ControllerTestCase {
 
-    use DatabaseTransactions;
-
-    private $testGoal;
-
-    //Need to move to parent controller test object
-    private function canBeViewedByAnyone($url) {
-        $response = $this->get($url);
-        $response->assertStatus(200);
-    }
-
-    private function canOnlyBeViewedBy($userType, $postType, $url, $array = false) {
-
-      //Going to be useful across pretty much all controllers
-      //Maybe make this a trait?
-
-      if($userType == 'admin') {
-        $user = factory(User::class, 'admin')->create();
-
-      }
-      else if ($userType == 'auth') {
-        $user = factory(User::class, 'base-test-user')->create();
-      }
-
-
-      if ($postType == 'GET') {
-
-      }
-
-      else if ($postType == 'POST') {
-
-        if ($array) {
-          $request = $this->post($url, $array);
-          $secondRequest = $this->actingAs($user)->post($url, $array);
-        }
-        else {
-          $request = $this->post($url);
-          $secondRequest = $this->actingAs($user)->post($url);
-        }
-      }
-
-      else if ($postType == 'DELETE') {
-
-        if ($array) {
-          $request = $this->delete($url, $array);
-          $secondRequest = $this->actingAs($user)->delete($url, $array);
-        }
-        else {
-          $request = $this->delete($url);
-          $secondRequest = $this->actingAs($user)->delete($url);
-        }
-      }
-
-      else {
-        $this->assertTrue(false);
-      }
-
-      $request->assertStatus(302);
-      $secondRequest->assertStatus(200);
-
-    }
-
-    private function createTestGoal() {
-      $this->testGoal = factory(Goal::class, 'base-test-goal')->create();
-    }
 
     /** @test */
     public function index_can_be_viewed_by_anyone() {
@@ -131,20 +66,20 @@ class GoalControllerTest extends TestCase {
     public function api_search_can_search_for_goals() {
 
       factory(Goal::class, 5)->create();
-      $this->createTestGoal();
+      $this->createBaseGoal();
 
       $request = $this->get('api/search?search=Test Goal Name');
       $jsonAsArray = json_decode($request->getContent());
 
-      $this->assertEquals($this->testGoal->id, $jsonAsArray[0]->id);
+      $this->assertEquals($this->goal->id, $jsonAsArray[0]->id);
     }
 
     /** @test */
     public function api_tag_requires_admin_user() {
 
-      $this->createTestGoal();
+      $this->createBaseGoal();
 
-      $url = 'api/admin/goals/' . $this->testGoal->id . '/tag';
+      $url = 'api/admin/goals/' . $this->goal->id . '/tag';
 
       $this->canOnlyBeViewedBy('admin', 'POST', $url, ['tag_name' => 'filler']);
 
@@ -153,10 +88,10 @@ class GoalControllerTest extends TestCase {
     /** @test */
     public function api_tag_validates_tag_names() {
 
-      $this->createTestGoal();
+      $this->createBaseGoal();
       $user = factory(User::class, 'admin')->create();
       $this->be($user);
-      $url = 'api/admin/goals/' . $this->testGoal->id . '/tag';
+      $url = 'api/admin/goals/' . $this->goal->id . '/tag';
 
       $request = $this->post($url);
       $request->assertStatus(302);
@@ -178,10 +113,10 @@ class GoalControllerTest extends TestCase {
     /** @test */
     public function api_tag_returns_proper_json_response() {
 
-      $this->createTestGoal();
+      $this->createBaseGoal();
       $user = factory(User::class, 'admin')->create();
       $this->be($user);
-      $url = 'api/admin/goals/' . $this->testGoal->id . '/tag';
+      $url = 'api/admin/goals/' . $this->goal->id . '/tag';
       $response = $this->post($url, ['tag_name' => 'Normal Name']);
 
       $jsonAsArray = json_decode($response->getContent());
@@ -206,12 +141,12 @@ class GoalControllerTest extends TestCase {
     /** @test */
     public function api_remove_tag_requires_admin_user() {
 
-      $this->createTestGoal();
+      $this->createBaseGoal();
       $tag = factory(Tag::class, 'base-test-tag')->create();
 
-      $this->testGoal->attachTagToGoal('Test Tag');
+      $this->goal->attachTagToGoal('Test Tag');
 
-      $url = 'api/admin/goals/' . $this->testGoal->id . '/tag';
+      $url = 'api/admin/goals/' . $this->goal->id . '/tag';
 
       $this->canOnlyBeViewedBy('admin', 'DELETE', $url, ['tag_id' => $tag->id]);
 
@@ -220,12 +155,12 @@ class GoalControllerTest extends TestCase {
     /** @test */
     public function api_remove_tag_returns_proper_json_response() {
 
-      $this->createTestGoal();
+      $this->createBaseGoal();
       $tag = factory(Tag::class, 'base-test-tag')->create();
 
-      $this->testGoal->attachTagToGoal('Test Tag');
+      $this->goal->attachTagToGoal('Test Tag');
 
-      $url = 'api/admin/goals/' . $this->testGoal->id . '/tag';
+      $url = 'api/admin/goals/' . $this->goal->id . '/tag';
       $user = factory(User::class, 'admin')->create();
 
       $response = $this->actingAs($user)->delete($url, ['tag_id' => $tag->id]);
@@ -239,12 +174,12 @@ class GoalControllerTest extends TestCase {
     /** @test */
     public function api_remove_tag_validates_tag_id() {
 
-      $this->createTestGoal();
+      $this->createBaseGoal();
       $tag = factory(Tag::class, 'base-test-tag')->create();
 
-      $this->testGoal->attachTagToGoal('Test Tag');
+      $this->goal->attachTagToGoal('Test Tag');
 
-      $url = 'api/admin/goals/' . $this->testGoal->id . '/tag';
+      $url = 'api/admin/goals/' . $this->goal->id . '/tag';
       $user = factory(User::class, 'admin')->create();
 
       $this->be($user);
@@ -263,19 +198,19 @@ class GoalControllerTest extends TestCase {
     /** @test */
     public function api_delete_requires_admin_user() {
 
-      $this->createTestGoal();
+      $this->createBaseGoal();
 
-      $this->canOnlyBeViewedBy('admin', 'DELETE', 'api/admin/goals/' . $this->testGoal->id);
+      $this->canOnlyBeViewedBy('admin', 'DELETE', 'api/admin/goals/' . $this->goal->id);
 
     }
 
     /** @test */
     public function api_delete_returns_proper_json_response() {
 
-      $this->createTestGoal();
+      $this->createBaseGoal();
       $user = factory(User::class, 'admin')->create();
 
-      $response = $this->actingAs($user)->delete('api/admin/goals/' . $this->testGoal->id);
+      $response = $this->actingAs($user)->delete('api/admin/goals/' . $this->goal->id);
 
       $jsonAsArray = json_decode($response->getContent());
 
@@ -286,9 +221,9 @@ class GoalControllerTest extends TestCase {
     /** @test */
     public function api_edit_title_requires_admin_user() {
 
-      $this->createTestGoal();
+      $this->createBaseGoal();
 
-      $url = 'api/admin/goals/' . $this->testGoal->id . '/edit';
+      $url = 'api/admin/goals/' . $this->goal->id . '/edit';
 
       $this->canOnlyBeViewedBy('admin', 'POST', $url, ['newTitle' => 'something']);
 
@@ -297,12 +232,12 @@ class GoalControllerTest extends TestCase {
     /** @test */
     public function api_edit_title_has_validation_on_title() {
 
-      $this->createTestGoal();
+      $this->createBaseGoal();
 
       $user = factory(User::class, 'admin')->create();
       $this->be($user);
 
-      $url = 'api/admin/goals/' . $this->testGoal->id . '/edit';
+      $url = 'api/admin/goals/' . $this->goal->id . '/edit';
 
       $response1 = $this->post($url);
       $response1->assertStatus(302);
@@ -321,11 +256,11 @@ class GoalControllerTest extends TestCase {
     /** @test */
     public function api_edit_title_returns_proper_json_response() {
 
-      $this->createTestGoal();
+      $this->createBaseGoal();
       $user = factory(User::class, 'admin')->create();
       $this->be($user);
 
-      $url = 'api/admin/goals/' . $this->testGoal->id . '/edit';
+      $url = 'api/admin/goals/' . $this->goal->id . '/edit';
 
       $response = $this->post($url, ['newTitle' => 'Filler Title']);
 
@@ -402,13 +337,13 @@ class GoalControllerTest extends TestCase {
     public function api_new_requires_authenticated_user() {
 
       $url = 'api/goals';
-      $this->createTestGoal();
+      $this->createBaseGoal();
 
       $this->canOnlyBeViewedBy('auth', 'POST', $url, [
         'cost' => 89,
         'days' => 10,
         'hours' => 2,
-        'goal_id' => $this->testGoal->id,
+        'goal_id' => $this->goal->id,
       ]);
 
     }
@@ -419,13 +354,13 @@ class GoalControllerTest extends TestCase {
       $user = factory(User::class, 'base-test-user')->create();
       $this->be($user);
 
-      $this->createTestGoal();
+      $this->createBaseGoal();
 
       $response1 = $this->post('api/goals', [
         'cost' => 10,
         'days' => 10,
         'hours' => 10,
-        'goal_id' => $this->testGoal->id,
+        'goal_id' => $this->goal->id,
       ]);
 
       $response1->assertStatus(200);
@@ -434,7 +369,7 @@ class GoalControllerTest extends TestCase {
         'cost' => 8,
         'days' => 1,
         'hours' => 134,
-        'goal_id' => $this->testGoal->id,
+        'goal_id' => $this->goal->id,
       ]);
 
       $response2->assertStatus(302);
@@ -447,13 +382,13 @@ class GoalControllerTest extends TestCase {
       $user = factory(User::class, 'base-test-user')->create();
       $this->be($user);
 
-      $this->createTestGoal();
+      $this->createBaseGoal();
 
       $response = $this->post('api/goals', [
         'cost' => 10,
         'days' => 10,
         'hours' => 10,
-        'goal_id' => $this->testGoal->id,
+        'goal_id' => $this->goal->id,
       ]);
 
       $jsonAsArray = json_decode($response->getContent());

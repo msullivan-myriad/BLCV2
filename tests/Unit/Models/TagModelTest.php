@@ -5,11 +5,9 @@ namespace Tests\Unit;
 use App\Goal;
 use Tests\TestCase;
 use App\Tag;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class TagModelTest extends TestCase {
 
-    use DatabaseTransactions;
 
     /** @test */
     public function tag_can_be_created() {

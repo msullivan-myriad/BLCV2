@@ -5,19 +5,9 @@ namespace Tests\Unit;
 use App\Profile;
 use App\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserModelTest extends TestCase {
 
-    use DatabaseTransactions;
-
-    private $user;
-
-    private function createBaseUser() {
-
-      $this->user = factory(User::class, 'base-test-user')->create();
-
-    }
 
     /** @test */
     public function can_create_a_basic_user() {

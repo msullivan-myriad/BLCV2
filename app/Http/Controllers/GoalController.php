@@ -169,37 +169,5 @@ class GoalController extends Controller {
     ];
   }
 
-  public function apiPopularTags() {
-
-
-    //This seems like it should be in the TagController....?
-
-
-    //Return most popular tags
-    $tags = Tag::mostPopularTags();
-
-    return [
-
-      'data' => [
-        'tags' => $tags,
-      ],
-
-    ];
-
-  }
-
-  public function apiGoalsWithTag(Tag $tag) {
-
-
-    //This seems like it should be in the TagController....?
-
-
-    //Return goals that have this tag
-    //Need some validation here on the tag
-    $goals = Goal::goalsWithSpecificTag($tag->id)->paginate(3);
-
-    return $goals;
-  }
-
 
 }

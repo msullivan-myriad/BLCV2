@@ -7,30 +7,9 @@ use App\Goal;
 use App\Tag;
 use App\Subgoal;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Auth;
 
 class GoalModelTest extends TestCase {
-
-    use DatabaseTransactions;
-
-    private $goal;
-    private $user;
-
-    private function createBaseGoal() {
-
-      $this->goal = factory(Goal::class, 'base-test-goal')->create();
-
-    }
-
-    private function createBaseGoalWithSubgoal() {
-
-      $this->createBaseGoal();
-      $this->createBaseUser();
-      $this->be($this->user);
-      $this->goal->createDefaultSubgoal();
-
-    }
 
     private function createBaseGoalWithMultipleSubgoals($count) {
 
@@ -46,24 +25,6 @@ class GoalModelTest extends TestCase {
           Auth::logout();
 
       });
-
-
-    }
-
-    private function createBaseUser() {
-
-      $this->user = User::create([
-          'name' => 'Jonathan',
-          'email' => 'jonathan@email.com',
-          'password' => bcrypt('password'),
-          'admin' => false,
-      ]);
-
-    }
-
-    private function createBaseTag() {
-
-      $this->tag = factory(Tag::class, 'base-test-tag')->create();
 
     }
 

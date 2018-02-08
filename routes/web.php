@@ -43,8 +43,8 @@ Route::prefix('api')->group(function () {
   Route::get('/goals/', 'GoalController@apiIndex');
   Route::get('/popular', 'GoalController@apiPopular');
   Route::get('/search/', 'GoalController@apiSearch');
-  Route::get('tags', 'GoalController@apiPopularTags');
-  Route::get('tags/{tag}', 'GoalController@apiGoalsWithTag');
+  Route::get('tags', 'TagsController@apiPopularTags');
+  Route::get('tags/{tag}', 'TagsController@apiGoalsWithTag');
   Route::get('category-goals/{category}', 'TagsController@categoryGoalsFiltering');
 
   /*

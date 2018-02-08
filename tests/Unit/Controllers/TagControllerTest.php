@@ -5,22 +5,10 @@ namespace Tests\Unit;
 use App\Goal;
 use App\User;
 use App\Tag;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\ControllerTestCase;
 
-class TagControllerTest extends TestCase {
+class TagControllerTest extends ControllerTestCase {
 
-    use DatabaseTransactions;
-
-    //Test api popular tags
-
-    //Test api goals with tags
-
-    //Need to move to parent controller test object
-    private function canBeViewedByAnyone($url) {
-        $response = $this->get($url);
-        $response->assertStatus(200);
-    }
 
     /** @test */
     public function api_popular_tags_can_be_viewed_by_anyone() {
@@ -45,8 +33,19 @@ class TagControllerTest extends TestCase {
 
     /** @test */
     public function api_goals_with_tags_returns_proper_json_response() {
-      //Left off here
-      $this->assertTrue(true);
+      $tag = factory(Tag::class, 'base-test-tag')->create();
+      $goal = factory(Goal::class, 'base-test-goal')->create();
+      $goal->attachTagToGoal($tag->name);
+
+      $response = $this->get('api/tags/' . $tag->id);
+
+      $response->assertJson([
+        'current_page' => 1,
+        'data' => [],
+        'per_page' => 3,
+        'total' => 1,
+      ]);
+
     }
 
 }
