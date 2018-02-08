@@ -10,15 +10,17 @@ use Illuminate\Http\Request;
 class TagsController extends Controller {
 
     public function view($tagSlug) {
-        //maybe need some auth here?
+
         $tag = Tag::where('slug', $tagSlug)->first();
+
         return view('tags.view')->with( 'tag', $tag);
     }
 
     public function categoryGoalsFiltering(Request $request, $category) {
 
-      //Do some kind of auth here
-
+      //Should not be relying on request here to get the order,
+      //This is something that should be passed through via a url parameter
+      //Can then just do basic validation on the route
       $tag = Tag::where('slug', $category)->first();
       $tagId = $tag->id;
       $order = $request->order;
@@ -27,7 +29,6 @@ class TagsController extends Controller {
       $initialGoals = Goal::whereHas('tags', function($query) use ($tagId) {
           $query->where('tag_id', $tagId);
       });
-
 
       if ($order == 'cost-desc') {
         $goals = $initialGoals->orderBy('cost', 'desc')->get();

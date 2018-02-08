@@ -27,7 +27,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 Route::get('goals', 'GoalController@index')->name('goals');
 Route::get('goal/{goal}', 'GoalController@view')->name('view-goal');
-Route::get('category/{tag}', 'TagsController@view')->name('view-tags');
+Route::get('category/{tag}', 'TagsController@view')->name('view-tags')->where('tag', '[a-zA-Z\-]+');
 
 
 /*
@@ -45,7 +45,7 @@ Route::prefix('api')->group(function () {
   Route::get('/search/', 'GoalController@apiSearch');
   Route::get('tags', 'TagsController@apiPopularTags');
   Route::get('tags/{tag}', 'TagsController@apiGoalsWithTag');
-  Route::get('category-goals/{category}', 'TagsController@categoryGoalsFiltering');
+  Route::get('category-goals/{category}/', 'TagsController@categoryGoalsFiltering')->where('category', '[a-zA-Z\-]+');
 
   /*
    *  API routes that should require auth,
@@ -157,11 +157,6 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/goals/{goal}', 'AdminController@goal')->name('admin-goal');
 
   });
-
-  //Route::post('goals/{goal}/tag', 'GoalController@tag')->name('tag-goal');
-  //Route::delete('goals/{goal}/tag', 'GoalController@removeTag')->name('remove-tag');
-  //Route::delete('goals/{goal}', 'GoalController@delete')->name('delete-goal');
-  //Route::post('goals/{goal}/edit', 'GoalController@edit')->name('edit-goal');
 
 });
 

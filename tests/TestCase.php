@@ -25,7 +25,6 @@ abstract class TestCase extends BaseTestCase {
       $this->tag = factory(Tag::class, 'base-test-tag')->create();
     }
 
-
     protected function createBaseUser() {
       $this->user = factory(User::class, 'base-test-user')->create();
     }

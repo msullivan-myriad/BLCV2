@@ -17,9 +17,11 @@ class GoalControllerTest extends ControllerTestCase {
 
     /** @test */
     public function individual_goal_can_be_viewed_by_anyone() {
-      factory(Goal::class, 'base-test-goal')->create();
-      $this->canBeViewedByAnyone('goal/test-goal-name');
+      $this->createBaseGoal();
+      $this->canBeViewedByAnyone('goal/' . $this->goal->slug);
     }
+
+    //Individual goal requires authentication on the slug
 
     /** @test */
     public function api_index_can_be_viewed_by_anyone() {
@@ -142,13 +144,13 @@ class GoalControllerTest extends ControllerTestCase {
     public function api_remove_tag_requires_admin_user() {
 
       $this->createBaseGoal();
-      $tag = factory(Tag::class, 'base-test-tag')->create();
+      $this->createBaseTag();
 
       $this->goal->attachTagToGoal('Test Tag');
 
       $url = 'api/admin/goals/' . $this->goal->id . '/tag';
 
-      $this->canOnlyBeViewedBy('admin', 'DELETE', $url, ['tag_id' => $tag->id]);
+      $this->canOnlyBeViewedBy('admin', 'DELETE', $url, ['tag_id' => $this->tag->id]);
 
     }
 
@@ -156,14 +158,14 @@ class GoalControllerTest extends ControllerTestCase {
     public function api_remove_tag_returns_proper_json_response() {
 
       $this->createBaseGoal();
-      $tag = factory(Tag::class, 'base-test-tag')->create();
+      $this->createBaseTag();
 
       $this->goal->attachTagToGoal('Test Tag');
 
       $url = 'api/admin/goals/' . $this->goal->id . '/tag';
       $user = factory(User::class, 'admin')->create();
 
-      $response = $this->actingAs($user)->delete($url, ['tag_id' => $tag->id]);
+      $response = $this->actingAs($user)->delete($url, ['tag_id' => $this->tag->id]);
       $response->assertStatus(200);
 
       $jsonAsArray = json_decode($response->getContent());
@@ -175,7 +177,7 @@ class GoalControllerTest extends ControllerTestCase {
     public function api_remove_tag_validates_tag_id() {
 
       $this->createBaseGoal();
-      $tag = factory(Tag::class, 'base-test-tag')->create();
+      $this->createBaseTag();
 
       $this->goal->attachTagToGoal('Test Tag');
 
@@ -190,7 +192,7 @@ class GoalControllerTest extends ControllerTestCase {
       $response2 = $this->delete($url, ['tag_id' => 'string']);
       $response2->assertStatus(302);
 
-      $response3 = $this->delete($url, ['tag_id' => $tag->id]);
+      $response3 = $this->delete($url, ['tag_id' => $this->tag->id]);
       $response3->assertStatus(200);
 
     }
@@ -351,8 +353,8 @@ class GoalControllerTest extends ControllerTestCase {
     /** @test */
     public function api_new_has_proper_validation() {
 
-      $user = factory(User::class, 'base-test-user')->create();
-      $this->be($user);
+      $this->createBaseUser();
+      $this->be($this->user);
 
       $this->createBaseGoal();
 
@@ -379,10 +381,10 @@ class GoalControllerTest extends ControllerTestCase {
     /** @test */
     public function api_new_returns_proper_json_response() {
 
-      $user = factory(User::class, 'base-test-user')->create();
-      $this->be($user);
-
       $this->createBaseGoal();
+      $this->createBaseUser();
+      $this->be($this->user);
+
 
       $response = $this->post('api/goals', [
         'cost' => 10,
