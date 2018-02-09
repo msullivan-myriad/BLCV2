@@ -107,7 +107,16 @@ class TagControllerTest extends ControllerTestCase {
 
     /** @test */
     public function category_goals_filtering_returns_goals_in_proper_order() {
+
+      $this->createBaseTag();
+      $tag = $this->tag;
+
+      factory(Goal::class, 5)->create()->each(function ($goal) use ($tag) {
+        $goal->attachTagToGoal($tag->name);
+      });
+
       $this->assertTrue(true);
+
     }
 
 }
