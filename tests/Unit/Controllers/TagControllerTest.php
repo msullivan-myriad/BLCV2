@@ -106,7 +106,7 @@ class TagControllerTest extends ControllerTestCase {
     }
 
     /** @test */
-    public function category_goals_filtering_returns_goals_in_proper_order() {
+    public function category_goals_filtering_returns_goals_in_cost_desc() {
 
       $this->createBaseTag();
       $tag = $this->tag;
@@ -115,8 +115,57 @@ class TagControllerTest extends ControllerTestCase {
         $goal->attachTagToGoal($tag->name);
       });
 
-      $this->assertTrue(true);
+      $response = $this->json('GET', 'api/category-goals/' . $this->tag->slug . '?order=cost-desc');
+      $jsonContent = json_decode($response->getContent());
+      $goals = $jsonContent->data->goals;
+
+      $this->assertGreaterThanOrEqual($goals[1]->cost, $goals[0]->cost);
+      $this->assertGreaterThanOrEqual($goals[2]->cost, $goals[1]->cost);
+      $this->assertGreaterThanOrEqual($goals[3]->cost, $goals[2]->cost);
 
     }
+
+    /** @test */
+    public function category_goals_filtering_returns_goals_in_cost_asc() {
+
+      $this->createBaseTag();
+      $tag = $this->tag;
+
+      factory(Goal::class, 5)->create()->each(function ($goal) use ($tag) {
+        $goal->attachTagToGoal($tag->name);
+      });
+
+      $response = $this->json('GET', 'api/category-goals/' . $this->tag->slug . '?order=cost-asc');
+      $jsonContent = json_decode($response->getContent());
+      $goals = $jsonContent->data->goals;
+
+      $this->assertLessThanOrEqual($goals[1]->cost, $goals[0]->cost);
+      $this->assertLessThanOrEqual($goals[2]->cost, $goals[1]->cost);
+      $this->assertLessThanOrEqual($goals[3]->cost, $goals[2]->cost);
+
+    }
+
+    /** @test */
+    public function category_goals_filtering_returns_goals_in_hours_asc() {
+
+      $this->createBaseTag();
+      $tag = $this->tag;
+
+      factory(Goal::class, 5)->create()->each(function ($goal) use ($tag) {
+        $goal->attachTagToGoal($tag->name);
+      });
+
+      $response = $this->json('GET', 'api/category-goals/' . $this->tag->slug . '?order=hours-asc');
+      $jsonContent = json_decode($response->getContent());
+      $goals = $jsonContent->data->goals;
+
+      $this->assertLessThanOrEqual($goals[1]->hours, $goals[0]->hours);
+      $this->assertLessThanOrEqual($goals[2]->hours, $goals[1]->hours);
+      $this->assertLessThanOrEqual($goals[3]->hours, $goals[2]->hours);
+
+    }
+
+
+
 
 }
