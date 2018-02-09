@@ -165,6 +165,27 @@ class TagControllerTest extends ControllerTestCase {
 
     }
 
+    /** @test */
+    public function category_goals_filtering_returns_goals_in_hours_desc() {
+
+      $this->createBaseTag();
+      $tag = $this->tag;
+
+      factory(Goal::class, 5)->create()->each(function ($goal) use ($tag) {
+        $goal->attachTagToGoal($tag->name);
+      });
+
+      $response = $this->json('GET', 'api/category-goals/' . $this->tag->slug . '?order=hours-desc');
+      $jsonContent = json_decode($response->getContent());
+      $goals = $jsonContent->data->goals;
+
+      $this->assertGreaterThanOrEqual($goals[1]->hours, $goals[0]->hours);
+      $this->assertGreaterThanOrEqual($goals[2]->hours, $goals[1]->hours);
+      $this->assertGreaterThanOrEqual($goals[3]->hours, $goals[2]->hours);
+
+    }
+
+
 
 
 
