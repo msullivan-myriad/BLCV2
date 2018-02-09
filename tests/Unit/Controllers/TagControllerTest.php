@@ -185,6 +185,45 @@ class TagControllerTest extends ControllerTestCase {
 
     }
 
+    /** @test */
+    public function category_goals_filtering_returns_goals_in_days_asc() {
+
+      $this->createBaseTag();
+      $tag = $this->tag;
+
+      factory(Goal::class, 5)->create()->each(function ($goal) use ($tag) {
+        $goal->attachTagToGoal($tag->name);
+      });
+
+      $response = $this->json('GET', 'api/category-goals/' . $this->tag->slug . '?order=days-asc');
+      $jsonContent = json_decode($response->getContent());
+      $goals = $jsonContent->data->goals;
+
+      $this->assertLessThanOrEqual($goals[1]->days, $goals[0]->days);
+      $this->assertLessThanOrEqual($goals[2]->days, $goals[1]->days);
+      $this->assertLessThanOrEqual($goals[3]->days, $goals[2]->days);
+
+    }
+
+    /** @test */
+    public function category_goals_filtering_returns_goals_in_days_desc() {
+
+      $this->createBaseTag();
+      $tag = $this->tag;
+
+      factory(Goal::class, 5)->create()->each(function ($goal) use ($tag) {
+        $goal->attachTagToGoal($tag->name);
+      });
+
+      $response = $this->json('GET', 'api/category-goals/' . $this->tag->slug . '?order=days-desc');
+      $jsonContent = json_decode($response->getContent());
+      $goals = $jsonContent->data->goals;
+
+      $this->assertGreaterThanOrEqual($goals[1]->days, $goals[0]->days);
+      $this->assertGreaterThanOrEqual($goals[2]->days, $goals[1]->days);
+      $this->assertGreaterThanOrEqual($goals[3]->days, $goals[2]->days);
+
+    }
 
 
 
