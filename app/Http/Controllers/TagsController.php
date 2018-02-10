@@ -18,9 +18,6 @@ class TagsController extends Controller {
 
     public function categoryGoalsFiltering(Request $request, $category) {
 
-      //Should not be relying on request here to get the order,
-      //This is something that should be passed through via a url parameter
-      //Can then just do basic validation on the route
       $tag = Tag::where('slug', $category)->first();
       $tagId = $tag->id;
       $order = $request->order;

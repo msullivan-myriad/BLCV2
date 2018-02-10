@@ -225,7 +225,63 @@ class TagControllerTest extends ControllerTestCase {
 
     }
 
+    /** @test */
+    public function category_goals_filtering_returns_goals_in_popular_asc() {
 
+      $this->createBaseTag();
+      $tag = $this->tag;
+
+      $this->createBaseUser();
+      $this->be($this->user);
+
+      factory(Goal::class, 5)->create()->each(function ($goal) use ($tag) {
+        $goal->attachTagToGoal($tag->name);
+
+        if (rand(0,1)) {
+          $goal->createDefaultSubgoal();
+        }
+
+      });
+
+      $response = $this->json('GET', 'api/category-goals/' . $this->tag->slug . '?order=popular-asc');
+      $jsonContent = json_decode($response->getContent());
+      $goals = $jsonContent->data->goals;
+
+      $this->assertLessThanOrEqual($goals[1]->subgoals_count, $goals[0]->subgoals_count);
+      $this->assertLessThanOrEqual($goals[2]->subgoals_count, $goals[1]->subgoals_count);
+      $this->assertLessThanOrEqual($goals[3]->subgoals_count, $goals[2]->subgoals_count);
+      $this->assertLessThanOrEqual($goals[4]->subgoals_count, $goals[3]->subgoals_count);
+
+    }
+
+    /** @test */
+    public function category_goals_filtering_returns_goals_in_popular_desc() {
+
+      $this->createBaseTag();
+      $tag = $this->tag;
+
+      $this->createBaseUser();
+      $this->be($this->user);
+
+      factory(Goal::class, 5)->create()->each(function ($goal) use ($tag) {
+        $goal->attachTagToGoal($tag->name);
+
+        if (rand(0,1)) {
+          $goal->createDefaultSubgoal();
+        }
+
+      });
+
+      $response = $this->json('GET', 'api/category-goals/' . $this->tag->slug . '?order=popular-desc');
+      $jsonContent = json_decode($response->getContent());
+      $goals = $jsonContent->data->goals;
+
+      $this->assertGreaterThanOrEqual($goals[1]->subgoals_count, $goals[0]->subgoals_count);
+      $this->assertGreaterThanOrEqual($goals[2]->subgoals_count, $goals[1]->subgoals_count);
+      $this->assertGreaterThanOrEqual($goals[3]->subgoals_count, $goals[2]->subgoals_count);
+      $this->assertGreaterThanOrEqual($goals[4]->subgoals_count, $goals[3]->subgoals_count);
+
+    }
 
 
 }
