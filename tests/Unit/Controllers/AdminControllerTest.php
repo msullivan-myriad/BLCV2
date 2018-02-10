@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Goal;
+use App\Tag;
 use Tests\ControllerTestCase;
 
 class AdminControllerTest extends ControllerTestCase {
@@ -54,6 +55,59 @@ class AdminControllerTest extends ControllerTestCase {
 
   /** @test */
   public function api_tags_returns_proper_json_response() {
+
+
+    $this->createAdminUser();
+    $this->be($this->admin);
+
+
+    $tag1 = factory(Tag::class)->create();
+    $tag2 = factory(Tag::class)->create();
+
+    factory(Goal::class, 2)->create()->each(function($goal) use ($tag1, $tag2) {
+      $goal->attachTagToGoal($tag1->name);
+      $goal->attachTagToGoal($tag2->name);
+    });
+
+    factory(Goal::class, 2)->create()->each(function($goal) use ($tag1, $tag2) {
+      $goal->attachTagToGoal($tag1->name);
+    });
+
+    factory(Goal::class, 2)->create()->each(function($goal) use ($tag1, $tag2) {
+      $goal->attachTagToGoal($tag2->name);
+    });
+
+
+
+    $response = $this->json('GET', 'api/admin/api-tags');
+
+    $jsonResponse = json_decode($response->getContent());
+
+    $goals = $jsonResponse->data->goals;
+    $tags = $jsonResponse->data->tags;
+
+    $this->assertEquals(2, count($tags));
+    $this->assertEquals(6, count($goals));
+
+
+    $response->assertJson([
+      'data' => [
+        'goals' => [
+          [
+           'tags' => [
+              ['id' => $tag1->id],
+              ['id' => $tag2->id],
+           ]
+          ]
+        ],
+
+        'tags' => [
+          ['id' => $tag1->id],
+          ['id' => $tag2->id],
+        ],
+
+      ]
+    ]);
 
   }
 
