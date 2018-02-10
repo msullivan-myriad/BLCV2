@@ -111,4 +111,11 @@ class AdminControllerTest extends ControllerTestCase {
 
   }
 
+  /** @test */
+  public function index_requires_admin() {
+
+    $this->canOnlyBeViewedBy('admin', 'GET', '/blc-admin');
+
+  }
+
 }
