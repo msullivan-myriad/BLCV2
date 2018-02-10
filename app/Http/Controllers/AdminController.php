@@ -5,23 +5,22 @@ namespace App\Http\Controllers;
 use App\Goal;
 use App\Tag;
 
+
 class AdminController extends Controller {
 
-    public function index() {
+    public function apiIndividualTag(Tag $tag) {
 
-        return view('admin.index');
+        $id = $tag->id;
+        $goals = Goal::goalsWithSpecificTag($id)->get();
 
-    }
+        return [
 
-    public function tags() {
-
-        $goals = Goal::allGoalsWithTags()->get();
-        $tags= Tag::mostPopularTags();
-
-        return view('admin.tags')->with([
+          'data' => [
                 'goals' =>$goals,
-                'tags' => $tags,
-        ]);
+                'tag' => $tag,
+          ]
+
+        ];
 
     }
 
@@ -41,29 +40,32 @@ class AdminController extends Controller {
 
     }
 
+    public function goal(Goal $goal) {
+        return view('admin.goal')->with('goal', $goal);
+    }
+
+
+    public function index() {
+
+        return view('admin.index');
+
+    }
+
     public function individualTag() {
         return view('admin.individual-tag');
     }
 
-    public function apiIndividualTag(Tag $tag) {
+    public function tags() {
 
-        $id = $tag->id;
-        $goals = Goal::goalsWithSpecificTag($id)->get();
+        $goals = Goal::allGoalsWithTags()->get();
+        $tags= Tag::mostPopularTags();
 
-        return [
-
-          'data' => [
+        return view('admin.tags')->with([
                 'goals' =>$goals,
-                'tag' => $tag,
-          ]
-
-        ];
+                'tags' => $tags,
+        ]);
 
     }
 
-
-    public function goal(Goal $goal) {
-        return view('admin.goal')->with('goal', $goal);
-    }
 
 }
