@@ -16,6 +16,7 @@ abstract class TestCase extends BaseTestCase {
     protected $goal;
     protected $tag;
     protected $user;
+    protected $admin;
 
     protected function createBaseGoal() {
       $this->goal = factory(Goal::class, 'base-test-goal')->create();
@@ -27,6 +28,10 @@ abstract class TestCase extends BaseTestCase {
 
     protected function createBaseUser() {
       $this->user = factory(User::class, 'base-test-user')->create();
+    }
+
+    protected function createAdminUser() {
+      $this->admin = factory(User::class, 'admin')->create();
     }
 
     protected function createBaseGoalWithSubgoal() {
