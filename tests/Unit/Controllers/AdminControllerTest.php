@@ -118,4 +118,18 @@ class AdminControllerTest extends ControllerTestCase {
 
   }
 
+  /** @test */
+  public function individual_tag_requires_admin() {
+
+    $this->canOnlyBeViewedBy('admin', 'GET', 'blc-admin/tags/individual#1');
+
+  }
+
+  /** @test */
+  public function tags_requires_admin() {
+
+    $this->canOnlyBeViewedBy('admin', 'GET', 'blc-admin/tags');
+
+  }
+
 }

@@ -40,10 +40,6 @@ class AdminController extends Controller {
 
     }
 
-    public function goal(Goal $goal) {
-        return view('admin.goal')->with('goal', $goal);
-    }
-
 
     public function index() {
 
