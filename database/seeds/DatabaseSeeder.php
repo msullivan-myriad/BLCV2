@@ -45,8 +45,6 @@ class DatabaseSeeder extends Seeder {
           $goals[rand(67, 99)]->createNewSubgoalWithRandomValues();
 
 
-
-
           Auth::logout();
 
 

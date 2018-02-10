@@ -25,6 +25,9 @@ abstract class ControllerTestCase extends TestCase {
 
       if ($postType == 'GET') {
 
+        $request = $this->get($url);
+        $secondRequest = $this->actingAs($user)->get($url);
+
       }
 
       else if ($postType == 'POST') {
