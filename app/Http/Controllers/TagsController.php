@@ -73,7 +73,7 @@ class TagsController extends Controller {
 
   public function apiPopularTags() {
 
-    $tags = Tag::mostPopularTags();
+    $tags = Tag::mostPopularTags()->get();
 
     return [
 

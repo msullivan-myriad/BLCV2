@@ -27,7 +27,7 @@ class AdminController extends Controller {
     public function apiTags() {
 
         $goals = Goal::allGoalsWithTags()->get();
-        $tags= Tag::mostPopularTags();
+        $tags= Tag::mostPopularTags()->get();
 
         return [
 
@@ -58,7 +58,7 @@ class AdminController extends Controller {
     public function tags() {
 
         $goals = Goal::allGoalsWithTags()->get();
-        $tags= Tag::mostPopularTags();
+        $tags= Tag::mostPopularTags()->get();
 
         return view('admin.tags')->with([
                 'goals' =>$goals,

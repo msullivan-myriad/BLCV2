@@ -45,4 +45,16 @@ class AdminControllerTest extends ControllerTestCase {
 
   }
 
+  /** @test */
+  public function api_tags_requires_admin() {
+
+    $this->canOnlyBeViewedBy('admin', 'GET', 'api/admin/api-tags/');
+
+  }
+
+  /** @test */
+  public function api_tags_returns_proper_json_response() {
+
+  }
+
 }

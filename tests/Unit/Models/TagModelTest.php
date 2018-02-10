@@ -69,7 +69,7 @@ class TagModelTest extends TestCase {
 
       }
 
-      $mostPopularTags = Tag::mostPopularTags();
+      $mostPopularTags = Tag::mostPopularTags()->get();
 
       $this->assertEquals(3, $mostPopularTags[0]->count);
       $this->assertEquals(2, $mostPopularTags[1]->count);
