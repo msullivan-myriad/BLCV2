@@ -37,7 +37,17 @@ class ProfileControllerTest extends ControllerTestCase {
 
   /** @test */
   function set_birthdate_returns_proper_json_response() {
-    $this->assertTrue(true);
+
+    $this->createBaseUserWithProfile();
+    $this->be($this->user);
+
+    $request = $this->json('POST', 'api/profile/set-birthdate', ['birthdate' => '2018-02-21']);
+
+    $request->assertJson([
+      'data' => [
+        'success' => 'true',
+      ]
+    ]);
   }
 
 }
