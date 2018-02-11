@@ -73,14 +73,17 @@ Route::prefix('api')->group(function () {
    *  API routes dedicated to working with profile
    */
 
-  Route::prefix('profile')->group(function () {
+  Route::group(['middleware' => ['auth']], function () {
 
-    Route::get('profile-information', 'ProfileController@profileInformation');
-    Route::post('dedicated-per-year', 'ProfileController@setDedicatedPerYear');
-    Route::post('set-birthdate', 'ProfileController@setBirthdate');
+    Route::prefix('profile')->group(function () {
+
+      Route::get('profile-information', 'ProfileController@profileInformation');
+      Route::post('dedicated-per-year', 'ProfileController@setDedicatedPerYear');
+      Route::post('set-birthdate', 'ProfileController@setBirthdate');
+
+    });
 
   });
-
 
 
   /*
