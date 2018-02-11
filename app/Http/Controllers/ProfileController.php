@@ -29,14 +29,13 @@ class ProfileController extends Controller {
 
       $profile = $user->profile;
 
+      /*
       $profile->birthday = $request->birthdate;
 
       $profile->save();
-
-
-      /*
-      $profile->setBirthday($request->birthdate);
       */
+
+      $profile->setBirthday($request->birthdate);
 
       return [
         'data' => [
@@ -52,15 +51,15 @@ class ProfileController extends Controller {
 
       $profile = $user->profile;
 
+      /*
       $profile->cost_per_year = $request->cost_per_year;
       $profile->days_per_year = $request->days_per_year;
       $profile->hours_per_year = $request->hours_per_year;
 
       $profile->save();
-
-      /*
-      $profile->setDedicatedPerYear($request->cost_per_year, $request->days_per_year, $request->hours_per_year);
       */
+
+      $profile->setDedicatedPerYear($request->cost_per_year, $request->days_per_year, $request->hours_per_year);
 
       return $request;
 
