@@ -30,6 +30,11 @@ abstract class TestCase extends BaseTestCase {
       $this->user = factory(User::class, 'base-test-user')->create();
     }
 
+    protected function createBaseUserWithProfile() {
+      $this->createBaseUser();
+      $this->user->createProfile();
+    }
+
     protected function createAdminUser() {
       $this->admin = factory(User::class, 'admin')->create();
     }
