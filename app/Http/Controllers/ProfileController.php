@@ -23,7 +23,7 @@ class ProfileController extends Controller {
 
     }
 
-    public function setBirthdate(Request $request) {
+    public function setBirthdate(SetBirthdateRequest $request) {
 
       $user = Auth::user();
 
@@ -41,7 +41,7 @@ class ProfileController extends Controller {
 
     }
 
-    public function setDedicatedPerYear(SetBirthdateRequest $request) {
+    public function setDedicatedPerYear(Request $request) {
 
       $user = Auth::user();
 

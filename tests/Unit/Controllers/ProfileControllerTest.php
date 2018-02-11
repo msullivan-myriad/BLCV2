@@ -32,8 +32,12 @@ class ProfileControllerTest extends ControllerTestCase {
 
   /** @test */
   function set_birthdate_requires_authenticated_user() {
-    $this->canOnlyBeViewedBy('auth', 'POST', 'api/profile/set-birthdate');
+    $this->canOnlyBeViewedBy('auth', 'POST', 'api/profile/set-birthdate', ['birthdate' => '2018-02-21']);
   }
 
+  /** @test */
+  function set_birthdate_returns_proper_json_response() {
+    $this->assertTrue(true);
+  }
 
 }

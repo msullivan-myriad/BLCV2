@@ -21,8 +21,9 @@ class SetBirthdateRequest extends FormRequest {
    * @return array
    */
   public function rules() {
+
     return [
-      //'birthdate' => 'required|string',
+      'birthdate' => 'required|date',
     ];
   }
 }
