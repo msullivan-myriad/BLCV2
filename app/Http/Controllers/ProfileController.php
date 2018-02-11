@@ -33,6 +33,11 @@ class ProfileController extends Controller {
 
       $profile->save();
 
+
+      /*
+      $profile->setBirthday($request->birthdate);
+      */
+
       return [
         'data' => [
           'success' => true,
@@ -52,6 +57,10 @@ class ProfileController extends Controller {
       $profile->hours_per_year = $request->hours_per_year;
 
       $profile->save();
+
+      /*
+      $profile->setDedicatedPerYear($request->cost_per_year, $request->days_per_year, $request->hours_per_year);
+      */
 
       return $request;
 
