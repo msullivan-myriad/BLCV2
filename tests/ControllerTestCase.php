@@ -16,10 +16,12 @@ abstract class ControllerTestCase extends TestCase {
 
       if($userType == 'admin') {
         $user = factory(User::class, 'admin')->create();
+        $user->createProfile();
 
       }
       else if ($userType == 'auth') {
         $user = factory(User::class, 'base-test-user')->create();
+        $user->createProfile();
       }
 
 

@@ -41,7 +41,4 @@ abstract class TestCase extends BaseTestCase {
       $this->goal->createDefaultSubgoal();
     }
 
-
-
-
 }

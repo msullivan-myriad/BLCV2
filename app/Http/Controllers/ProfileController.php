@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Http\Requests\SetBirthdateRequest;
 
 class ProfileController extends Controller {
 
@@ -40,7 +41,7 @@ class ProfileController extends Controller {
 
     }
 
-    public function setDedicatedPerYear(Request $request) {
+    public function setDedicatedPerYear(SetBirthdateRequest $request) {
 
       $user = Auth::user();
 
