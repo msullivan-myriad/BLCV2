@@ -30,5 +30,11 @@ class ProfileControllerTest extends ControllerTestCase {
     ]);
   }
 
+  /** @test */
+  function set_birthdate_requires_authenticated_user() {
+    $this->canOnlyBeViewedBy('auth', 'GET', 'api/profile/profile-information');
+
+  }
+
 
 }
