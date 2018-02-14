@@ -41,13 +41,42 @@ class ProfileControllerTest extends ControllerTestCase {
     $this->createBaseUserWithProfile();
     $this->be($this->user);
 
-    $request = $this->json('POST', 'api/profile/set-birthdate', ['birthdate' => '2018-02-21']);
+    $response = $this->json('POST', 'api/profile/set-birthdate', ['birthdate' => '2018-02-21']);
 
-    $request->assertJson([
+    $response->assertJson([
       'data' => [
         'success' => 'true',
       ]
     ]);
   }
 
+  /** @test */
+  public function set_dedicated_per_year_requires_authenticated_user() {
+    $this->canOnlyBeViewedBy('auth', 'POST', 'api/profile/dedicated-per-year', [
+      'cost_per_year' => 1000,
+      'days_per_year' => 10,
+      'hours_per_year' => 300,
+    ]);
+  }
+
+  /** @test */
+  public function set_decicated_per_year_returns_proper_json_response() {
+
+    $this->createBaseUserWithProfile();
+    $this->be($this->user);
+
+    $response = $this->json('POST', 'api/profile/dedicated-per-year', [
+      'cost_per_year' => 1000,
+      'days_per_year' => 10,
+      'hours_per_year' => 300,
+    ]);
+
+    $response->assertJson([
+      'data' => [
+        'success' => true,
+      ]
+
+    ]);
+
+  }
 }

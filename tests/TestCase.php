@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Goal;
+use App\Subgoal;
 use App\User;
 use App\Tag;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -17,6 +18,7 @@ abstract class TestCase extends BaseTestCase {
     protected $tag;
     protected $user;
     protected $admin;
+    protected $subgoal;
 
     protected function createBaseGoal() {
       $this->goal = factory(Goal::class, 'base-test-goal')->create();
@@ -44,6 +46,7 @@ abstract class TestCase extends BaseTestCase {
       $this->createBaseUser();
       $this->be($this->user);
       $this->goal->createDefaultSubgoal();
+      $this->subgoal = Subgoal::where('goal_id', $this->goal->id)->first();
     }
 
 }

@@ -10,13 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class SubgoalController extends Controller {
 
   public function index() {
-
-    $user = Auth::user();
-    $subgoals = Subgoal::with('goal')->where('user_id', $user->id)->get();
-
-    return view('subgoals.index')->with([
-      'subgoals' => $subgoals,
-    ]);
+    return view('subgoals.index');
   }
 
   public function apiIndex() {
@@ -75,19 +69,6 @@ class SubgoalController extends Controller {
 
   }
 
-  /* Is this being used anymore? */
-
-  public function view(Subgoal $subgoal) {
-
-    $goal = $subgoal->goal;
-
-    return view('subgoals.view')->with([
-      //'subgoal' => $subgoal,
-      'goal' => $goal,
-    ]);
-
-  }
-
   public function apiView($slug) {
 
     //Need some kind of auth for the slug here
@@ -106,23 +87,10 @@ class SubgoalController extends Controller {
 
   }
 
-  public function update(Request $request, Subgoal $subgoal) {
-
-    // Need to authenticate both that this is the users goal and make sure that the request is valid
-
-    $subgoal->cost = $request->cost;
-    $subgoal->hours = $request->hours;
-    $subgoal->days = $request->days;
-    $subgoal->save();
-
-    $subgoal->goal->updateGoalAverages();
-
-    return redirect()->back();
-  }
-
   public function apiUpdate(Request $request, Subgoal $subgoal) {
 
     // Need to authenticate both that this is the users goal and make sure that the request is valid
+    //Require that subgoal is owned by user editing it
 
     $subgoal->cost = $request->cost;
     $subgoal->hours = $request->hours;
@@ -139,20 +107,11 @@ class SubgoalController extends Controller {
 
   }
 
-
-  public function delete(Subgoal $subgoal) {
-    $goal_id = $subgoal->goal->id;
-
-    $subgoal->forceDelete();
-
-    Goal::find($goal_id)->updateGoalAverages();
-
-    return redirect()->route('subgoals');
-  }
-
   public function apiDelete(Subgoal $subgoal) {
 
     //REALLY need authentication here
+    //Require that subgoal is owned by user editing it
+
     $goal_id = $subgoal->goal->id;
 
     $subgoal->forceDelete();

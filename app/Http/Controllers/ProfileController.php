@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\SetBirthdateRequest;
+use App\Http\Requests\SetDedicatePerYearRequest;
 
 class ProfileController extends Controller {
 
@@ -29,12 +30,6 @@ class ProfileController extends Controller {
 
       $profile = $user->profile;
 
-      /*
-      $profile->birthday = $request->birthdate;
-
-      $profile->save();
-      */
-
       $profile->setBirthday($request->birthdate);
 
       return [
@@ -45,23 +40,23 @@ class ProfileController extends Controller {
 
     }
 
-    public function setDedicatedPerYear(Request $request) {
+    public function setDedicatedPerYear(SetDedicatePerYearRequest $request) {
 
       $user = Auth::user();
 
       $profile = $user->profile;
 
-      /*
-      $profile->cost_per_year = $request->cost_per_year;
-      $profile->days_per_year = $request->days_per_year;
-      $profile->hours_per_year = $request->hours_per_year;
-
-      $profile->save();
-      */
-
       $profile->setDedicatedPerYear($request->cost_per_year, $request->days_per_year, $request->hours_per_year);
 
-      return $request;
+      //This was the old return... Changing it doesn't seem to break anything
+      //return $request;
+
+      return [
+        'data' => [
+          'success' => true,
+        ]
+      ];
+
 
     }
 

@@ -12,16 +12,12 @@ class Profile extends Model {
 
   public function setBirthday($date) {
 
-    //Need test for this
-
     $this->birthday = $date;
     $this->save();
 
   }
 
   public function setDedicatedPerYear($cost, $days, $hours) {
-
-      //Need test for this
 
       $this->cost_per_year = $cost;
       $this->days_per_year = $days;
