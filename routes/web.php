@@ -48,7 +48,7 @@ Route::prefix('api')->group(function () {
   Route::get('category-goals/{category}/', 'TagsController@categoryGoalsFiltering')->where('category', '[a-zA-Z\-]+');
 
   /*
-   *  API routes that should require auth,
+   *  API routes that should require auth
    */
 
   Route::group(['middleware' => ['auth']], function () {

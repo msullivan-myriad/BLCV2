@@ -23,6 +23,9 @@ abstract class ControllerTestCase extends TestCase {
         $user = factory(User::class, 'base-test-user')->create();
         $user->createProfile();
       }
+      else if ($userType == 'use-existing') {
+        $user = $this->user;
+      }
 
 
       if ($postType == 'GET') {
