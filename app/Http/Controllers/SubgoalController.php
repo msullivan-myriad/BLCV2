@@ -71,6 +71,7 @@ class SubgoalController extends Controller {
 
   public function apiView($slug) {
 
+    // Need to authenticate both that this is the users goal and make sure that the request is valid
     //Need some kind of auth for the slug here
     $user = Auth::user();
 

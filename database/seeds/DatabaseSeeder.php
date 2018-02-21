@@ -52,6 +52,7 @@ class DatabaseSeeder extends Seeder {
 
         //Get all goals as collection, then loop through and update the goal averages
         // I still am kind of shaky on why this is necessary, should readdress this later
+
         $all = Goal::all();
 
         $all->each(function($g) {
