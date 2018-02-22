@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\User;
+use Illuminate\Support\Facades\Auth;
 
 abstract class ControllerTestCase extends TestCase {
 
@@ -13,6 +14,8 @@ abstract class ControllerTestCase extends TestCase {
     }
 
     protected function canOnlyBeViewedBy($userType, $postType, $url, $array = false) {
+
+      Auth::logout();
 
       if($userType == 'admin') {
         $user = factory(User::class, 'admin')->create();

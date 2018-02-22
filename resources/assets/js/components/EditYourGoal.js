@@ -25,7 +25,7 @@ class EditYourGoal extends Component {
 
     componentDidMount() {
 
-        const url = '/api/subgoal/' + this.props.slug;
+        const url = '/api/subgoals/single/' + this.props.slug;
 
 
         axios.get(url)
@@ -83,7 +83,6 @@ class EditYourGoal extends Component {
                 description: this.state.subgoal.name + ' was successully updated',
                 type: 'success',
             });
-
 
         })
 

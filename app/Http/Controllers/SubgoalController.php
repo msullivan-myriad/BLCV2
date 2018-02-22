@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Subgoal;
 use App\Goal;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\SubgoalOwnedByUserRequest;
+use App\Http\Requests\UpdateSubgoalRequest;
 
 class SubgoalController extends Controller {
 
@@ -69,16 +71,13 @@ class SubgoalController extends Controller {
 
   }
 
-  public function apiView($slug) {
+  public function apiView(SubgoalOwnedByUserRequest $request, $slug) {
 
-    // Need to authenticate both that this is the users goal and make sure that the request is valid
-    //Need some kind of auth for the slug here
     $user = Auth::user();
 
     $subgoal = Subgoal::where('user_id', $user->id)
       ->where('slug', $slug)
       ->first();
-
 
     return [
       'data' => [
@@ -88,7 +87,7 @@ class SubgoalController extends Controller {
 
   }
 
-  public function apiUpdate(Request $request, Subgoal $subgoal) {
+  public function apiUpdate(UpdateSubgoalRequest $request, Subgoal $subgoal) {
 
     // Need to authenticate both that this is the users goal and make sure that the request is valid
     //Require that subgoal is owned by user editing it
@@ -126,5 +125,6 @@ class SubgoalController extends Controller {
     ];
 
   }
+
 
 }

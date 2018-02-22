@@ -334,21 +334,101 @@ class SubgoalControllerTest extends ControllerTestCase {
 
   }
 
+  /** @test */
+  public function api_view_requires_authorized_user() {
+    $this->createBaseGoalWithSubgoal();
+    $this->canOnlyBeViewedBy('use-existing', 'GET', 'api/subgoals/single/' . $this->subgoal->slug );
+  }
+
+  /** @test */
+  public function api_view_invalid_slug_is_404() {
+
+    $this->createBaseGoalWithSubgoal();
+
+    $response1 = $this->get('api/subgoals/single/' . $this->subgoal->slug);
+    $response2 = $this->get('api/subgoals/single/not8valid$slug/');
+
+    $response1->assertStatus(200);
+    $response2->assertStatus(404);
+
+  }
+
+  /** @test */
+  public function api_view_requires_that_subgoal_is_owned_by_user() {
+
+    $this->createBaseGoalWithSubgoal();
+
+    $respsone1 = $this->get('api/subgoals/single/' . $this->subgoal->slug);
+    $respsone1->assertStatus(200);
+
+    $user = factory(User::class)->create();
+    $this->be($user);
+
+    $respsone2 = $this->get('api/subgoals/single/' . $this->subgoal->slug);
+    $respsone2->assertStatus(403);
+
+  }
+
+  /** @test */
+  public function api_view_returns_proper_json_response() {
+
+    $this->createBaseGoalWithSubgoal();
+
+    $response = $this->json('GET', 'api/subgoals/single/' . $this->subgoal->slug);
+
+    $response->assertJson([
+      'data' => [
+        'subgoal' => [
+          'id' => $this->subgoal->id,
+          'name' => $this->subgoal->name,
+          'slug' => $this->subgoal->slug,
+          'user_id' => $this->user->id,
+          'goal_id' => $this->goal->id,
+        ]
+      ],
+    ]);
+  }
 
   /** @test */
   public function api_update_requires_authorized_user() {
 
-    $this->markTestSkipped('come back to this');
+    $this->createBaseGoalWithSubgoal();
+
+    $this->canOnlyBeViewedBy('use-existing', 'POST', 'api/subgoals/' . $this->subgoal->id, [
+      'cost' => 10,
+      'hours' => 5,
+      'days' => 8,
+    ]);
+  }
+
+  /** @test */
+  public function api_update_requires_that_subgoal_is_owned_by_user() {
+
+
+    $this->markTestSkipped('skip for now');
 
     $this->createBaseGoalWithSubgoal();
 
-    //$this->canOnlyBeViewedBy('use-existing', 'POST', 'api/subgoals/' . $this->subgoal->id );
+    $respsone1 = $this->post('api/subgoals/' . $this->subgoal->id, [
+      'cost' => 1,
+      'hours' => 1,
+      'days' => 1,
+    ]);
 
-    //Need to manually test all of this because creating base subgoal then causes this to 'be' the user
-    //Might need to manually test this whole situation
+    $respsone1->assertStatus(200);
+
+    /*
+    $user = factory(User::class)->create();
+    $this->be($user);
+
+    $respsone2 = $this->get('api/subgoals/single/' . $this->subgoal->slug);
+    $respsone2->assertStatus(403);
+    */
 
   }
 
+
+  //Try to move slug validation outside of web.php and into FormRequest validation
 
 }
 
