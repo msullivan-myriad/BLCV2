@@ -8,6 +8,7 @@ use App\Goal;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\SubgoalOwnedByUserRequest;
 use App\Http\Requests\UpdateSubgoalRequest;
+use App\Http\Requests\DeleteSubgoalRequest;
 
 class SubgoalController extends Controller {
 
@@ -89,9 +90,6 @@ class SubgoalController extends Controller {
 
   public function apiUpdate(UpdateSubgoalRequest $request, Subgoal $subgoal) {
 
-    // Need to authenticate both that this is the users goal and make sure that the request is valid
-    //Require that subgoal is owned by user editing it
-
     $subgoal->cost = $request->cost;
     $subgoal->hours = $request->hours;
     $subgoal->days = $request->days;
@@ -107,7 +105,7 @@ class SubgoalController extends Controller {
 
   }
 
-  public function apiDelete(Subgoal $subgoal) {
+  public function apiDelete(DeleteSubgoalRequest $subgoal) {
 
     //REALLY need authentication here
     //Require that subgoal is owned by user editing it

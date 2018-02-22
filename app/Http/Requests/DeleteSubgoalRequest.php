@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Subgoal;
 use Illuminate\Support\Facades\Auth;
 
-class UpdateSubgoalRequest extends FormRequest {
+class DeleteSubgoalRequest extends FormRequest {
 
   /**
    * Determine if the user is authorized to make this request.
@@ -15,11 +15,16 @@ class UpdateSubgoalRequest extends FormRequest {
    */
   public function authorize() {
 
+
+    return true;
+
+    /*
     $subgoal = $this->route('subgoal');
 
     return Subgoal::where('id', $subgoal->id)
       ->where('user_id', Auth::id())
       ->exists();
+    */
 
   }
 
@@ -29,10 +34,6 @@ class UpdateSubgoalRequest extends FormRequest {
    * @return array
    */
   public function rules() {
-    return [
-      'cost' => 'required|numeric|max:10000000000',
-      'days' => 'required|numeric|max:10000',
-      'hours' => 'required|numeric|max:100000',
-    ];
+    return [];
   }
 }
