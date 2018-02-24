@@ -27,7 +27,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 Route::get('goals', 'GoalController@index')->name('goals');
 Route::get('goal/{goal}', 'GoalController@view')->name('view-goal');
-Route::get('category/{tag}', 'TagsController@view')->name('view-tags')->where('tag', '[a-zA-Z\-]+');
+Route::get('category/{tag}', 'TagsController@view')->name('view-tags');
 
 
 /*

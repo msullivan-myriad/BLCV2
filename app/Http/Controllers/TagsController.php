@@ -5,16 +5,18 @@ namespace App\Http\Controllers;
 use App\Tag;
 use App\Goal;
 use App\Http\Requests\CategoryGoalsFilteringRequest;
+use App\Http\Requests\ViewIndividualTagRequest;
 use Illuminate\Http\Request;
 
 
 class TagsController extends Controller {
 
-    public function view($tagSlug) {
+    public function view(ViewIndividualTagRequest $request, $tagSlug) {
 
         $tag = Tag::where('slug', $tagSlug)->first();
 
         return view('tags.view')->with( 'tag', $tag);
+
     }
 
     public function categoryGoalsFiltering(CategoryGoalsFilteringRequest $request, $category) {
@@ -22,6 +24,7 @@ class TagsController extends Controller {
       $tag = Tag::where('slug', $category)->first();
       $tagId = $tag->id;
       $order = $request->order;
+      $goals = false;
 
       //Get goals that have a tag id equal to the current tag id and are also in the goal_ids_array
       $initialGoals = Goal::whereHas('tags', function($query) use ($tagId) {

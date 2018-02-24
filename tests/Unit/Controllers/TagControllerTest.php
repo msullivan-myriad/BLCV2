@@ -56,14 +56,14 @@ class TagControllerTest extends ControllerTestCase {
     }
 
     /** @test */
-    public function view_with_invalid_slug_is_404() {
+    public function view_with_slug_that_does_not_exist_is_403() {
 
       $this->createBaseTag();
       $response1 = $this->get('category/' .  $this->tag->slug);
       $response2 = $this->get('category/not9valid7slug$');
 
       $response1->assertStatus(200);
-      $response2->assertStatus(404);
+      $response2->assertStatus(403);
     }
 
     /** @test */
