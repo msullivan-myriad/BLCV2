@@ -8,9 +8,16 @@ use Illuminate\Support\Facades\Auth;
 abstract class ControllerTestCase extends TestCase {
 
 
-    protected function canBeViewedByAnyone($url) {
+    protected function canBeViewedByAnyone($url, $array = false) {
+
+      if ($array) {
+        $response = $this->json('GET', $url, $array);
+        $response->assertStatus(200);
+      }
+      else {
         $response = $this->get($url);
         $response->assertStatus(200);
+      }
     }
 
     protected function canOnlyBeViewedBy($userType, $postType, $url, $array = false) {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Tag;
 use App\Goal;
+use App\Http\Requests\CategoryGoalsFilteringRequest;
 use Illuminate\Http\Request;
 
 
@@ -16,7 +17,9 @@ class TagsController extends Controller {
         return view('tags.view')->with( 'tag', $tag);
     }
 
-    public function categoryGoalsFiltering(Request $request, $category) {
+    public function categoryGoalsFiltering(CategoryGoalsFilteringRequest $request, $category) {
+
+      //LEFT OFF HERE
 
       $tag = Tag::where('slug', $category)->first();
       $tagId = $tag->id;
