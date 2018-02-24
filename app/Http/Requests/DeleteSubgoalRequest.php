@@ -15,16 +15,11 @@ class DeleteSubgoalRequest extends FormRequest {
    */
   public function authorize() {
 
-
-    return true;
-
-    /*
     $subgoal = $this->route('subgoal');
 
     return Subgoal::where('id', $subgoal->id)
       ->where('user_id', Auth::id())
       ->exists();
-    */
 
   }
 

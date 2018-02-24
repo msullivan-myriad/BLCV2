@@ -486,11 +486,7 @@ class SubgoalControllerTest extends ControllerTestCase {
   /** @test */
   public function api_delete_requires_authorized_user() {
 
-    //Something with adding the delete subgoal request seems to be breaking things
-    $this->markTestSkipped('come back to this');
-
     $this->createBaseGoalWithSubgoal();
-
     $this->canOnlyBeViewedBy('use-existing' ,'DELETE', 'api/subgoals/' . $this->subgoal->id);
 
   }

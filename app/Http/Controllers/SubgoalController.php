@@ -105,7 +105,7 @@ class SubgoalController extends Controller {
 
   }
 
-  public function apiDelete(DeleteSubgoalRequest $subgoal) {
+  public function apiDelete(DeleteSubgoalRequest $request, Subgoal $subgoal) {
 
     //REALLY need authentication here
     //Require that subgoal is owned by user editing it
