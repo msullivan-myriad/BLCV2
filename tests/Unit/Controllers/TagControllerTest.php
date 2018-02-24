@@ -89,25 +89,15 @@ class TagControllerTest extends ControllerTestCase {
       $this->createBaseTag();
       $tag = $this->tag;
 
-      factory(Goal::class, 5)->create()->each(function ($goal) use ($tag) {
+      factory(Goal::class, 1)->create()->each(function ($goal) use ($tag) {
 
         $goal->attachTagToGoal($tag->name);
 
       });
 
-      $response = $this->json('GET', 'api/category-goals/' . $this->tag->slug . '?order=un$formatteD$');
+      $response = $this->json('GET', 'api/category-goals/' . $this->tag->slug, ['order' => 'not-real'] );
 
-      $response->assertStatus(200);
-
-      /*
-      $jsonContent = json_decode($response->getContent());
-
-      $goalCount = sizeof($jsonContent->data->goals);
-
-      $this->assertEquals(5, $goalCount);
-      */
-
-      //Why is this returning a 422?
+      $response->assertStatus(422);
 
     }
 

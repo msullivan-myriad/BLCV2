@@ -19,8 +19,6 @@ class TagsController extends Controller {
 
     public function categoryGoalsFiltering(CategoryGoalsFilteringRequest $request, $category) {
 
-      //LEFT OFF HERE
-
       $tag = Tag::where('slug', $category)->first();
       $tagId = $tag->id;
       $order = $request->order;
@@ -61,12 +59,6 @@ class TagsController extends Controller {
       else if ($order == 'popular-asc') {
         $goals = $initialGoals->orderBy('subgoals_count', 'asc')->get();
       }
-
-      /*
-      else {
-        $goals = $initialGoals->orderBy('cost', 'desc')->get();
-      }
-      */
 
       return [
        'data' => [

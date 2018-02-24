@@ -45,7 +45,7 @@ Route::prefix('api')->group(function () {
   Route::get('/search/', 'GoalController@apiSearch');
   Route::get('tags', 'TagsController@apiPopularTags');
   Route::get('tags/{tag}', 'TagsController@apiGoalsWithTag');
-  Route::get('category-goals/{category}/', 'TagsController@categoryGoalsFiltering')->where('category', '[a-zA-Z\-]+');
+  Route::get('category-goals/{category}/', 'TagsController@categoryGoalsFiltering');
 
   /*
    *  API routes that should require auth
