@@ -495,9 +495,6 @@ class SubgoalControllerTest extends ControllerTestCase {
   /** @test */
   public function api_delete_requires_that_subgoal_is_owned_by_user() {
 
-    $this->markTestSkipped('come back to this');
-
-    /*
     $this->createBaseGoalWithSubgoal();
 
     $respsone1 = $this->delete('api/subgoals/' . $this->subgoal->id);
@@ -512,7 +509,21 @@ class SubgoalControllerTest extends ControllerTestCase {
 
     $respsone2 = $this->delete('api/subgoals/' . $this->subgoal->id);
     $respsone2->assertStatus(403);
-    */
+
+  }
+
+  /** @test */
+  public function api_delete_returns_proper_json_response() {
+
+    $this->createBaseGoalWithSubgoal();
+
+    $response = $this->delete('api/subgoals/' . $this->subgoal->id);
+
+    $response->assertJson([
+      'data' => [
+        'success' => true,
+      ],
+    ]);
 
   }
 
