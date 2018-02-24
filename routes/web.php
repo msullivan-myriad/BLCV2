@@ -55,7 +55,7 @@ Route::prefix('api')->group(function () {
 
     Route::get('subgoals', 'SubgoalController@apiIndex');
     Route::get('subgoals/sort/{order}', 'SubgoalController@apiSorted');
-    Route::get('subgoals/single/{subgoal}', 'SubgoalController@apiView')->where('subgoal', '[a-zA-Z\-]+');
+    Route::get('subgoals/single/{subgoal}', 'SubgoalController@apiView');
     Route::post('subgoals/{subgoal}/', 'SubgoalController@apiUpdate');
     Route::delete('subgoals/{subgoal}/', 'SubgoalController@apiDelete');
 

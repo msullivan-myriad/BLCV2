@@ -315,15 +315,15 @@ class SubgoalControllerTest extends ControllerTestCase {
   }
 
   /** @test */
-  public function api_view_invalid_slug_is_404() {
+  public function api_view_nonexisting_slug_is_403() {
 
     $this->createBaseGoalWithSubgoal();
 
     $response1 = $this->get('api/subgoals/single/' . $this->subgoal->slug);
-    $response2 = $this->get('api/subgoals/single/not8valid$slug/');
+    $response2 = $this->get('api/subgoals/single/not-valid-slug/');
 
     $response1->assertStatus(200);
-    $response2->assertStatus(404);
+    $response2->assertStatus(403);
 
   }
 
