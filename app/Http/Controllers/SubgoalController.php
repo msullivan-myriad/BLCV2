@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Subgoal;
 use App\Goal;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\SubgoalsSortedRequest;
 use App\Http\Requests\SubgoalOwnedByUserRequest;
 use App\Http\Requests\UpdateSubgoalRequest;
 use App\Http\Requests\DeleteSubgoalRequest;
@@ -29,9 +30,10 @@ class SubgoalController extends Controller {
 
   }
 
-  public function apiSorted($order) {
+  public function apiSorted(SubgoalsSortedRequest $request, $order) {
 
     $user = Auth::user();
+
 
     if ($order == 'cost-desc') {
       $subgoals = Subgoal::with('goal')->where('user_id', $user->id)->orderBy('cost', 'desc')->get();
@@ -60,7 +62,10 @@ class SubgoalController extends Controller {
         ->get();
 
     } else {
-      $subgoals = Subgoal::with('goal')->where('user_id', $user->id)->get();
+      //Else do nothing
+      //Request validation should stop this condition from happening
+      $subgoals = false;
+      //$subgoals = Subgoal::with('goal')->where('user_id', $user->id)->get();
     }
 
 

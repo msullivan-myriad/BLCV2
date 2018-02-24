@@ -54,7 +54,7 @@ Route::prefix('api')->group(function () {
   Route::group(['middleware' => ['auth']], function () {
 
     Route::get('subgoals', 'SubgoalController@apiIndex');
-    Route::get('subgoals/sort/{order}', 'SubgoalController@apiSorted')->where('order', '[a-zA-Z\-]+');
+    Route::get('subgoals/sort/{order}', 'SubgoalController@apiSorted');
     Route::get('subgoals/single/{subgoal}', 'SubgoalController@apiView')->where('subgoal', '[a-zA-Z\-]+');
     Route::post('subgoals/{subgoal}/', 'SubgoalController@apiUpdate');
     Route::delete('subgoals/{subgoal}/', 'SubgoalController@apiDelete');

@@ -50,16 +50,16 @@ class SubgoalControllerTest extends ControllerTestCase {
   }
 
   /** @test */
-  public function api_sorted_invalid_slug_is_404() {
+  public function api_sorted_nonexisting_slug_is_unauthorized() {
 
     $this->createBaseUser();
     $this->be($this->user);
 
     $response1 = $this->get('api/subgoals/sort/cost-desc/');
-    $response2 = $this->get('api/subgoals/sort/not8valid$slug/');
+    $response2 = $this->get('api/subgoals/sort/slug-does-not-exist/');
 
     $response1->assertStatus(200);
-    $response2->assertStatus(404);
+    $response2->assertStatus(403);
 
   }
 
@@ -305,33 +305,6 @@ class SubgoalControllerTest extends ControllerTestCase {
     $this->assertLessThanOrEqual($subgoals[1]->subgoals_count, $subgoals[0]->subgoals_count);
     $this->assertLessThanOrEqual($subgoals[2]->subgoals_count, $subgoals[1]->subgoals_count);
     $this->assertLessThanOrEqual($subgoals[3]->subgoals_count, $subgoals[2]->subgoals_count);
-
-  }
-
-  /** @test */
-  public function api_sorted_with_other_string_still_returns_default_subgoals() {
-
-    $this->createBaseUser();
-    $this->be($this->user);
-
-    $goals = factory(Goal::class, 4)->create();
-
-    foreach ($goals as $goal) {
-      $goal->createDefaultSubgoal();
-    }
-
-    $response = $this->json('GET', 'api/subgoals/sort/something-else');
-
-    $response->assertJson([
-      'data' => [
-        'subgoals' => []
-      ]
-    ]);
-
-    $jsonContent = json_decode($response->getContent());
-    $length = sizeof($jsonContent->data->subgoals);
-
-    $this->assertEquals($length, 4);
 
   }
 
