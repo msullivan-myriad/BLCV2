@@ -84,8 +84,7 @@ class TagControllerTest extends ControllerTestCase {
     }
 
     /** @test */
-    /*
-    public function category_goals_filtering_still_returns_default_with_improper_order_parameter() {
+    public function category_goals_filtering_only_accepts_specific_order_options() {
 
       $this->createBaseTag();
       $tag = $this->tag;
@@ -98,14 +97,19 @@ class TagControllerTest extends ControllerTestCase {
 
       $response = $this->json('GET', 'api/category-goals/' . $this->tag->slug . '?order=un$formatteD$');
 
+      $response->assertStatus(200);
+
+      /*
       $jsonContent = json_decode($response->getContent());
 
       $goalCount = sizeof($jsonContent->data->goals);
 
       $this->assertEquals(5, $goalCount);
+      */
+
+      //Why is this returning a 422?
 
     }
-    */
 
     /** @test */
     public function category_goals_filtering_returns_goals_in_cost_desc() {

@@ -29,8 +29,6 @@ class CategoryGoalsFilteringRequest extends FormRequest {
    */
   public function rules() {
 
-    $options = ['cost-desc', 'cost-asc', 'hours-desc', 'hours-asc', 'days-desc', 'days-asc', 'popular-desc', 'popular-asc'];
-
     return [
       'order' => [
         'required',

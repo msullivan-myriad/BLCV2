@@ -62,9 +62,11 @@ class TagsController extends Controller {
         $goals = $initialGoals->orderBy('subgoals_count', 'asc')->get();
       }
 
+      /*
       else {
         $goals = $initialGoals->orderBy('cost', 'desc')->get();
       }
+      */
 
       return [
        'data' => [
