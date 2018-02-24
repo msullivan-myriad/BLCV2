@@ -11,10 +11,6 @@ use Carbon\Carbon;
 
 class StatsController extends Controller {
 
-  public function index() {
-    return view('stats');
-  }
-
   public function totals() {
 
     $user = Auth::user();
