@@ -11,8 +11,6 @@ Route::get('/', function () {
   return view('welcome');
 });
 
-
-
 //I think I would prefer if the prefix is always on the outside of the route group
 //The middleware would always then be on the inside
 //Once I have enough tests to feel more comfortable with refactoring I will make the switch
@@ -96,8 +94,13 @@ Route::prefix('api')->group(function () {
 
   Route::prefix('stats')->group(function () {
 
+    Route::group(['middleware' => ['auth']], function () {
+
+      Route::get('totals', 'StatsController@totals');
+
+    });
+
     //This route group should require authentication
-    Route::get('totals', 'StatsController@totals');
     Route::get('difficulty', 'StatsController@difficulty');
     Route::get('most-and-least-difficult', 'StatsController@mostAndLeastDifficult');
     Route::get('completion-age', 'StatsController@completionAge');

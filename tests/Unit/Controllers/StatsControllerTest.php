@@ -7,8 +7,11 @@ use Tests\ControllerTestCase;
 class StatsControllerTest extends ControllerTestCase {
 
   /** @test */
-  public function firstTest() {
-    $this->assertTrue(true);
+  public function totals_requires_authenticated_user() {
+
+    $this->createBaseGoalWithSubgoal();
+    $this->canOnlyBeViewedBy('use-existing', 'GET', 'api/stats/totals');
   }
+
 
 }

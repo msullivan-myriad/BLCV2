@@ -54,7 +54,6 @@ class StatsController extends Controller {
     $profile_cost = $profile->cost_per_year;
     $profile_days = $profile->days_per_year;
     $profile_hours = $profile->hours_per_year;
-    //$profile_age = $profile->age;
 
     return [
 
@@ -69,7 +68,6 @@ class StatsController extends Controller {
         'profile_cost' => $profile_cost,
         'profile_days' => $profile_days,
         'profile_hours' => $profile_hours,
-        //'profile_age' => $profile_age,
 
         //Number of years it will take using profile per year information
         'cost_years' => round($total_cost / $profile_cost, 1),
