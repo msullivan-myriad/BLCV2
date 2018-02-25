@@ -75,6 +75,23 @@ class StatsControllerTest extends ControllerTestCase {
 
     $this->canOnlyBeViewedBy('use-existing', 'GET', 'api/stats/completion-age');
 
+  }
+
+  /** @test */
+  public function completion_age_without_profile_information_returns_proper_json_response() {
+
+    $this->createBaseUserWithProfile();
+    $this->be($this->user);
+    $this->createBaseGoal();
+    $this->goal->createDefaultSubgoal();
+    //$this->user->profile->setDedicatedPerYear(1000, 10, 100);
+
+    $response = $this->get('api/stats/completion-age');
+
+    $response->assertJson([
+      'test' => [],
+    ]);
+
 
   }
 

@@ -63,13 +63,26 @@ class StatsController extends Controller {
 
     $subgoals = $user->subgoals;
 
+    //Subgoal Totals
     $total_cost = $subgoals->sum('cost');
     $total_days = $subgoals->sum('days');
     $total_hours = $subgoals->sum('hours');
 
+    //Profile Per Year Information
     $profile_cost = $profile->cost_per_year;
     $profile_days = $profile->days_per_year;
     $profile_hours = $profile->hours_per_year;
+
+
+    //Number of years it will take using profile per year information
+    $cost_years = round($total_cost / $profile_cost, 1);
+    $days_years = round($total_days / $profile_days, 1);
+    $hours_years = round($total_hours / $profile_hours, 1);
+
+    //Convert the numbers into rounded month format
+    //Might need to consider just keeping it at years and dealing with the decimal, this might make more sense depending on the graph system I decide on
+    $cost_years_in_months = round($total_cost / $profile_cost * 365.25 / 30.4375);
+    $days_years_in_months = round($total_days / $profile_days * 365.25 / 30.4375);
 
     return [
 
@@ -86,14 +99,14 @@ class StatsController extends Controller {
         'profile_hours' => $profile_hours,
 
         //Number of years it will take using profile per year information
-        'cost_years' => round($total_cost / $profile_cost, 1),
-        'days_years' => round($total_days / $profile_days, 1),
-        'hours_years' => round($total_hours / $profile_hours, 1),
+        'cost_years' => $cost_years,
+        'days_years' => $days_years,
+        'hours_years' => $hours_years,
 
         //Convert the numbers into rounded month format
         //Might need to consider just keeping it at years and dealing with the decimal, this might make more sense depending on the graph system I decide on
-        'cost_years_in_months' => round($total_cost / $profile_cost * 365.25 / 30.4375),
-        'days_years_in_months' => round($total_days / $profile_days * 365.25 / 30.4375),
+        'cost_years_in_months' => $cost_years_in_months,
+        'days_years_in_months' => $days_years_in_months,
 
       ],
     ];
