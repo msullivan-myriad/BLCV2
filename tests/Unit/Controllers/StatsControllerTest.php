@@ -145,4 +145,11 @@ class StatsControllerTest extends ControllerTestCase {
     ]);
   }
 
+  /** @test */
+  public function most_and_least_difficult_requires_authenticated_user() {
+
+    $this->canOnlyBeViewedBy('auth', 'GET', 'api/stats/most-and-least-difficult');
+
+  }
+
 }

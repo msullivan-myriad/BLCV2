@@ -98,12 +98,12 @@ Route::prefix('api')->group(function () {
 
       Route::get('totals', 'StatsController@totals');
       Route::get('completion-age', 'StatsController@completionAge');
+      Route::get('most-and-least-difficult', 'StatsController@mostAndLeastDifficult');
 
     });
 
     //This route group should require authentication
     Route::get('difficulty', 'StatsController@difficulty');
-    Route::get('most-and-least-difficult', 'StatsController@mostAndLeastDifficult');
     Route::get('target-completion-age/{age}', 'StatsController@targetCompletionAge');
     Route::get('individual-goal-stats/{slug}', 'StatsController@individualGoalStats');
     Route::get('users-tags', 'StatsController@getAllUsersTags');
