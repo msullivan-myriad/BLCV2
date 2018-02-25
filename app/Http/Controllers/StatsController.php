@@ -8,6 +8,7 @@ use App\Subgoal;
 use App\Goal;
 use App\Tag;
 use Carbon\Carbon;
+use App\Http\Requests\MostAndLeastDifficultRequest;
 
 class StatsController extends Controller {
 
@@ -129,7 +130,7 @@ class StatsController extends Controller {
 
   }
 
-  public function mostAndLeastDifficult() {
+  public function mostAndLeastDifficult(MostAndLeastDifficultRequest $request) {
 
     $user = Auth::user();
     $profile = $user->profile;

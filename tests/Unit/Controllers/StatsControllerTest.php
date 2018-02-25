@@ -148,7 +148,36 @@ class StatsControllerTest extends ControllerTestCase {
   /** @test */
   public function most_and_least_difficult_requires_authenticated_user() {
 
-    $this->canOnlyBeViewedBy('auth', 'GET', 'api/stats/most-and-least-difficult');
+    $this->createBaseUserWithProfile();
+    $this->user->profile->setDedicatedPerYear(1000, 10, 100);
+    $this->canOnlyBeViewedBy('use-existing', 'GET', 'api/stats/most-and-least-difficult');
+
+  }
+
+  /** @test */
+  public function most_and_least_difficult_requires_user_has_profile_information_filled_out() {
+
+    $this->markTestSkipped();
+
+
+
+    $this->createBaseUser();
+    $this->be($this->user);
+    $response1 = $this->json('GET', 'api/stats/most-and-least-difficult');
+
+    $response1->assertStatus(200);
+
+    /*
+    $this->user->createProfile();
+    $this->user->profile->setDedicatedPerYear(1000, 10, 100);
+
+    $response2 = $this->json('GET', 'api/stats/most-and-least-difficult');
+
+    $response2->assertStatus(201);
+    */
+
+
+
 
   }
 
@@ -157,9 +186,16 @@ class StatsControllerTest extends ControllerTestCase {
 
     $this->markTestSkipped();
 
-    $this->createBaseUserWithProfile();
-    $this->createBaseGoalWithSubgoal();
 
+
+    $this->createBaseGoalWithSubgoal();
+    $this->user->createProfile();
+
+    $response = $this->json('GET', 'api/stats/most-and-least-difficult');
+
+    $response->assertJson([
+      'data' => 0,
+    ]);
 
   }
 
