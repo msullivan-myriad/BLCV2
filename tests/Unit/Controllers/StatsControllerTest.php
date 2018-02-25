@@ -64,4 +64,18 @@ class StatsControllerTest extends ControllerTestCase {
 
   }
 
+  /** @test */
+  public function completion_age_requires_authenticated_user() {
+
+    $this->createBaseUserWithProfile();
+    $this->be($this->user);
+    $this->createBaseGoal();
+    $this->goal->createDefaultSubgoal();
+    $this->user->profile->setDedicatedPerYear(1000, 10, 100);
+
+    $this->canOnlyBeViewedBy('use-existing', 'GET', 'api/stats/completion-age');
+
+
+  }
+
 }
