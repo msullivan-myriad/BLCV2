@@ -89,10 +89,60 @@ class StatsControllerTest extends ControllerTestCase {
     $response = $this->get('api/stats/completion-age');
 
     $response->assertJson([
-      'test' => [],
+
+      'data' => [
+
+        'total_cost' => 700,
+        'total_days' => 10,
+        'total_hours' => 100,
+
+        'profile_cost' => 0,
+        'profile_days' => 0,
+        'profile_hours' => 0,
+
+        'cost_years' => 0,
+        'days_years' => 0,
+        'hours_years' => 0,
+
+        'cost_years_in_months' => 0,
+        'days_years_in_months' => 0,
+
+      ],
     ]);
+  }
 
+  /** @test */
+  public function completion_age_with_profile_information_returns_proper_json_response() {
 
+    $this->createBaseUserWithProfile();
+    $this->be($this->user);
+    $this->createBaseGoal();
+    $this->goal->createDefaultSubgoal();
+    $this->user->profile->setDedicatedPerYear(1000, 10, 100);
+
+    $response = $this->get('api/stats/completion-age');
+
+    $response->assertJson([
+
+      'data' => [
+
+        'total_cost' => 700,
+        'total_days' => 10,
+        'total_hours' => 100,
+
+        'profile_cost' => 1000,
+        'profile_days' => 10,
+        'profile_hours' => 100,
+
+        'cost_years' => 0.7,
+        'days_years' => 1,
+        'hours_years' => 1,
+
+        'cost_years_in_months' => 8,
+        'days_years_in_months' => 12,
+
+      ],
+    ]);
   }
 
 }
