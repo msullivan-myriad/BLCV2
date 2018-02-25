@@ -152,4 +152,15 @@ class StatsControllerTest extends ControllerTestCase {
 
   }
 
+  /** @test */
+  public function most_and_least_difficult_returns_proper_json_response() {
+
+    $this->markTestSkipped();
+
+    $this->createBaseUserWithProfile();
+    $this->createBaseGoalWithSubgoal();
+
+
+  }
+
 }
