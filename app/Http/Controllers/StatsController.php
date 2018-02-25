@@ -16,14 +16,30 @@ class StatsController extends Controller {
     $user = Auth::user();
 
     $subgoals = $user->subgoals;
-    $total_goals = $subgoals->count();
-    $total_cost = $subgoals->sum('cost');
-    $total_days = $subgoals->sum('days');
-    $total_hours = $subgoals->sum('hours');
 
-    $average_cost = round($total_cost / $total_goals);
-    $average_days = round($total_days / $total_goals);
-    $average_hours = round($total_hours / $total_goals);
+    $total_goals = $subgoals->count();
+
+    if ($total_goals > 0) {
+
+      $total_cost = $subgoals->sum('cost');
+      $total_days = $subgoals->sum('days');
+      $total_hours = $subgoals->sum('hours');
+
+      $average_cost = round($total_cost / $total_goals);
+      $average_days = round($total_days / $total_goals);
+      $average_hours = round($total_hours / $total_goals);
+
+    }
+    else {
+
+      $total_cost = 0;
+      $total_days = 0;
+      $total_hours = 0;
+      $average_cost = 0;
+      $average_days = 0;
+      $average_hours = 0;
+
+    }
 
     return [
       'data' => [
