@@ -157,26 +157,25 @@ class StatsControllerTest extends ControllerTestCase {
   /** @test */
   public function most_and_least_difficult_requires_user_has_profile_information_filled_out() {
 
-    $this->markTestSkipped();
-
-
-
-    $this->createBaseUser();
+    $this->createBaseUserWithProfile();
+    $this->user->profile->setDedicatedPerYear(1000, 10, 100);
     $this->be($this->user);
-    $response1 = $this->json('GET', 'api/stats/most-and-least-difficult');
 
+
+    $response1 = $this->json('GET', 'api/stats/most-and-least-difficult');
     $response1->assertStatus(200);
 
-    /*
-    $this->user->createProfile();
-    $this->user->profile->setDedicatedPerYear(1000, 10, 100);
-
+    $this->user->profile->setDedicatedPerYear(1000, 10, 0);
     $response2 = $this->json('GET', 'api/stats/most-and-least-difficult');
+    $response2->assertStatus(403);
 
-    $response2->assertStatus(201);
-    */
+    $this->user->profile->setDedicatedPerYear(1000, 0, 10);
+    $response3 = $this->json('GET', 'api/stats/most-and-least-difficult');
+    $response3->assertStatus(403);
 
-
+    $this->user->profile->setDedicatedPerYear(0, 10, 10);
+    $response4 = $this->json('GET', 'api/stats/most-and-least-difficult');
+    $response4->assertStatus(403);
 
 
   }
@@ -184,19 +183,54 @@ class StatsControllerTest extends ControllerTestCase {
   /** @test */
   public function most_and_least_difficult_returns_proper_json_response() {
 
-    $this->markTestSkipped();
+    $this->createBaseUserWithProfile();
+    $this->user->profile->setDedicatedPerYear(1000, 10, 100);
+    $this->be($this->user);
 
-
-
-    $this->createBaseGoalWithSubgoal();
-    $this->user->createProfile();
+    Goal::newGoal('Test Goal 1', 1000, 10, 1);
+    Goal::newGoal('Test Goal 2', 100, 5, 10);
+    Goal::newGoal('Test Goal 3', 1000, 20, 100);
 
     $response = $this->json('GET', 'api/stats/most-and-least-difficult');
 
     $response->assertJson([
-      'data' => 0,
+      'data' => [
+        'subgoals' => [
+
+          [
+            'name' => 'Test Goal 3',
+            'difficultyPercentageSum' => 11.2,
+          ],
+
+          [
+            'name' => 'Test Goal 1',
+            'difficultyPercentageSum' => 1.2,
+          ],
+
+          [
+            'name' => 'Test Goal 2',
+            'difficultyPercentageSum' => 1.15,
+          ],
+
+        ]
+      ],
     ]);
 
   }
+
+  /** @test */
+  public function target_completion_age_requires_authenticated_user() {
+
+    $this->markTestSkipped('need to set birthdate');
+
+    $this->createBaseUserWithProfile();
+    $this->user->profile->setDedicatedPerYear(1000, 10, 100);
+    //Need to set a birthdate here
+    $this->user->profile->setBirthdate();
+    $this->be($this->user);
+    $this->canOnlyBeViewedBy('use-existing', 'GET', 'api/stats/target-completion-age/50');
+
+  }
+
 
 }

@@ -16,15 +16,15 @@ class MostAndLeastDifficultRequest extends FormRequest {
    */
   public function authorize() {
 
-    /*
+    //User must have profile information filled out before accessing this route
     $user = Auth::user();
     $profile = $user->profile;
 
+
     $willAuthenticate = true;
 
-    if (0 >= $profile->cost_per_year) {
 
-      dd('gettig here');
+    if (0 >= $profile->cost_per_year) {
       $willAuthenticate = false;
     }
 
@@ -38,8 +38,6 @@ class MostAndLeastDifficultRequest extends FormRequest {
     }
 
     return $willAuthenticate;
-    */
-    return true;
 
   }
 

@@ -147,7 +147,7 @@ class StatsController extends Controller {
       $hoursPercentage = $goal->hours / $profile->hours_per_year;
 
 
-      $goal->difficultyPercentageSum = $costPercentage + $daysPercentage + $hoursPercentage;
+      $goal->difficultyPercentageSum = round($costPercentage + $daysPercentage + $hoursPercentage , 3);
 
       array_push($new_subgoals, $goal);
 
@@ -189,7 +189,6 @@ class StatsController extends Controller {
     $cost_per_year = round($total_cost / $yearsLeft, 0);
     $days_per_year = round($total_days / $yearsLeft, 0);
     $hours_per_year = round($total_hours / $yearsLeft, 0);
-
 
     return [
       'data' => [
