@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use Carbon\Carbon;
 use Tests\ControllerTestCase;
 use App\Goal;
 
@@ -221,16 +222,122 @@ class StatsControllerTest extends ControllerTestCase {
   /** @test */
   public function target_completion_age_requires_authenticated_user() {
 
-    $this->markTestSkipped('need to set birthdate');
-
     $this->createBaseUserWithProfile();
     $this->user->profile->setDedicatedPerYear(1000, 10, 100);
-    //Need to set a birthdate here
-    $this->user->profile->setBirthdate();
+    $this->user->profile->setBirthday('2012-01-01');
     $this->be($this->user);
     $this->canOnlyBeViewedBy('use-existing', 'GET', 'api/stats/target-completion-age/50');
 
   }
 
+  /** @test */
+  public function target_completion_age_must_be_valid_number() {
+    $this->createBaseUserWithProfile();
+    $this->user->profile->setDedicatedPerYear(1000, 10, 100);
+    $this->user->profile->setBirthday('2000-01-01');
+    $this->be($this->user);
+
+    $response1 = $this->get('api/stats/target-completion-age/50');
+    $response1->assertStatus(200);
+
+    $response2 = $this->get('api/stats/target-completion-age/50.0');
+    $response2->assertStatus(403);
+  }
+
+  /** @test */
+  public function target_completion_age_must_be_greater_than_users_current_age() {
+
+    $this->createBaseUserWithProfile();
+    $this->user->profile->setDedicatedPerYear(1000, 10, 100);
+    $this->user->profile->setBirthday('2000-01-01');
+    $this->be($this->user);
+
+    $response1 = $this->get('api/stats/target-completion-age/50');
+    $response1->assertStatus(200);
+
+    $response2 = $this->get('api/stats/target-completion-age/17');
+    $response2->assertStatus(403);
+
+
+  }
+
+  /** @test */
+  public function target_completion_age_requires_profile_information_be_filled_out() {
+
+    $this->createBaseUserWithProfile();
+    $this->user->profile->setDedicatedPerYear(1000, 10, 100);
+    $this->user->profile->setBirthday('2000-01-01');
+    $this->be($this->user);
+
+    $response1 = $this->json('GET', 'api/stats/target-completion-age/50');
+    $response1->assertStatus(200);
+
+    $this->user->profile->setDedicatedPerYear(1000, 10, 0);
+    $response2 = $this->json('GET', 'api/stats/target-completion-age/50');
+    $response2->assertStatus(403);
+
+    $this->user->profile->setDedicatedPerYear(1000, 0, 10);
+    $response3 = $this->json('GET', 'api/stats/target-completion-age/50');
+    $response3->assertStatus(403);
+
+    $this->user->profile->setDedicatedPerYear(0, 10, 10);
+    $response4 = $this->json('GET', 'api/stats/target-completion-age/50');
+    $response4->assertStatus(403);
+
+  }
+
+  /** @test */
+  public function target_completion_age_requires_birthday_is_present() {
+
+    $this->createBaseUserWithProfile();
+    $this->user->profile->setDedicatedPerYear(1000, 10, 100);
+    $this->be($this->user);
+
+    $response1 = $this->json('GET', 'api/stats/target-completion-age/50');
+    $response1->assertStatus(403);
+
+    $this->user->profile->setBirthday('2000-01-01');
+
+
+    $response2 = $this->json('GET', 'api/stats/target-completion-age/50');
+    $response2->assertStatus(200);
+  }
+
+  /** @test */
+  public function target_completion_age_returns_proper_json_response() {
+
+    $this->createBaseUserWithProfile();
+    $this->user->profile->setDedicatedPerYear(1000, 10, 100);
+
+    $this->user->profile->setBirthday(Carbon::now()->subYears(10));
+    $this->be($this->user);
+
+    Goal::newGoal('Test Goal', 10000, 100, 1000);
+
+    $response = $this->json('GET', 'api/stats/target-completion-age/20');
+
+    $response->assertJson([
+      'data' => [
+        'cost_per_year' => 999,
+        'days_per_year' => 100,
+        'hours_per_year' => 10,
+      ]
+    ]);
+  }
+
+  /** @test */
+  public function individual_goal_stats_requires_authenticated_user() {
+
+    $this->createBaseUser();
+    $this->be($this->user);
+
+    Goal::newGoal('Test Goal', 1000, 100, 10);
+
+    $this->canOnlyBeViewedBy('use-existing', 'GET', 'api/stats/individual-goal-stats/test-goal');
+
+  }
+
+  //StatsController Needs some serious refactoring and considering moving logic to a service provider
+  //Keep in mind TDD while writing new methods on models
 
 }

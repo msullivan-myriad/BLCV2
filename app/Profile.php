@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Profile extends Model {
 
@@ -24,7 +25,16 @@ class Profile extends Model {
       $this->hours_per_year = $hours;
 
       $this->save();
+  }
 
+  public function getCurrentAgeInDays() {
+
+    $birthday = Carbon::parse($this->birthday);
+    $now = Carbon::now();
+
+    $current_age_in_days = $now->diffInDays($birthday);
+
+    return $current_age_in_days;
   }
 
 }

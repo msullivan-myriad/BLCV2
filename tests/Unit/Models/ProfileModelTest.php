@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Profile;
 use App\User;
 use Tests\TestCase;
+use Carbon\Carbon;
 
 class ProfileModelTest extends TestCase {
 
@@ -35,6 +36,16 @@ class ProfileModelTest extends TestCase {
     $this->assertEquals($this->user->profile->cost_per_year, 10);
     $this->assertEquals($this->user->profile->days_per_year, 20);
     $this->assertEquals($this->user->profile->hours_per_year, 30);
+
+  }
+
+  /** @test */
+  public function profile_can_return_current_age_in_days() {
+
+    $this->createBaseUserWithProfile();
+    $this->user->profile->setBirthday(Carbon::now()->subDays(100));
+
+    $this->assertEquals(100, $this->user->profile->getCurrentAgeInDays());
 
   }
 

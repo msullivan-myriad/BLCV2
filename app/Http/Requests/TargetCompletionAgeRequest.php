@@ -4,10 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Subgoal;
-use App\Tag;
 use Illuminate\Support\Facades\Auth;
 
-class MostAndLeastDifficultRequest extends FormRequest {
+class TargetCompletionAgeRequest extends FormRequest {
 
   /**
    * Determine if the user is authorized to make this request.
@@ -16,13 +15,24 @@ class MostAndLeastDifficultRequest extends FormRequest {
    */
   public function authorize() {
 
-    //User must have profile information filled out before accessing this route
+
+    $age = $this->route('age');
     $user = Auth::user();
     $profile = $user->profile;
+
+    $current_age_in_days = $profile->getCurrentAgeInDays();
+    $completion_age_in_days = round(($age * 365.25));
 
 
     $willAuthenticate = true;
 
+    if (!preg_match('/^[0-9]+$/', $age)) {
+      $willAuthenticate = false;
+    }
+
+    if ($current_age_in_days >= $completion_age_in_days) {
+      $willAuthenticate = false;
+    }
 
     if ($profile->cost_per_year <= 0) {
       $willAuthenticate = false;
@@ -36,6 +46,11 @@ class MostAndLeastDifficultRequest extends FormRequest {
       $willAuthenticate = false;
     }
 
+    if (!$profile->birthday) {
+      $willAuthenticate = false;
+    }
+
+
     return $willAuthenticate;
 
   }
@@ -46,8 +61,6 @@ class MostAndLeastDifficultRequest extends FormRequest {
    * @return array
    */
   public function rules() {
-    return [
-
-    ];
+    return [];
   }
 }

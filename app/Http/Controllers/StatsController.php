@@ -9,6 +9,7 @@ use App\Goal;
 use App\Tag;
 use Carbon\Carbon;
 use App\Http\Requests\MostAndLeastDifficultRequest;
+use App\Http\Requests\TargetCompletionAgeRequest;
 
 class StatsController extends Controller {
 
@@ -167,16 +168,13 @@ class StatsController extends Controller {
 
   }
 
-  public function targetCompletionAge($age) {
-
-    //Need auth with age here
+  public function targetCompletionAge(TargetCompletionAgeRequest $request, $age) {
 
     $user = Auth::user();
     $profile = $user->profile;
-    //$yearsLeft = $age - $profile->age;
-    $user_birthday = Carbon::parse($profile->birthday);
-    $now = Carbon::now();
-    $current_age_in_days = $now->diffInDays($user_birthday);
+
+    $current_age_in_days = $profile->getCurrentAgeInDays();
+
     $completion_age_days = round(($age * 365.25));
 
     $yearsLeft = ($completion_age_days - $current_age_in_days) / 365;
@@ -186,7 +184,7 @@ class StatsController extends Controller {
     $total_days = $subgoals->sum('days');
     $total_hours = $subgoals->sum('hours');
 
-    $cost_per_year = round($total_cost / $yearsLeft, 0);
+    $cost_per_year = round($total_cost / $yearsLeft,0);
     $days_per_year = round($total_days / $yearsLeft, 0);
     $hours_per_year = round($total_hours / $yearsLeft, 0);
 
