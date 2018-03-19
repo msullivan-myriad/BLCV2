@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 import AddGoal from './../AddGoal';
-import SearchAddNewGoal from './../SearchAddNewGoal';
 
 class GoalsSearch extends Component {
 
@@ -40,17 +39,42 @@ class GoalsSearch extends Component {
 
     render() {
 
+        let searchResults;
+
+        if (this.state.searchTerm == '') {
+            searchResults = <p>Start typing to find the goal you are looking for.  Need suggestions?  Try <a href="#">popular</a> or <a href="#">categories</a></p>;
+        }
+
+        else {
+
+            searchResults = (
+
+                <div>
+
+                    {this.state.searchResults.map(goal =>
+                    <AddGoal goal={goal} key={goal.id}/>
+                    )}
+
+                    <p>Can't find what you are looking for?  No worries.  To create a custom goal <a href="#">click here</a></p>
+
+                </div>
+
+            )
+
+        }
+
         return (
             <div className="panel" id="goals-search">
-                <h1>Find Goals</h1>
-                <br/>
                 <input type="text" value={this.state.searchTerm} onChange={this.changeSearch} placeholder="Your Goal Name"/>
+                <br/>
+                <br/>
+
                 <div className="search-results">
-                    {this.state.searchResults.map(goal =>
-                        <AddGoal goal={goal} key={goal.id}/>
-                    )}
-                    <SearchAddNewGoal term={this.state.searchTerm}/>
+
+                    {searchResults}
+
                 </div>
+
             </div>
         );
 

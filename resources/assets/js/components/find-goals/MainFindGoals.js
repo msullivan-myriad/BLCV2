@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-
 import { Tabs } from 'antd';
 const TabPane = Tabs.TabPane;
 
 import GoalsSearch from './GoalsSearch'
 import GoalsFeatured from './GoalsFeatured'
-
 
 class MainFindGoals extends Component {
 
@@ -13,10 +11,10 @@ class MainFindGoals extends Component {
         super(props);
 
         this.state = {
+
         }
 
     }
-
 
     componentDidMount() {
 
@@ -39,8 +37,6 @@ class MainFindGoals extends Component {
         );
 
     }
-
-
 
 }
 
