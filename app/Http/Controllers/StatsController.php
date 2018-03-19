@@ -10,6 +10,8 @@ use App\Tag;
 use Carbon\Carbon;
 use App\Http\Requests\MostAndLeastDifficultRequest;
 use App\Http\Requests\TargetCompletionAgeRequest;
+use App\Http\Requests\IndividualGoalStatsRequest;
+use App\Http\Requests\GetUsersIndividualTagRequest;
 
 class StatsController extends Controller {
 
@@ -197,14 +199,11 @@ class StatsController extends Controller {
     ];
   }
 
-  public function individualGoalStats($slug) {
+  public function individualGoalStats(IndividualGoalStatsRequest $request, $slug) {
 
-    //Need some kind of auth for the slug here
     $user = Auth::user();
 
     $subgoals = $user->subgoals;
-
-    $total_goals = $subgoals->count();
 
     $total_cost = $subgoals->sum('cost');
     $total_days = $subgoals->sum('days');
@@ -295,17 +294,26 @@ class StatsController extends Controller {
       array_push($goal_ids_array, $sub->goal->id);
     }
 
-    //Get all tags with a goal id in the goal_ids_array
-    $tags = Tag::whereHas('goals', function ($query) use ($goal_ids_array) {
-      $query->whereIn('goal_id', $goal_ids_array);
-    })->orderBy('count', 'desc')->get();
+
+    if ($subgoals->count() > 0 ) {
+
+      //Get all tags with a goal id in the goal_ids_array
+      $tags = Tag::whereHas('goals', function ($query) use ($goal_ids_array) {
+        $query->whereIn('goal_id', $goal_ids_array);
+      })->orderBy('count', 'desc')->get();
+
+    }
+
+    else {
+      $tags = [];
+    }
 
     return [
       'tags' => $tags,
     ];
   }
 
-  public function getUsersIndividualTag(Tag $tag) {
+  public function getUsersIndividualTag(GetUsersIndividualTagRequest $request, Tag $tag) {
 
     $user = Auth::user();
     $subgoals = Subgoal::with('goal')->where('user_id', $user->id)->get();
@@ -321,7 +329,6 @@ class StatsController extends Controller {
     $tagGoals = Goal::whereHas('tags', function ($query) use ($tag, $goal_ids_array) {
       $query->where('tag_id', $tag->id)->whereIn('goal_id', $goal_ids_array);
     })->get();
-
 
     //Create an array of all tag goals to use for the whereIn statement below
     $tg_ids_array = [];

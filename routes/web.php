@@ -101,13 +101,10 @@ Route::prefix('api')->group(function () {
       Route::get('most-and-least-difficult', 'StatsController@mostAndLeastDifficult');
       Route::get('target-completion-age/{age}', 'StatsController@targetCompletionAge');
       Route::get('individual-goal-stats/{slug}', 'StatsController@individualGoalStats');
+      Route::get('users-tags', 'StatsController@getAllUsersTags');
+      Route::get('users-tags/{tag}', 'StatsController@getUsersIndividualTag');
 
     });
-
-    //This route group should require authentication
-    Route::get('difficulty', 'StatsController@difficulty');
-    Route::get('users-tags', 'StatsController@getAllUsersTags');
-    Route::get('users-tags/{tag}', 'StatsController@getUsersIndividualTag');
 
     //These stats routes do not need authentication
     Route::get('individual-goal-general-stats/{slug}', 'StatsController@individualGoalGeneralStats');
