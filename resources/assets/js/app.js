@@ -17,11 +17,10 @@ import AdminTagsPage from './components/AdminTagsPage';
 import AdminIndividualTagPage from './components/AdminIndividualTagPage';
 import CalculateSection from './components/CalculateSection';
 import UserSubgoalsSection from './components/UserSubgoalsSection';
-import GoalsSearch from './components/GoalsSearch';
-import GoalsFeatured from './components/GoalsFeatured';
 import YourGoalData from './components/YourGoalData';
 import IndividualGoalGeneralStats from './components/IndividualGoalGeneralStats';
 import TagsSortingSection from './components/TagsSortingSection';
+import MainFindGoals from './components/find-goals/MainFindGoals';
 
 /**
  *  Specify where React should render
@@ -43,14 +42,6 @@ if (document.getElementById('user-subgoals-section')) {
     ReactDOM.render(<UserSubgoalsSection/>, document.getElementById('user-subgoals-section'));
 }
 
-if (document.getElementById('goals-search')) {
-    ReactDOM.render(<GoalsSearch/>, document.getElementById('goals-search'));
-}
-
-if (document.getElementById('goals-featured')) {
-    ReactDOM.render(<GoalsFeatured/>, document.getElementById('goals-featured'));
-}
-
 if (document.getElementById('your-goal-data')) {
     ReactDOM.render(<YourGoalData/>, document.getElementById('your-goal-data'));
 }
@@ -61,6 +52,10 @@ if (document.getElementById('individual-goal-general-stats')) {
 
 if (document.getElementById('tags-sorting-section')) {
     ReactDOM.render(<TagsSortingSection/>, document.getElementById('tags-sorting-section'));
+}
+
+if (document.getElementById('main-find-goals')) {
+    ReactDOM.render(<MainFindGoals/>, document.getElementById('main-find-goals'));
 }
 
 
