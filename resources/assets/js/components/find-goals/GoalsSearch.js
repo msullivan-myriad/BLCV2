@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, { Component } from 'react'
+import axios from 'axios'
 
-import AddGoal from './../AddGoal';
+import AddGoal from './../AddGoal'
+import SearchAddNewGoal from './SearchAddNewGoal'
 
 class GoalsSearch extends Component {
 
@@ -10,10 +11,13 @@ class GoalsSearch extends Component {
 
         this.state = {
             searchTerm: '',
-            searchResults: []
+            searchResults: [],
+            createCustomGoal: false,
+            createCustomGoalTerm: '',
         }
 
         this.changeSearch = this.changeSearch.bind(this);
+        this.toggleCreateCustomGoal = this.toggleCreateCustomGoal.bind(this);
 
     }
 
@@ -36,12 +40,45 @@ class GoalsSearch extends Component {
 
     }
 
+    toggleCreateCustomGoal() {
+
+        if (this.state.createCustomGoal) {
+
+            this.setState({
+                createCustomGoal: false,
+                createCustomGoalTerm: '',
+                searchTerm: '',
+            })
+
+        }
+
+        else {
+
+            this.setState({
+                createCustomGoal: true,
+                createCustomGoalTerm: this.state.searchTerm,
+            })
+
+        }
+
+    }
+
 
     render() {
 
         let searchResults;
 
-        if (this.state.searchTerm == '') {
+        if (this.state.createCustomGoal) {
+
+            searchResults = (
+                <div>
+                    <SearchAddNewGoal term={this.state.createCustomGoalTerm}/>
+                    <p>Please be sure a goal with a similar name doesn't exist before adding a goal. <br/> Go <a onClick={this.toggleCreateCustomGoal}>back</a> to searching.</p>
+                </div>
+            )
+        }
+
+        else if (this.state.searchTerm == '') {
             searchResults = <p>Start typing to find the goal you are looking for.  Need suggestions?  Try <a href="#">popular</a> or <a href="#">categories</a></p>;
         }
 
@@ -52,10 +89,10 @@ class GoalsSearch extends Component {
                 <div>
 
                     {this.state.searchResults.map(goal =>
-                    <AddGoal goal={goal} key={goal.id}/>
+                        <AddGoal goal={goal} key={goal.id}/>
                     )}
 
-                    <p>Can't find what you are looking for?  No worries.  To create a custom goal <a href="#">click here</a></p>
+                    <p>Can't find what you are looking for?  No worries.  To create a custom goal <a onClick={this.toggleCreateCustomGoal}>click here</a></p>
 
                 </div>
 
