@@ -97,7 +97,6 @@ class GoalController extends Controller {
 
   }
 
-
   /*
   public function apiView(Goal $goal) {
     $goal->subgoals;

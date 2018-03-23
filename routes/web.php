@@ -7,6 +7,8 @@
 |
 */
 
+use App\Http\Controllers\TagsController;
+
 Route::get('/', function () {
   return view('welcome');
 });
@@ -42,6 +44,7 @@ Route::prefix('api')->group(function () {
   Route::get('/popular', 'GoalController@apiPopular');
   Route::get('/search/', 'GoalController@apiSearch');
   Route::get('tags', 'TagsController@apiPopularTags');
+  Route::get('tags/search', 'TagsController@apiTagsSearch');
   Route::get('tags/{tag}', 'TagsController@apiGoalsWithTag');
   Route::get('category-goals/{category}/', 'TagsController@categoryGoalsFiltering');
 

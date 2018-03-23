@@ -304,5 +304,20 @@ class TagControllerTest extends ControllerTestCase {
 
     }
 
+    /** @test */
+    public function api_tag_search_can_be_viewed_by_anyone() {
+      $this->canBeViewedByAnyone('api/tags/search?term=test');
+    }
+
+    /** @test  */
+    public function api_tag_search_requires_a_search_term() {
+
+    }
+
+    /** @test */
+    public function api_tag_search_returns_expected_json_response() {
+
+    }
+
 
 }

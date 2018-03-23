@@ -7,6 +7,7 @@ use App\Goal;
 use App\Http\Requests\CategoryGoalsFilteringRequest;
 use App\Http\Requests\ViewIndividualTagRequest;
 use App\Http\Requests\ApiPopularTagsRequest;
+use App\Http\Requests\ApiTagsSearchRequest;
 use Illuminate\Http\Request;
 
 
@@ -93,6 +94,16 @@ class TagsController extends Controller {
     $goals = Goal::goalsWithSpecificTag($tag->id)->paginate(3);
 
     return $goals;
+  }
+
+  public function apiTagsSearch(ApiTagsSearchRequest $request) {
+
+      return 'test';
+    $term = $request->search;
+    $results = Searchy::search('goals')->fields('name')->query($term)->get();
+
+    return $results;
+
   }
 
 
