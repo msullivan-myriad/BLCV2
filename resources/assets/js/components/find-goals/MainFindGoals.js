@@ -3,7 +3,7 @@ import { Tabs } from 'antd';
 const TabPane = Tabs.TabPane;
 
 import GoalsSearch from './GoalsSearch'
-import GoalsFeatured from './GoalsFeatured'
+import FindGoalsUsingCategories from './FindGoalsUsingCategories'
 import ListPopularGoals from './ListPopularGoals'
 
 class MainFindGoals extends Component {
@@ -33,7 +33,7 @@ class MainFindGoals extends Component {
                     <ListPopularGoals/>
                 </TabPane>
                 <TabPane tab="Categories" key="3">
-                    <GoalsFeatured/>
+                    <FindGoalsUsingCategories/>
                 </TabPane>
             </Tabs>
 
