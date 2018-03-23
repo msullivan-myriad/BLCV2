@@ -9,6 +9,7 @@ use App\Http\Requests\ViewIndividualTagRequest;
 use App\Http\Requests\ApiPopularTagsRequest;
 use App\Http\Requests\ApiTagsSearchRequest;
 use Illuminate\Http\Request;
+use TomLingham\Searchy\Facades\Searchy;
 
 
 class TagsController extends Controller {
@@ -98,9 +99,8 @@ class TagsController extends Controller {
 
   public function apiTagsSearch(ApiTagsSearchRequest $request) {
 
-      return 'test';
-    $term = $request->search;
-    $results = Searchy::search('goals')->fields('name')->query($term)->get();
+    $term = $request->term;
+    $results = Searchy::search('tags')->fields('name')->query($term)->get();
 
     return $results;
 

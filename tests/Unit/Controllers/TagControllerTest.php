@@ -312,10 +312,23 @@ class TagControllerTest extends ControllerTestCase {
     /** @test  */
     public function api_tag_search_requires_a_search_term() {
 
+      $request1 = $this->get('api/tags/search?term=test');
+      $request2 = $this->get('api/tags/search');
+
+      $request1->assertStatus(200);
+      $request2->assertStatus(302);
     }
 
     /** @test */
     public function api_tag_search_returns_expected_json_response() {
+
+      factory(Tag::class, 'base-test-tag')->create();
+
+      $request = $this->get('api/tags/search?term=test');
+      $request->assertJson([
+        ['name' => 'Test Tag'],
+      ]);
+
 
     }
 
