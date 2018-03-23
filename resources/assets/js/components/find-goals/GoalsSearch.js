@@ -100,9 +100,18 @@ class GoalsSearch extends Component {
 
         }
 
+        let searchInput;
+
+        if (!this.state.createCustomGoal) {
+
+            searchInput = <input type="text" value={this.state.searchTerm} onChange={this.changeSearch} placeholder="Your Goal Name"/>;
+
+        }
+
         return (
             <div className="panel" id="goals-search">
-                <input type="text" value={this.state.searchTerm} onChange={this.changeSearch} placeholder="Your Goal Name"/>
+
+                {searchInput}
                 <br/>
                 <br/>
 

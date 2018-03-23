@@ -13,11 +13,13 @@ class SearchAddNewGoal extends Component {
             days: '',
             hours: '',
             initial: true,
+            title: this.props.term,
         }
 
         this.costChange = this.costChange.bind(this);
         this.daysChange = this.daysChange.bind(this);
         this.hoursChange = this.hoursChange.bind(this);
+        this.titleChange = this.titleChange.bind(this);
         this.addGoal= this.addGoal.bind(this);
     }
 
@@ -39,6 +41,14 @@ class SearchAddNewGoal extends Component {
         })
     }
 
+    titleChange(event) {
+        this.setState({
+            title: event.target.value,
+        })
+    }
+
+
+
     addGoal() {
 
 
@@ -56,16 +66,11 @@ class SearchAddNewGoal extends Component {
 
             notification.open({
                 message: 'Success',
-                description: this.props.term + ' was added to your list',
+                description: this.props.term + ' was added to your list, redirecting back to goals page',
                 type: 'success',
             });
 
-            this.setState({
-                cost: '',
-                days: '',
-                hours: '',
-                title: '',
-            })
+            window.setTimeout(function() { window.location = '/goals' } , 2000)
 
         })
 
@@ -115,7 +120,7 @@ class SearchAddNewGoal extends Component {
         return (
             <div className="panel add-goal">
 
-                <h4>{this.props.term}</h4>
+                <input size={this.state.cost.toString().length} value={this.state.title} onChange={this.titleChange} placeholder="???"/>
                 <h5><i className="fa fa-usd" aria-hidden="true"></i> <input size={this.state.cost.toString().length} value={this.state.cost} onChange={this.costChange} placeholder="???" style={costStyle} /></h5>
                 <h5><i className="fa fa-clock-o" aria-hidden="true"></i> <input size={this.state.hours.toString().length} value={this.state.hours} onChange={this.hoursChange} placeholder="???" style={hoursStyle} /></h5>
                 <h5><i className="fa fa-calendar" aria-hidden="true"></i> <input size={this.state.days.toString().length} value={this.state.days} onChange={this.daysChange} placeholder="???" style={daysStyle} /></h5>
