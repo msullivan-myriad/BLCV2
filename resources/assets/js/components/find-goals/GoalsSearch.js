@@ -26,22 +26,22 @@ class GoalsSearch extends Component {
 
     changeSearch(event) {
 
-        console.log(event);
-
         this.setState({
             searchTerm: event.target.value,
-        })
+        }, function() {
 
-        axios.get('/api/search/', {
-                params: {
-                    search: this.state.searchTerm,
-                }
-            })
-            .then(response => {
-                this.setState({
-                    searchResults: response.data,
+            axios.get('/api/search/', {
+                    params: {
+                        search: this.state.searchTerm,
+                    }
                 })
-            })
+                .then(response => {
+                    this.setState({
+                        searchResults: response.data,
+                    })
+                })
+
+        })
 
     }
 
