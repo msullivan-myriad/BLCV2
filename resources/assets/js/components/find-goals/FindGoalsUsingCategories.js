@@ -34,11 +34,13 @@ class FindGoalsUsingCategories extends Component {
             <div className="panel find-goals-using-categories">
 
                 <br/>
+
                 <Search
                     placeholder="Search Categories"
                     onSearch={value => console.log(value)}
                     style={{ width: 400 }}
                 />
+
                 <br/>
                 <br/>
 

@@ -4,6 +4,9 @@ import axios from 'axios'
 import AddGoal from './../AddGoal'
 import SearchAddNewGoal from './SearchAddNewGoal'
 
+import { Input } from 'antd'
+const Search = Input.Search;
+
 class GoalsSearch extends Component {
 
     constructor(props) {
@@ -22,6 +25,8 @@ class GoalsSearch extends Component {
     }
 
     changeSearch(event) {
+
+        console.log(event);
 
         this.setState({
             searchTerm: event.target.value,
@@ -104,7 +109,12 @@ class GoalsSearch extends Component {
 
         if (!this.state.createCustomGoal) {
 
-            searchInput = <input type="text" value={this.state.searchTerm} onChange={this.changeSearch} placeholder="Your Goal Name"/>;
+            searchInput = (<Search
+                placeholder="Goal Name"
+                onChange={value => this.changeSearch(value)}
+                value={this.state.searchTerm}
+                style={{ width: 400 }}
+            />);
 
         }
 
