@@ -16,6 +16,18 @@ class TagControllerTest extends ControllerTestCase {
     }
 
     /** @test */
+    public function api_popular_tags_can_return_specific_amount_of_tags_based_on_a_parameter() {
+
+      factory(Tag::class, 10)->create();
+      $response = $this->get('api/tags?count=5');
+
+      $jsonContent = json_decode($response->getContent());
+      $tags = $jsonContent->data->tags;
+
+      $this->assertEquals(5, count($tags));
+    }
+
+    /** @test */
     public function api_popular_returns_proper_json_response() {
       $response = $this->get('api/tags');
 
@@ -23,6 +35,7 @@ class TagControllerTest extends ControllerTestCase {
         'tags' => [
         ]
       ]]);
+
     }
 
     /** @test */
