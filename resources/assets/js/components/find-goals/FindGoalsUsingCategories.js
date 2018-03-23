@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Tag } from 'antd'
+import { Tag, Input } from 'antd'
+const Search = Input.Search;
 
 class FindGoalsUsingCategories extends Component {
 
@@ -23,7 +24,6 @@ class FindGoalsUsingCategories extends Component {
                 this.setState({tags})
             })
 
-
     }
 
 
@@ -32,8 +32,21 @@ class FindGoalsUsingCategories extends Component {
 
         return (
             <div className="panel find-goals-using-categories">
+
+                <br/>
+                <Search
+                    placeholder="Search Categories"
+                    onSearch={value => console.log(value)}
+                    style={{ width: 400 }}
+                />
+                <br/>
+                <br/>
+
+                <p>Search for a category or select from the most popular ones below</p>
+                <br/>
+
                 {this.state.tags.map(tag =>
-                    <Tag>{tag.name}</Tag>
+                    <Tag key={tag.id}>{tag.name}</Tag>
                 )}
             </div>
         );
