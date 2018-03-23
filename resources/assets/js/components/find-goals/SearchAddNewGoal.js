@@ -121,6 +121,7 @@ class SearchAddNewGoal extends Component {
             <div className="panel add-goal">
 
                 <input size={this.state.cost.toString().length} value={this.state.title} onChange={this.titleChange} placeholder="???"/>
+                <br/>
                 <h5><i className="fa fa-usd" aria-hidden="true"></i> <input size={this.state.cost.toString().length} value={this.state.cost} onChange={this.costChange} placeholder="???" style={costStyle} /></h5>
                 <h5><i className="fa fa-clock-o" aria-hidden="true"></i> <input size={this.state.hours.toString().length} value={this.state.hours} onChange={this.hoursChange} placeholder="???" style={hoursStyle} /></h5>
                 <h5><i className="fa fa-calendar" aria-hidden="true"></i> <input size={this.state.days.toString().length} value={this.state.days} onChange={this.daysChange} placeholder="???" style={daysStyle} /></h5>

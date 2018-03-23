@@ -4,6 +4,7 @@ const TabPane = Tabs.TabPane;
 
 import GoalsSearch from './GoalsSearch'
 import GoalsFeatured from './GoalsFeatured'
+import ListPopularGoals from './ListPopularGoals'
 
 class MainFindGoals extends Component {
 
@@ -29,9 +30,11 @@ class MainFindGoals extends Component {
                     <GoalsSearch/>
                 </TabPane>
                 <TabPane tab="Popular" key="2">
+                    <ListPopularGoals/>
+                </TabPane>
+                <TabPane tab="Categories" key="3">
                     <GoalsFeatured/>
                 </TabPane>
-                <TabPane tab="Categories" key="3">Content of Tab Pane 3</TabPane>
             </Tabs>
 
         );
