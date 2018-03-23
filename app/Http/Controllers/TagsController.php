@@ -6,6 +6,7 @@ use App\Tag;
 use App\Goal;
 use App\Http\Requests\CategoryGoalsFilteringRequest;
 use App\Http\Requests\ViewIndividualTagRequest;
+use App\Http\Requests\ApiPopularTagsRequest;
 use Illuminate\Http\Request;
 
 
@@ -71,7 +72,7 @@ class TagsController extends Controller {
 
     }
 
-  public function apiPopularTags(Request $request) {
+  public function apiPopularTags(ApiPopularTagsRequest $request) {
 
     $count = $request->count;
 

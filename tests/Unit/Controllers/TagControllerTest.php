@@ -12,7 +12,7 @@ class TagControllerTest extends ControllerTestCase {
 
     /** @test */
     public function api_popular_tags_can_be_viewed_by_anyone() {
-      $this->canBeViewedByAnyone('api/tags');
+      $this->canBeViewedByAnyone('api/tags?count=5');
     }
 
     /** @test */
@@ -29,7 +29,7 @@ class TagControllerTest extends ControllerTestCase {
 
     /** @test */
     public function api_popular_returns_proper_json_response() {
-      $response = $this->get('api/tags');
+      $response = $this->get('api/tags?count=5');
 
       $response->assertJson(['data' => [
         'tags' => [
@@ -37,6 +37,18 @@ class TagControllerTest extends ControllerTestCase {
       ]]);
 
     }
+
+    /** @test */
+    public function api_popular_requires_count_to_be_given() {
+
+      $response1 = $this->get('api/tags');
+      $response2 = $this->get('api/tags?count=5');
+
+      $response1->assertStatus(302);
+      $response2->assertStatus(200);
+
+    }
+
 
     /** @test */
     public function api_goals_with_tags_can_be_viewed_by_anyone() {
