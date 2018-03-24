@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { Tag, Input } from 'antd'
-const Search = Input.Search;
+const Search = Input.Search
+import axios from 'axios'
+import AddGoal from '../AddGoal'
 
 class FindGoalsUsingCategories extends Component {
 
@@ -11,9 +13,14 @@ class FindGoalsUsingCategories extends Component {
             tags: [],
             searchTerm: '',
             searchResults: [],
+            aCategoryIsSelected: false,
+            selectedCategoryName: '',
+            selectedCategoryGoals: [],
         }
 
         this.onSearch = this.onSearch.bind(this);
+        this.updateResults = this.updateResults.bind(this);
+        this.setThisTagAsCategory = this.setThisTagAsCategory.bind(this);
 
     }
 
@@ -30,10 +37,44 @@ class FindGoalsUsingCategories extends Component {
 
     }
 
+    updateResults(term) {
+
+        if (term.length > 0) {
+
+        axios.get('api/tags/search?term=' + term)
+
+            .then(response => {
+                const searchResults = response.data;
+                this.setState({searchResults})
+            })
+
+        }
+
+        else {
+            this.setState({searchResults: []})
+        }
+
+    }
+
     onSearch(e) {
 
-        //Not sure why this isn't working yet.... should be an easy fix though
-        console.log(e);
+        this.updateResults(e.target.value);
+
+    }
+
+    setThisTagAsCategory(id, name) {
+
+        axios.get('api/tags/' + id)
+            .then(response => {
+
+                console.log(response.data);
+
+                this.setState({
+                    selectedCategoryName: name,
+                    aCategoryIsSelected: true,
+                    selectedCategoryGoals: response.data.data,
+                })
+            })
 
     }
 
@@ -41,7 +82,20 @@ class FindGoalsUsingCategories extends Component {
 
         let bottomContent;
 
-        if (this.state.searchTerm) {
+        if (this.state.searchResults.length) {
+
+            bottomContent = (
+
+                 <div>
+                    <p>Select a category of goals to view</p>
+                    <br/>
+
+                    {this.state.searchResults.map(tag =>
+                        <Tag key={tag.id} onClick={() => this.setThisTagAsCategory(tag.id, tag.name)}>{tag.name}</Tag>
+                    )}
+                </div>
+
+            )
 
         }
 
@@ -61,21 +115,50 @@ class FindGoalsUsingCategories extends Component {
 
         }
 
+        let categoriesContent;
+
+        if (this.state.aCategoryIsSelected) {
+           categoriesContent = (
+
+               <div>
+                   <br/>
+                   <h3>{this.state.selectedCategoryName}</h3>
+                   <p>return to <a onClick={this.returnToAllCategories}>all categories</a></p>
+                   {this.state.selectedCategoryGoals.map(goal =>
+                       <AddGoal goal={goal} key={goal.id}/>
+                   )}
+               </div>
+           );
+        }
+
+        else {
+
+
+            categoriesContent = (
+                <div>
+                    <br/>
+
+                     <Search
+                        placeholder="Search Categories"
+                        onChange={this.onSearch}
+                        style={{ width: 400 }}
+                    />
+
+                    <br/>
+
+                    {bottomContent}
+
+                </div>
+
+            );
+
+
+
+        }
+
         return (
             <div className="panel find-goals-using-categories">
-
-                <br/>
-
-                <Search
-                    placeholder="Search Categories"
-                    onChange={this.onSearch(e)}
-                    style={{ width: 400 }}
-                />
-
-                <br/>
-
-                {bottomContent}
-
+                {categoriesContent}
             </div>
         );
 

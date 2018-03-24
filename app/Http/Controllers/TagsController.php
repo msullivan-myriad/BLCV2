@@ -95,7 +95,9 @@ class TagsController extends Controller {
     $goals = Goal::goalsWithSpecificTag($tag->id)->paginate(3);
 
     return $goals;
+
   }
+
 
   public function apiTagsSearch(ApiTagsSearchRequest $request) {
 
