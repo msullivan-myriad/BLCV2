@@ -21,6 +21,7 @@ class FindGoalsUsingCategories extends Component {
         this.onSearch = this.onSearch.bind(this);
         this.updateResults = this.updateResults.bind(this);
         this.setThisTagAsCategory = this.setThisTagAsCategory.bind(this);
+        this.returnToAllCategories = this.returnToAllCategories.bind(this);
 
     }
 
@@ -73,9 +74,16 @@ class FindGoalsUsingCategories extends Component {
                     selectedCategoryName: name,
                     aCategoryIsSelected: true,
                     selectedCategoryGoals: response.data.data,
+                    searchResults: [],
                 })
             })
 
+    }
+
+    returnToAllCategories() {
+        this.setState({
+            aCategoryIsSelected: false,
+        })
     }
 
     render() {
