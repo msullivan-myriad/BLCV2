@@ -92,7 +92,9 @@ class TagsController extends Controller {
 
   public function apiGoalsWithTag(Tag $tag) {
 
-    $goals = Goal::goalsWithSpecificTag($tag->id)->paginate(10);
+    $goals = Goal::goalsWithSpecificTag($tag->id)
+      ->orderBy('subgoals_count', 'desc')
+      ->paginate(10);
 
     return $goals;
 
