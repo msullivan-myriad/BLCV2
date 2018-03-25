@@ -15,6 +15,7 @@ class FindGoalsUsingCategories extends Component {
             searchResults: [],
             aCategoryIsSelected: false,
             selectedCategoryName: '',
+            selectedCategoryId: 0,
             selectedCategoryGoals: [],
 
             paginationTotal: 0,
@@ -27,6 +28,7 @@ class FindGoalsUsingCategories extends Component {
         this.updateResults = this.updateResults.bind(this);
         this.setThisTagAsCategory = this.setThisTagAsCategory.bind(this);
         this.returnToAllCategories = this.returnToAllCategories.bind(this);
+        this.changeSelectedCategoryPage = this.changeSelectedCategoryPage.bind(this);
 
     }
 
@@ -78,6 +80,7 @@ class FindGoalsUsingCategories extends Component {
                 this.setState({
                     selectedCategoryName: name,
                     aCategoryIsSelected: true,
+                    selectedCategoryId: id,
                     selectedCategoryGoals: response.data.data,
                     searchResults: [],
                     paginationTotal: response.data.total,
@@ -90,17 +93,33 @@ class FindGoalsUsingCategories extends Component {
 
     }
 
+    changeSelectedCategoryPage(page) {
+
+        axios.get('api/tags/' + this.state.selectedCategoryId + '?page=' + page)
+            .then(response => {
+
+                console.log(response.data);
+
+                this.setState({
+                    selectedCategoryGoals: response.data.data,
+                    searchResults: [],
+                    paginationTotal: response.data.total,
+                    paginationCurrentPage: response.data.current_page,
+                    paginationNextPage: response.data.next_page_url,
+                    paginationPrevPage: response.data.prev_page_url,
+
+                })
+            })
+
+    }
+
+
     returnToAllCategories() {
         this.setState({
             aCategoryIsSelected: false,
         })
     }
 
-    changeSelectedCategoryPage(e) {
-
-        console.log(e);
-
-    }
 
     render() {
 
@@ -148,11 +167,12 @@ class FindGoalsUsingCategories extends Component {
                    <br/>
                    <h3>{this.state.selectedCategoryName}</h3>
                    <p>return to <a onClick={this.returnToAllCategories}>all categories</a></p>
+
                    {this.state.selectedCategoryGoals.map(goal =>
                        <AddGoal goal={goal} key={goal.id}/>
                    )}
 
-                   <Pagination defaultCurrent={this.state.paginationCurrentPage} pageSize={3} total={this.state.paginationTotal} onChange={this.changeSelectedCategoryPage}/>
+                   <Pagination defaultCurrent={this.state.paginationCurrentPage} pageSize={10} total={this.state.paginationTotal} onChange={this.changeSelectedCategoryPage}/>
 
                </div>
            );
