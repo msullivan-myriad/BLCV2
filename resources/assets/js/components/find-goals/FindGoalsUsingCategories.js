@@ -115,7 +115,7 @@ class FindGoalsUsingCategories extends Component {
                     <br/>
 
                     {this.state.tags.map(tag =>
-                        <Tag key={tag.id}>{tag.name}</Tag>
+                        <Tag key={tag.id} onClick={() => this.setThisTagAsCategory(tag.id, tag.name)}>{tag.name}</Tag>
                     )}
                 </div>
            );
