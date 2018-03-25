@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Tag, Input } from 'antd'
+import { Tag, Input, Pagination } from 'antd'
 const Search = Input.Search
 import axios from 'axios'
 import AddGoal from '../AddGoal'
@@ -16,6 +16,11 @@ class FindGoalsUsingCategories extends Component {
             aCategoryIsSelected: false,
             selectedCategoryName: '',
             selectedCategoryGoals: [],
+
+            paginationTotal: 0,
+            paginationCurrentPage: '',
+            paginationNextPage: '',
+            paginationPrevPage: '',
         }
 
         this.onSearch = this.onSearch.bind(this);
@@ -65,7 +70,7 @@ class FindGoalsUsingCategories extends Component {
 
     setThisTagAsCategory(id, name) {
 
-        axios.get('api/tags/' + id)
+        axios.get('api/tags/' + id + '?page=1')
             .then(response => {
 
                 console.log(response.data);
@@ -75,6 +80,11 @@ class FindGoalsUsingCategories extends Component {
                     aCategoryIsSelected: true,
                     selectedCategoryGoals: response.data.data,
                     searchResults: [],
+                    paginationTotal: response.data.total,
+                    paginationCurrentPage: response.data.current_page,
+                    paginationNextPage: response.data.next_page_url,
+                    paginationPrevPage: response.data.prev_page_url,
+
                 })
             })
 
@@ -84,6 +94,12 @@ class FindGoalsUsingCategories extends Component {
         this.setState({
             aCategoryIsSelected: false,
         })
+    }
+
+    changeSelectedCategoryPage(e) {
+
+        console.log(e);
+
     }
 
     render() {
@@ -135,6 +151,9 @@ class FindGoalsUsingCategories extends Component {
                    {this.state.selectedCategoryGoals.map(goal =>
                        <AddGoal goal={goal} key={goal.id}/>
                    )}
+
+                   <Pagination defaultCurrent={this.state.paginationCurrentPage} pageSize={3} total={this.state.paginationTotal} onChange={this.changeSelectedCategoryPage}/>
+
                </div>
            );
         }
