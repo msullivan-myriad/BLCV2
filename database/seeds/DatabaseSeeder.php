@@ -17,19 +17,14 @@ class DatabaseSeeder extends Seeder {
 
         $goals = factory(App\Goal::class, 100)->create()->each(function ($goal) use ($tags) {
 
+        $tag = $tags[rand(0,99)];
+        $goal->attachTagToGoal($tag->name);
 
-          if (rand(0,2)) {
-            $tag = $tags[rand(0,99)];
-            $goal->attachTagToGoal($tag->name);
+        $secondLevelTag = $tags[rand(0,99)];
 
-            if (rand(0,1)) {
-              $secondLevelTag = $tags[rand(0,99)];
-
-              if ($secondLevelTag->name != $tag->name) {
-                $goal->attachTagToGoal($secondLevelTag->name);
-              }
-            }
-          }
+        if ($secondLevelTag->name != $tag->name) {
+          $goal->attachTagToGoal($secondLevelTag->name);
+        }
 
         });
 
