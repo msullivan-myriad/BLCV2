@@ -172,7 +172,7 @@ class FindGoalsUsingCategories extends Component {
                        <AddGoal goal={goal} key={goal.id}/>
                    )}
 
-                   <Pagination defaultCurrent={this.state.paginationCurrentPage} pageSize={10} total={this.state.paginationTotal} onChange={this.changeSelectedCategoryPage}/>
+                   <Pagination defaultCurrent={this.state.paginationCurrentPage} pageSize={8} total={this.state.paginationTotal} onChange={this.changeSelectedCategoryPage}/>
 
                </div>
            );

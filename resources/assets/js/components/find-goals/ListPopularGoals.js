@@ -1,6 +1,6 @@
-
-import React, { Component } from 'react';
-import AddGoal from './../AddGoal';
+import React, { Component } from 'react'
+import AddGoal from './../AddGoal'
+import { Pagination } from 'antd'
 
 
 class ListPopularGoals extends Component {
@@ -9,16 +9,20 @@ class ListPopularGoals extends Component {
         super(props);
 
         this.state = {
-            popular_goals: {},
+            popular_goals: {
+                current_page: 1,
+                total: 0,
+            },
             all_goals: [],
         }
 
         this.loadMore = this.loadMore.bind(this);
+        this.changePage = this.changePage.bind(this);
     }
 
     componentDidMount() {
 
-        var goalsUrl = '/api/popular/';
+        var goalsUrl = '/api/popular?page=1';
 
         axios.get(goalsUrl)
 
@@ -31,6 +35,25 @@ class ListPopularGoals extends Component {
             this.setState({all_goals});
 
         })
+
+    }
+
+    changePage(page) {
+
+        var goalsUrl = '/api/popular?page=' + page;
+
+        axios.get(goalsUrl)
+
+        .then(response => {
+
+            let popular_goals = response.data.data.popular_goals;
+            let all_goals = popular_goals.data;
+
+            this.setState({popular_goals});
+            this.setState({all_goals});
+
+        })
+
 
     }
 
@@ -75,7 +98,8 @@ class ListPopularGoals extends Component {
                                 <AddGoal goal={goal} key={goal.id}/>
                             )}
 
-                            {loadMoreBtn}
+
+                            <Pagination defaultCurrent={this.state.popular_goals.current_page} pageSize={8} total={this.state.popular_goals.total} onChange={this.changePage}/>
 
                         </div>
 

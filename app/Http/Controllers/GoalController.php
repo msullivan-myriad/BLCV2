@@ -36,7 +36,7 @@ class GoalController extends Controller {
 
   public function apiPopular() {
 
-    $popular_goals = Goal::allGoals()->paginate(10);
+    $popular_goals = Goal::allGoals()->paginate(8);
 
     return [
       'data' => [

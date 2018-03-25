@@ -94,7 +94,7 @@ class TagsController extends Controller {
 
     $goals = Goal::goalsWithSpecificTag($tag->id)
       ->orderBy('subgoals_count', 'desc')
-      ->paginate(10);
+      ->paginate(8);
 
     return $goals;
 
