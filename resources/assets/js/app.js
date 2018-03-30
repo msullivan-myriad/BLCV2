@@ -15,8 +15,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import AdminTagsPage from './components/AdminTagsPage';
 import AdminIndividualTagPage from './components/AdminIndividualTagPage';
-import CalculateSection from './components/CalculateSection';
-import UserSubgoalsSection from './components/UserSubgoalsSection';
+import MainCalculatorSection from './components/calculator/MainCalculatorSection';
 import YourGoalData from './components/YourGoalData';
 import IndividualGoalGeneralStats from './components/IndividualGoalGeneralStats';
 import TagsSortingSection from './components/TagsSortingSection';
@@ -35,14 +34,8 @@ if (document.getElementById('adminpage-individual-tag')) {
 }
 
 if (document.getElementById('calculate-section')) {
-    ReactDOM.render(<CalculateSection/>, document.getElementById('calculate-section'));
+    ReactDOM.render(<MainCalculatorSection/>, document.getElementById('calculate-section'));
 }
-
-/*
-if (document.getElementById('user-subgoals-section')) {
-    ReactDOM.render(<UserSubgoalsSection/>, document.getElementById('user-subgoals-section'));
-}
-*/
 
 if (document.getElementById('your-goal-data')) {
     ReactDOM.render(<YourGoalData/>, document.getElementById('your-goal-data'));

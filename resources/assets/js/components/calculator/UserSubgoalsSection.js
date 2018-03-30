@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MyGoals from './MyGoals';
+import MyGoals from './../MyGoals';
 
 import { Select } from 'antd';
 const Option = Select.Option;

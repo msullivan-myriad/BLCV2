@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import DedicatePerYear from './DedicatePerYear';
 import TagsStats from './TagsStats';
-import SetBirthdate from './SetBirthdate';
+import SetBirthdate from './../SetBirthdate';
 import UserSubgoalsSection from './UserSubgoalsSection'
 import axios from 'axios';
 
@@ -9,7 +9,7 @@ import { Tabs } from 'antd';
 const TabPane = Tabs.TabPane;
 
 
-class CalculateSection extends Component {
+class MainCalculatorSection extends Component {
 
 
     constructor(props) {
@@ -97,4 +97,4 @@ class CalculateSection extends Component {
 }
 
 
-export default CalculateSection;
+export default MainCalculatorSection;

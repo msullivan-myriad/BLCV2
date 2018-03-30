@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { CirclePie, BarMetric } from 'react-simple-charts'
-import YourGoal from './YourGoal';
+import YourGoal from './../YourGoal';
 
 class IndividualCategoryStats extends Component {
 

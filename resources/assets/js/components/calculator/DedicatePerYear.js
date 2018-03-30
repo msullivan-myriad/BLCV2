@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import YourGoal from './YourGoal';
+import YourGoal from './../YourGoal';
 
 import { Button } from 'antd';
 import { InputNumber } from 'antd';
