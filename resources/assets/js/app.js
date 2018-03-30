@@ -38,9 +38,11 @@ if (document.getElementById('calculate-section')) {
     ReactDOM.render(<CalculateSection/>, document.getElementById('calculate-section'));
 }
 
+/*
 if (document.getElementById('user-subgoals-section')) {
     ReactDOM.render(<UserSubgoalsSection/>, document.getElementById('user-subgoals-section'));
 }
+*/
 
 if (document.getElementById('your-goal-data')) {
     ReactDOM.render(<YourGoalData/>, document.getElementById('your-goal-data'));

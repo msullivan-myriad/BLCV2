@@ -142,7 +142,7 @@ Route::prefix('api')->group(function () {
 
 Route::group(['middleware' => ['auth']], function () {
 
-  Route::get('subgoals', 'SubgoalController@index')->name('subgoals');
+  Route::get('calculator', 'SubgoalController@index')->name('calculator');
 
 });
 

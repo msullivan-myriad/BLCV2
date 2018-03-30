@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import DedicatePerYear from './DedicatePerYear';
 import TagsStats from './TagsStats';
 import SetBirthdate from './SetBirthdate';
+import UserSubgoalsSection from './UserSubgoalsSection'
 import axios from 'axios';
 
 import { Tabs } from 'antd';
@@ -68,6 +69,11 @@ class CalculateSection extends Component {
                             <TabPane tab="Categories" key="2">
                                 <TagsStats/>
                             </TabPane>
+
+                            <TabPane tab="Your Goals" key="3">
+                                <UserSubgoalsSection/>
+                            </TabPane>
+
 
                         </Tabs>
 
