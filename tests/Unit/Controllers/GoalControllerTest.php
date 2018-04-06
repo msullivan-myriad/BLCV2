@@ -55,7 +55,7 @@ class GoalControllerTest extends ControllerTestCase {
       $popularGoals = $jsonAsArray->data->popular_goals;
 
       $this->assertEquals(1, $popularGoals->current_page);
-      $this->assertEquals(10, $popularGoals->per_page);
+      $this->assertEquals(8, $popularGoals->per_page);
       $this->assertEquals(21, $popularGoals->total);
     }
 

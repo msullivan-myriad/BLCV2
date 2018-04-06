@@ -197,7 +197,7 @@ class StatsControllerTest extends ControllerTestCase {
 
     $response->assertJson([
       'data' => [
-        'subgoals' => [
+        'most_difficult' => [
 
           [
             'name' => 'Test Goal 3',
@@ -214,7 +214,27 @@ class StatsControllerTest extends ControllerTestCase {
             'difficultyPercentageSum' => 1.15,
           ],
 
-        ]
+        ],
+         'least_difficult' => [
+
+          [
+            'name' => 'Test Goal 2',
+            'difficultyPercentageSum' => 1.15,
+          ],
+
+          [
+            'name' => 'Test Goal 1',
+            'difficultyPercentageSum' => 1.2,
+          ],
+
+          [
+            'name' => 'Test Goal 3',
+            'difficultyPercentageSum' => 11.2,
+          ],
+
+        ],
+
+
       ],
     ]);
 
