@@ -12,7 +12,7 @@ class SubgoalControllerTest extends ControllerTestCase {
 
   /** @test */
   public function index_requires_authorized_user() {
-    $this->canOnlyBeViewedBy('auth', 'GET', 'subgoals');
+    $this->canOnlyBeViewedBy('auth', 'GET', 'calculator');
   }
 
   /** @test */

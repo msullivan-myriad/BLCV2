@@ -68,7 +68,7 @@ class TagControllerTest extends ControllerTestCase {
       $response->assertJson([
         'current_page' => 1,
         'data' => [],
-        'per_page' => 3,
+        'per_page' => 8,
         'total' => 1,
       ]);
 
