@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import YourGoal from './YourGoal';
-
+import React, { Component } from 'react'
+import axios from 'axios'
+import YourGoal from './YourGoal'
+import MostAndLeastDifficultSection from './MostAndLeastDifficultSection'
 import { Button } from 'antd';
 import { InputNumber } from 'antd';
 import { Tabs } from 'antd';
@@ -344,6 +344,11 @@ class DedicatePerYear extends Component {
                             </Tabs>
 
                         </div>
+
+                        <br/>
+                        <p>Second section</p>
+                        <br/>
+                        <MostAndLeastDifficultSection/>
 
                     </div>
 
