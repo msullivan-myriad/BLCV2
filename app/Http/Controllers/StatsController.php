@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use function array_reverse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Subgoal;
@@ -140,7 +141,6 @@ class StatsController extends Controller {
 
     $subgoals = Subgoal::with('goal')->where('user_id', $user->id)->get();
 
-
     $new_subgoals = [];
 
     foreach ($subgoals as $goal) {
@@ -148,7 +148,6 @@ class StatsController extends Controller {
       $costPercentage = $goal->cost / $profile->cost_per_year;
       $daysPercentage = $goal->days / $profile->days_per_year;
       $hoursPercentage = $goal->hours / $profile->hours_per_year;
-
 
       $goal->difficultyPercentageSum = round($costPercentage + $daysPercentage + $hoursPercentage , 3);
 
@@ -163,7 +162,8 @@ class StatsController extends Controller {
 
     return [
       'data' => [
-        'subgoals' => $new_subgoals,
+        'most_difficult' => $new_subgoals,
+        'least_difficult' => array_reverse($new_subgoals),
       ],
 
     ];

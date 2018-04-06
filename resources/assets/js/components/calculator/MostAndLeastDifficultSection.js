@@ -16,7 +16,6 @@ class MostAndLeastDifficultSection extends Component {
             last: [],
         };
 
-        this.setProfileValues = this.setProfileValues.bind(this);
         this.getMostAndLeastDifficult = this.getMostAndLeastDifficult.bind(this);
 
     }
@@ -32,7 +31,7 @@ class MostAndLeastDifficultSection extends Component {
 
         axios.get('/api/stats/most-and-least-difficult')
             .then(response => {
-                const subgoals = response.data.data.subgoals;
+                const subgoals = response.data.data.most_difficult;
 
                 //Need to think about how to handle this if users have less than 10 goals... What if they have a ton of goals and would like to load more?
                 const first = subgoals.slice(0,5);
@@ -46,31 +45,6 @@ class MostAndLeastDifficultSection extends Component {
             })
 
     }
-
-
-
-    setProfileValues() {
-
-        var parent = this;
-
-        axios.post('/api/profile/dedicated-per-year', {
-                //age: this.state.age,
-                cost_per_year: this.state.cost,
-                days_per_year: this.state.days,
-                hours_per_year: this.state.hours * 12,
-            })
-            .then(function (response) {
-
-                parent.getMostAndLeastDifficult();
-                parent.getCompletionAge();
-
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
-    }
-
 
 
     render() {

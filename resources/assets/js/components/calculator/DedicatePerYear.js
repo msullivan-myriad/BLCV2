@@ -321,33 +321,6 @@ class DedicatePerYear extends Component {
 
                     <div className="col-md-6">
 
-                        <div className="most-least-hardest-section">
-
-                            <Tabs defaultActiveKey="1">
-
-                                <TabPane tab="Most Difficult" key="1">
-
-                                    {this.state.first.map(goal =>
-                                        <YourGoal goal={goal} key={goal.id}/>
-                                    )}
-
-                                </TabPane>
-
-                                <TabPane tab="Least Difficult" key="2">
-
-                                    {this.state.last.map(goal =>
-                                        <YourGoal goal={goal} key={goal.id}/>
-                                    )}
-
-                                </TabPane>
-
-                            </Tabs>
-
-                        </div>
-
-                        <br/>
-                        <p>Second section</p>
-                        <br/>
                         <MostAndLeastDifficultSection/>
 
                     </div>
