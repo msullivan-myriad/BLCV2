@@ -12,40 +12,26 @@ class MostAndLeastDifficultSection extends Component {
 
         this.state = {
             subgoals: [],
-            first: [],
-            last: [],
+            most_difficult: [],
+            least_difficult: [],
         };
-
-        this.getMostAndLeastDifficult = this.getMostAndLeastDifficult.bind(this);
 
     }
 
 
     componentDidMount() {
 
-        this.getMostAndLeastDifficult();
-
-    }
-
-    getMostAndLeastDifficult() {
 
         axios.get('/api/stats/most-and-least-difficult')
             .then(response => {
-                const subgoals = response.data.data.most_difficult;
+                const most_difficult = response.data.data.most_difficult;
+                const least_difficult = response.data.data.least_difficult;
 
                 //Need to think about how to handle this if users have less than 10 goals... What if they have a ton of goals and would like to load more?
-                const first = subgoals.slice(0,5);
-                const last = subgoals.slice(-5).reverse();
-
-                this.setState({
-                    subgoals: subgoals,
-                    last: last,
-                    first: first,
-                })
+                this.setState({ most_difficult, least_difficult })
             })
 
     }
-
 
     render() {
 
@@ -59,7 +45,7 @@ class MostAndLeastDifficultSection extends Component {
 
                                 <TabPane tab="Most Difficult" key="1">
 
-                                    {this.state.first.map(goal =>
+                                    {this.state.most_difficult.map(goal =>
                                         <YourGoal goal={goal} key={goal.id}/>
                                     )}
 
@@ -67,7 +53,7 @@ class MostAndLeastDifficultSection extends Component {
 
                                 <TabPane tab="Least Difficult" key="2">
 
-                                    {this.state.last.map(goal =>
+                                    {this.state.least_difficult.map(goal =>
                                         <YourGoal goal={goal} key={goal.id}/>
                                     )}
 
