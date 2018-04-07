@@ -71,15 +71,17 @@ class MostAndLeastDifficultSection extends Component {
                                         <YourGoal goal={goal} key={goal.id}/>
                                     )}
 
-                                    <Pagination defaultCurrent={1} total={this.state.most_difficult.length} pageSize={5} onChange={this.changeMostDifficultPage}/>
+                                    <Pagination defaultCurrent={1} current={this.state.md_current_page} total={this.state.most_difficult.length} pageSize={5} onChange={this.changeMostDifficultPage}/>
 
                                 </TabPane>
 
                                 <TabPane tab="Least Difficult" key="2">
 
-                                    {this.state.least_difficult.map(goal =>
+                                    {this.state.least_difficult.slice((this.state.ld_current_page - 1) * this.state.per_page, ((this.state.ld_current_page -1) * this.state.per_page) + 5).map(goal =>
                                         <YourGoal goal={goal} key={goal.id}/>
                                     )}
+
+                                    <Pagination defaultCurrent={1} current={this.state.ld_current_page} total={this.state.least_difficult.length} pageSize={5} onChange={this.changeLeastDifficultPage}/>
 
                                 </TabPane>
 
