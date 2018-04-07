@@ -70,7 +70,7 @@ class MostAndLeastDifficultSection extends Component {
                                         <YourGoal goal={goal} key={goal.id}/>
                                     )}
 
-                                    <Pagination defaultCurrent={1} total={this.state.most_difficult.length} pageSize={5} />
+                                    <Pagination defaultCurrent={1} total={this.state.most_difficult.length} pageSize={5} onChange={this.changeMostDifficultPage}/>
 
                                 </TabPane>
 
