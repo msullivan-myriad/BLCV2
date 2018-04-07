@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import IndividualGoalGeneralStats from '../IndividualGoalGeneralStats'
+import YourGoalData from '../YourGoalData'
 
 
 class MainViewGoalPage extends Component {
@@ -8,7 +10,6 @@ class MainViewGoalPage extends Component {
         this.state = {}
     }
 
-
     render() {
 
         return (
@@ -17,13 +18,13 @@ class MainViewGoalPage extends Component {
 
                 <div className="col-md-6">
 
-                    <div id="individual-goal-general-stats"></div>
+                    <IndividualGoalGeneralStats/>
 
                 </div>
 
                 <div className="col-md-6">
 
-                    <div id="your-goal-data"></div>
+                    <YourGoalData/>
 
                 </div>
 

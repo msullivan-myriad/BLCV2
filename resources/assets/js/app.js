@@ -16,8 +16,6 @@ import React from 'react'
 import AdminTagsPage from './components/AdminTagsPage'
 import AdminIndividualTagPage from './components/AdminIndividualTagPage'
 import MainCalculatorSection from './components/calculator/MainCalculatorSection'
-import YourGoalData from './components/YourGoalData'
-import IndividualGoalGeneralStats from './components/IndividualGoalGeneralStats'
 import TagsSortingSection from './components/TagsSortingSection'
 import MainFindGoals from './components/find-goals/MainFindGoals'
 import MainViewGoalPage from './components/view-goal/MainViewGoalPage'
@@ -38,14 +36,6 @@ if (document.getElementById('calculate-section')) {
     ReactDOM.render(<MainCalculatorSection/>, document.getElementById('calculate-section'));
 }
 
-if (document.getElementById('your-goal-data')) {
-    ReactDOM.render(<YourGoalData/>, document.getElementById('your-goal-data'));
-}
-
-if (document.getElementById('individual-goal-general-stats')) {
-    ReactDOM.render(<IndividualGoalGeneralStats/>, document.getElementById('individual-goal-general-stats'));
-}
-
 if (document.getElementById('tags-sorting-section')) {
     ReactDOM.render(<TagsSortingSection/>, document.getElementById('tags-sorting-section'));
 }
@@ -57,5 +47,3 @@ if (document.getElementById('main-find-goals')) {
 if (document.getElementById('view-goal-page')) {
     ReactDOM.render(<MainViewGoalPage/>, document.getElementById('view-goal-page'));
 }
-
-
