@@ -11,15 +11,16 @@ require('./bootstrap');
  * Import React Components
  */
 
-import ReactDOM from 'react-dom';
-import React from 'react';
-import AdminTagsPage from './components/AdminTagsPage';
-import AdminIndividualTagPage from './components/AdminIndividualTagPage';
-import MainCalculatorSection from './components/calculator/MainCalculatorSection';
-import YourGoalData from './components/YourGoalData';
-import IndividualGoalGeneralStats from './components/IndividualGoalGeneralStats';
-import TagsSortingSection from './components/TagsSortingSection';
-import MainFindGoals from './components/find-goals/MainFindGoals';
+import ReactDOM from 'react-dom'
+import React from 'react'
+import AdminTagsPage from './components/AdminTagsPage'
+import AdminIndividualTagPage from './components/AdminIndividualTagPage'
+import MainCalculatorSection from './components/calculator/MainCalculatorSection'
+import YourGoalData from './components/YourGoalData'
+import IndividualGoalGeneralStats from './components/IndividualGoalGeneralStats'
+import TagsSortingSection from './components/TagsSortingSection'
+import MainFindGoals from './components/find-goals/MainFindGoals'
+import MainViewGoalPage from './components/view-goal/MainViewGoalPage'
 
 /**
  *  Specify where React should render
@@ -51,6 +52,10 @@ if (document.getElementById('tags-sorting-section')) {
 
 if (document.getElementById('main-find-goals')) {
     ReactDOM.render(<MainFindGoals/>, document.getElementById('main-find-goals'));
+}
+
+if (document.getElementById('view-goal-page')) {
+    ReactDOM.render(<MainViewGoalPage/>, document.getElementById('view-goal-page'));
 }
 
 

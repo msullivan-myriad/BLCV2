@@ -32,8 +32,6 @@ class MostAndLeastDifficultSection extends Component {
             .then(response => {
                 const most_difficult = response.data.data.most_difficult;
                 const least_difficult = response.data.data.least_difficult;
-
-                //Need to think about how to handle this if users have less than 10 goals... What if they have a ton of goals and would like to load more?
                 this.setState({ most_difficult, least_difficult })
             })
 

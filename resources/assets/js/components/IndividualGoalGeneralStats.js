@@ -55,7 +55,7 @@ class IndividualGoalGeneralStats extends Component {
 
         return (
 
-            <div className="individual-goal-genera-stats">
+            <div className="individual-goal-general-stats">
                 <br/>
                 <br/>
                 <h4>How this goal is trending:</h4>

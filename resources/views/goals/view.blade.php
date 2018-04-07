@@ -24,6 +24,10 @@
         <div class="col-md-6">
             <div id="your-goal-data"></div>
         </div>
+
+        <div class="col-md-12">
+           <div id="view-goal-page"></div>
+        </div>
     </div>
 </div>
 @endsection
