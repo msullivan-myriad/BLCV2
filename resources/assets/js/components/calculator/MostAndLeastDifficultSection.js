@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import YourGoal from './YourGoal';
-import { Tabs } from 'antd';
+import { Tabs, Pagination } from 'antd';
 const TabPane = Tabs.TabPane;
 
 class MostAndLeastDifficultSection extends Component {
@@ -13,8 +13,13 @@ class MostAndLeastDifficultSection extends Component {
         this.state = {
             subgoals: [],
             most_difficult: [],
+            md_current_page: 1,
             least_difficult: [],
+            ld_current_page: 1,
         };
+
+        this.changeMostDifficultPage = this.changeMostDifficultPage.bind(this);
+        this.changeLeastDifficultPage = this.changeLeastDifficultPage.bind(this);
 
     }
 
@@ -33,6 +38,22 @@ class MostAndLeastDifficultSection extends Component {
 
     }
 
+    changeLeastDifficultPage(pageNumber) {
+
+        this.setState({
+            ld_current_page: pageNumber,
+        })
+
+    }
+
+    changeMostDifficultPage(pageNumber) {
+
+        this.setState({
+            md_current_page: pageNumber,
+        })
+
+    }
+
     render() {
 
         return (
@@ -45,9 +66,11 @@ class MostAndLeastDifficultSection extends Component {
 
                                 <TabPane tab="Most Difficult" key="1">
 
-                                    {this.state.most_difficult.map(goal =>
+                                    {this.state.most_difficult.slice(this.state.md_current_page - 1, this.state.md_current_page + 4).map(goal =>
                                         <YourGoal goal={goal} key={goal.id}/>
                                     )}
+
+                                    <Pagination defaultCurrent={1} total={this.state.most_difficult.length} pageSize={5} />
 
                                 </TabPane>
 
