@@ -12,6 +12,40 @@ class MainViewGoalPage extends Component {
 
     render() {
 
+        //Set up right side of main view goals logic
+        let rightSide;
+
+        if (this.props.loggedIn) {
+
+            if (this.props.userHasGoals) {
+
+                if (this.props.hasProfileInfo) {
+
+                    if (this.props.userHasThisGoalOnList) {
+                        rightSide = <YourGoalData/>
+                    }
+
+                    else {
+                        rightSide = <p>Based on your current <a>profile information</a> adding this goal to your list will do the following......</p>
+                    }
+
+                }
+
+                else {
+                    rightSide = <p>Fill out your profile information to see more goal stats</p>
+                }
+
+            }
+            else {
+                rightSide = <p>Add some goals to your list to see more goal statistics</p>
+            }
+
+        }
+        else {
+            rightSide = <p>Login to see more goal statistics</p>
+        }
+
+
         return (
 
             <div className="row">
@@ -24,7 +58,7 @@ class MainViewGoalPage extends Component {
 
                 <div className="col-md-6">
 
-                    <YourGoalData/>
+                    {rightSide}
 
                 </div>
 
