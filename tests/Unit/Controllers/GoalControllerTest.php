@@ -6,6 +6,7 @@ use App\Goal;
 use App\User;
 use App\Tag;
 use Tests\ControllerTestCase;
+use function var_dump;
 
 class GoalControllerTest extends ControllerTestCase {
 
@@ -21,11 +22,16 @@ class GoalControllerTest extends ControllerTestCase {
       $this->canBeViewedByAnyone('goal/' . $this->goal->slug);
     }
 
-    /** @test */
+    /*
+     * I think this would require a front end testing framework....?
+     *
     public function individual_goal_returns_proper_state_data() {
       $this->createBaseGoal();
-      $this->canBeViewedByAnyone('goal/' . $this->goal->slug);
+      $response = $this->get('goal/' .  $this->goal->slug);
+      //$jsonAsArray = json_decode($response->getContent());
+      dd($response);
     }
+    */
 
     /** @test */
     public function api_index_can_be_viewed_by_anyone() {
