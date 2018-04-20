@@ -92,16 +92,39 @@ class GoalController extends Controller {
 
     $goal = Goal::where('slug', $slug)->first();
 
-
-    $loggedIn = Auth::user() ? true : false;
+    $user = Auth::user();
+    $loggedIn = false;
     $userHasGoals = false;
+    $hasProfileInfo = false;
+    $userHasThisGoalOnList = false;
+
+    if ($user) {
+
+      $loggedIn = true;
+
+      if (count($user->subgoals)) {
+          $userHasGoals = true;
+
+          $profile = $user->profile;
+
+          if ($profile->cost_per_year && $profile->days_per_year && $profile->hours_per_year && $profile->birthday) {
+            $hasProfileInfo = true;
+
+            if($user->subgoals->where('slug', $slug)->first()) {
+              $userHasThisGoalOnList = true;
+            }
+          }
+
+      }
+
+    }
 
     return view('goals.view')->with([
       'goal' => $goal,
       'loggedIn' => $loggedIn,
       'userHasGoals' => $userHasGoals,
-      'hasProfileInfo' => false,
-      'userHasThisGoalOnList' => false,
+      'hasProfileInfo' => $hasProfileInfo,
+      'userHasThisGoalOnList' => $userHasThisGoalOnList,
     ]);
 
   }
