@@ -2,7 +2,16 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+    <script>
+
+        const loggedIn = <?php echo json_encode($loggedIn); ?>;
+        const userHasGoals = <?php echo json_encode($userHasGoals); ?>;
+        const hasProfileInfo = <?php echo json_encode($hasProfileInfo); ?>;
+        const userHasThisGoalOnList = <?php echo json_encode($userHasThisGoalOnList); ?>;
+
+    </script>
+
+    <div class="container">
     <h1>{{$goal->name}}</h1>
     <br>
     <br>

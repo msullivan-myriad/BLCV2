@@ -45,5 +45,5 @@ if (document.getElementById('main-find-goals')) {
 }
 
 if (document.getElementById('view-goal-page')) {
-    ReactDOM.render(<MainViewGoalPage loggedIn={true} userHasGoals={true} hasProfileInfo={false} userHasThisGoalOnList={true}/>, document.getElementById('view-goal-page'));
+    ReactDOM.render(<MainViewGoalPage loggedIn={loggedIn} userHasGoals={userHasGoals} hasProfileInfo={hasProfileInfo} userHasThisGoalOnList={userHasThisGoalOnList}/>, document.getElementById('view-goal-page'));
 }

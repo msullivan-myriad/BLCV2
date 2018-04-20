@@ -21,7 +21,11 @@ class GoalControllerTest extends ControllerTestCase {
       $this->canBeViewedByAnyone('goal/' . $this->goal->slug);
     }
 
-    //Individual goal requires authentication on the slug
+    /** @test */
+    public function individual_goal_returns_proper_state_data() {
+      $this->createBaseGoal();
+      $this->canBeViewedByAnyone('goal/' . $this->goal->slug);
+    }
 
     /** @test */
     public function api_index_can_be_viewed_by_anyone() {

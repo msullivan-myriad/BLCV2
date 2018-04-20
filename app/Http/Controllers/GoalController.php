@@ -10,6 +10,7 @@ use App\Http\Requests\CreateNewSubgoalRequest;
 use App\Http\Requests\EditGoalTitleRequest;
 use App\Http\Requests\TagGoalRequest;
 use App\Http\Requests\RemoveTagRequest;
+use Illuminate\Support\Facades\Auth;
 use TomLingham\Searchy\Facades\Searchy;
 
 class GoalController extends Controller {
@@ -91,8 +92,16 @@ class GoalController extends Controller {
 
     $goal = Goal::where('slug', $slug)->first();
 
+
+    $loggedIn = Auth::user() ? true : false;
+    $userHasGoals = false;
+
     return view('goals.view')->with([
       'goal' => $goal,
+      'loggedIn' => $loggedIn,
+      'userHasGoals' => $userHasGoals,
+      'hasProfileInfo' => false,
+      'userHasThisGoalOnList' => false,
     ]);
 
   }
@@ -103,7 +112,6 @@ class GoalController extends Controller {
     return $goal;
   }
   */
-
 
   public function apiSearch(Request $request) {
     //Need some validation that this is actually a string and safe to search with
