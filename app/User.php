@@ -2,6 +2,7 @@
 
 namespace App;
 
+use const EXIF_USE_MBSTRING;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -44,6 +45,10 @@ class User extends Authenticatable
 
     public function subgoals() {
         return $this->hasMany(Subgoal::class);
+    }
+
+    public function experiences() {
+      return$this->hasMany(Experience::class);
     }
 
 
