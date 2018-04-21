@@ -526,16 +526,4 @@ class StatsControllerTest extends ControllerTestCase {
 
   }
 
-  /** @test */
-  public function individual_goal_general_stats_can_be_viewed_by_anyone() {
-
-    $this->createBaseGoal();
-    $this->canBeViewedByAnyone('api/stats/individual-goal-general-stats/' . $this->goal->slug);
-
-  }
-
-
-  //StatsController Needs some serious refactoring and considering moving logic to a service provider
-  //Keep in mind TDD while writing new methods on models
-
 }

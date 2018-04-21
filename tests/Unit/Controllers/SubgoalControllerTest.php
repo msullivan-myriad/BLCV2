@@ -500,7 +500,5 @@ class SubgoalControllerTest extends ControllerTestCase {
 
   }
 
-  //Try to move slug validation outside of web.php and into FormRequest validation
-
 }
 
