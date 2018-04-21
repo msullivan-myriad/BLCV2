@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import YourGoalStatsSection from './YourGoalStatsSection';
-import EditYourGoal from './EditYourGoal';
-
-import { Tabs } from 'antd';
-const TabPane = Tabs.TabPane;
 
 class YourGoalData extends Component {
 
@@ -25,20 +21,7 @@ class YourGoalData extends Component {
 
         return (
             <div className="panel your-goal">
-
-                <Tabs defaultActiveKey="1">
-
-                    <TabPane tab="Goal Stats" key="1">
-                        <YourGoalStatsSection slug={this.state.slug} />
-                    </TabPane>
-
-                    <TabPane tab="Edit Goal" key="2">
-                        <EditYourGoal slug={this.state.slug}/>
-                    </TabPane>
-
-                </Tabs>
-
-
+                <YourGoalStatsSection slug={this.state.slug} />
             </div>
 
 
