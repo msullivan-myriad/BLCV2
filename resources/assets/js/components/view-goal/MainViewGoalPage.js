@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import IndividualGoalGeneralStats from '../IndividualGoalGeneralStats'
+import IndividualGoalGeneralStats from './IndividualGoalGeneralStats'
 import YourGoalData from '../YourGoalData'
+import UserExperiences from './UserExperiences'
 
 
 class MainViewGoalPage extends Component {
@@ -53,6 +54,8 @@ class MainViewGoalPage extends Component {
                 <div className="col-md-6">
 
                     <IndividualGoalGeneralStats/>
+
+                    <UserExperiences/>
 
                 </div>
 
