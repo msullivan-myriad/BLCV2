@@ -4,12 +4,9 @@ namespace Tests\Unit;
 
 use App\Goal;
 use App\User;
-use App\Tag;
 use Tests\ControllerTestCase;
-use function var_dump;
 
 class GoalControllerTest extends ControllerTestCase {
-
 
     /** @test */
     public function index_can_be_viewed_by_anyone() {
@@ -406,7 +403,6 @@ class GoalControllerTest extends ControllerTestCase {
       $jsonAsArray = json_decode($response->getContent());
 
       $this->assertTrue($jsonAsArray->data->success);
-
 
     }
 

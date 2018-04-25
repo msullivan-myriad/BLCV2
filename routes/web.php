@@ -47,6 +47,7 @@ Route::prefix('api')->group(function () {
   Route::get('tags/search', 'TagsController@apiTagsSearch');
   Route::get('tags/{tag}', 'TagsController@apiGoalsWithTag');
   Route::get('category-goals/{category}/', 'TagsController@categoryGoalsFiltering');
+  Route::get('experiences/{goal}', 'ExperienceController@viewGoalsExperiences');
 
   /*
    *  API routes that should require auth
@@ -59,6 +60,7 @@ Route::prefix('api')->group(function () {
     Route::get('subgoals/single/{subgoal}', 'SubgoalController@apiView');
     Route::post('subgoals/{subgoal}/', 'SubgoalController@apiUpdate');
     Route::delete('subgoals/{subgoal}/', 'SubgoalController@apiDelete');
+    Route::post('experiences/{goal}', 'ExperienceController@addNewExpeienceToGoal');
 
   });
 
@@ -108,9 +110,6 @@ Route::prefix('api')->group(function () {
       Route::get('users-tags/{tag}', 'StatsController@getUsersIndividualTag');
 
     });
-
-    //These stats routes do not need authentication
-    Route::get('individual-goal-general-stats/{slug}', 'StatsController@individualGoalGeneralStats');
 
   });
 

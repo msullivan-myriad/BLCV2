@@ -2,10 +2,12 @@
 
 namespace Tests;
 
+use App\Experience;
 use App\Goal;
 use App\Subgoal;
 use App\User;
 use App\Tag;
+use function factory;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -19,6 +21,7 @@ abstract class TestCase extends BaseTestCase {
     protected $user;
     protected $admin;
     protected $subgoal;
+    protected $experience;
 
     protected function createBaseGoal() {
       $this->goal = factory(Goal::class, 'base-test-goal')->create();
@@ -30,6 +33,10 @@ abstract class TestCase extends BaseTestCase {
 
     protected function createBaseUser() {
       $this->user = factory(User::class, 'base-test-user')->create();
+    }
+
+    protected function createBaseExperience() {
+      $this->experience = factory(Experience::class, 'base-test-experience')->create();
     }
 
     protected function createBaseUserWithProfile() {
@@ -47,6 +54,15 @@ abstract class TestCase extends BaseTestCase {
       $this->be($this->user);
       $this->goal->createDefaultSubgoal();
       $this->subgoal = Subgoal::where('goal_id', $this->goal->id)->first();
+    }
+
+    protected function createBaseGoalAndUserWithExperience() {
+      $this->experience = factory(Experience::class, 'base-test-experience')->make();
+      $this->createBaseGoal();
+      $this->createBaseUser();
+      $this->experience->user()->associate($this->user);
+      $this->experience->goal()->associate($this->goal);
+      $this->experience->save();
     }
 
 }

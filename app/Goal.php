@@ -184,7 +184,6 @@ class Goal extends Model {
     return $this->belongsToMany(Tag::class);
   }
 
-
   public function updateGoalAverages() {
     //Update the parent goal to match the subgoals average
     $count = $this->subgoals->count();

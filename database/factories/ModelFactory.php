@@ -123,3 +123,20 @@ $factory->defineAs(App\Tag::class, 'base-test-tag', function() {
   ];
 
 });
+
+/*
+ *  Experience Factories
+ */
+
+$factory->defineAs(App\Experience::class, 'base-test-experience', function() {
+
+  return [
+    'cost' => 10,
+    'days' => 10,
+    'hours' => 10,
+    'votes' => 10,
+    'text' => 'Test Experience Text',
+  ];
+
+});
+
