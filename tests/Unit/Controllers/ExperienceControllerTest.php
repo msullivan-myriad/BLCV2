@@ -39,7 +39,9 @@ class ExperienceControllerTest extends ControllerTestCase {
 
     /** @test */
     public function add_new_experience_requires_validation() {
-      $this->markTestSkipped();
+      $this->createBaseGoal();
+      $this->canOnlyBeViewedBy('auth','POST', 'api/experiences/' . $this->goal->id);
+
     }
 
     /** @test */

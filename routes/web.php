@@ -60,7 +60,7 @@ Route::prefix('api')->group(function () {
     Route::get('subgoals/single/{subgoal}', 'SubgoalController@apiView');
     Route::post('subgoals/{subgoal}/', 'SubgoalController@apiUpdate');
     Route::delete('subgoals/{subgoal}/', 'SubgoalController@apiDelete');
-    Route::post('experiences/{goal}', 'ExperienceController@addNewExpeienceToGoal');
+    Route::post('experiences/{goal}', 'ExperienceController@addNewExperienceToGoal');
 
   });
 
