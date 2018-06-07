@@ -40,13 +40,35 @@ class ExperienceControllerTest extends ControllerTestCase {
     /** @test */
     public function add_new_experience_requires_validation() {
       $this->createBaseGoal();
-      $this->canOnlyBeViewedBy('auth','POST', 'api/experiences/' . $this->goal->id);
-
+      $this->canOnlyBeViewedBy('auth','POST', 'api/experiences/' . $this->goal->id, [
+        'cost' => 100,
+        'days' => 100,
+        'hours' => 100,
+        'text' => 'Text here',
+      ]);
     }
 
     /** @test */
     public function add_new_experience_successfully_attaches_to_goal() {
-      $this->markTestSkipped();
+      $this->createBaseGoal();
+      $this->createBaseUser();
+      $this->be($this->user);
+      $this->post('api/experiences/' . $this->goal->id, [
+        'cost' => 100,
+        'days' => 100,
+        'hours' => 100,
+        'text' => 'This is some text about the experience',
+      ]);
+
+      $response = $this->get('api/experiences/' . $this->goal->id);
+
+      $response->assertJson([
+        'cost' => 100,
+        'days' => 100,
+        'hours' => 100,
+        'text' => 'This is some text about the experience',
+      ]);
+
     }
 
 }

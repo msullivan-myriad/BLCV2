@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Experience;
 use App\Goal;
+use App\Http\Requests\AddNewExperienceToGoalRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class ExperienceController extends Controller {
     return $goal->experiences()->get();
   }
 
-  public function addNewExperienceToGoal(Request $request) {
+  public function addNewExperienceToGoal(AddNewExperienceToGoalRequest $request, Goal $goal) {
     return new JsonResponse('test', 200);
   }
 
