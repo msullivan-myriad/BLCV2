@@ -17,17 +17,6 @@ class ExperienceController extends Controller {
 
   public function addNewExperienceToGoal(AddNewExperienceToGoalRequest $request, Goal $goal) {
 
-
-    /*
-    $experience = new Experience([
-      'cost' => $request->cost,
-      'hours' => $request->hours,
-      'days' => $request->days,
-      'text' => $request->text,
-      'votes' => 0,
-    ]);
-    */
-
     $experience = new Experience();
 
     $experience->cost = $request->cost;

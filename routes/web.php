@@ -50,7 +50,7 @@ Route::prefix('api')->group(function () {
   Route::get('experiences/{goal}', 'ExperienceController@viewGoalsExperiences');
 
   /*
-   *  API routes that should require auth
+   *  API routes that require auth
    */
 
   Route::group(['middleware' => ['auth']], function () {
@@ -62,16 +62,10 @@ Route::prefix('api')->group(function () {
     Route::delete('subgoals/{subgoal}/', 'SubgoalController@apiDelete');
     Route::post('experiences/{goal}', 'ExperienceController@addNewExperienceToGoal');
 
-  });
-
-
-  /*
-   * API routes that require basic auth
-   */
-
-  Route::group(['middleware' => ['auth']], function () {
     Route::post('/goals/', 'GoalController@apiNew');
     Route::post('/goals/create', 'GoalController@apiCreate');
+
+
   });
 
 
@@ -94,7 +88,6 @@ Route::prefix('api')->group(function () {
 
   /*
    *  API routes dedicated to working with stats
-   *  SOME OF THESE ROUTES WILL REQUIRE AUTH
    */
 
   Route::prefix('stats')->group(function () {
