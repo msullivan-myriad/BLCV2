@@ -39,7 +39,11 @@ class ExperienceController extends Controller {
     return true;
   }
 
-  public function voteOnExperience(Request $request, Experience $xperience) {
+  public function upVoteExperience(Request $request, Experience $experience) {
+    return true;
+  }
+
+  public function downVoteExperience(Request $request, Experience $experience) {
     return true;
   }
   */

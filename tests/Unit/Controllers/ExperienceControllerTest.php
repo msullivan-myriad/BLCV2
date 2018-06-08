@@ -79,4 +79,48 @@ class ExperienceControllerTest extends ControllerTestCase {
 
     }
 
+    /** @test */
+    public function edit_experience_requires_validation() {
+
+      $this->markTestSkipped();
+
+    }
+
+    /** @test */
+    public function edit_experience_successfully_edits_experience() {
+
+      $this->markTestSkipped();
+
+    }
+
+    /** @test */
+    public function upvote_experience_requires_validation() {
+
+      $this->markTestSkipped();
+
+    }
+
+    /** @test */
+    public function upvote_experience_successfully_upvotes_experience() {
+
+      $this->markTestSkipped();
+
+    }
+
+    /** @test */
+    public function downvote_experience_requires_validation() {
+
+      $this->markTestSkipped();
+
+    }
+
+    /** @test */
+    public function downvote_experience_successfully_upvotes_experience() {
+
+      $this->markTestSkipped();
+
+    }
+
+
+
 }
