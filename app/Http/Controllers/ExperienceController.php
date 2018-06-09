@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Experience;
 use App\Goal;
 use App\Http\Requests\AddNewExperienceToGoalRequest;
+use App\Http\Requests\EditExperienceRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +26,6 @@ class ExperienceController extends Controller {
     $experience->text = $request->text;
     $experience->votes = 0;
 
-
     $experience->user()->associate(Auth::user()->id);
     $experience->goal()->associate($goal);
     $experience->save();
@@ -34,7 +34,7 @@ class ExperienceController extends Controller {
 
   }
 
-  public function editExperience(Request $request, Experience $experience) {
+  public function editExperience(EditExperienceRequest $request, Experience $experience) {
 
     $experience->cost = $request->cost;
     $experience->days = $request->days;
