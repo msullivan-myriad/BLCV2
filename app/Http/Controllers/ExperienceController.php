@@ -6,6 +6,7 @@ use App\Experience;
 use App\Goal;
 use App\Http\Requests\AddNewExperienceToGoalRequest;
 use App\Http\Requests\EditExperienceRequest;
+use App\Http\Requests\UpvoteExperienceRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -46,7 +47,7 @@ class ExperienceController extends Controller {
 
   }
 
-  public function upVoteExperience(Request $request, Experience $experience) {
+  public function upVoteExperience(UpvoteExperienceRequest $request, Experience $experience) {
 
     $experience->votes++;
     $experience->save();
