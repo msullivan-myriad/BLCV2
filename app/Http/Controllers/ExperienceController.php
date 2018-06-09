@@ -36,14 +36,11 @@ class ExperienceController extends Controller {
 
   public function editExperience(Request $request, Experience $experience) {
 
-
     $experience->cost = $request->cost;
     $experience->days = $request->days;
     $experience->hours = $request->hours;
     $experience->text = $request->text;
     $experience->save();
-
-    echo $experience->id;
 
     return new JsonResponse('success', 200);
   }

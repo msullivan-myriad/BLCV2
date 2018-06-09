@@ -105,8 +105,8 @@ class ExperienceControllerTest extends ControllerTestCase {
     /** @test */
     public function edit_experience_successfully_edits_experience() {
 
-      $this->markTestSkipped();
       $this->createBaseGoalAndUserWithExperience();
+      $this->be($this->user);
 
       $response = $this->get('api/experiences/' . $this->goal->id);
 
@@ -120,13 +120,23 @@ class ExperienceControllerTest extends ControllerTestCase {
 
       ]);
 
-      echo $this->experience->id;
-
       $this->post('api/experience/' . $this->experience->id . '/edit', [
         'cost' => 100,
         'days' => 100,
         'hours' => 100,
         'text' => 'Text here',
+      ]);
+
+      $response2 = $this->get('api/experiences/' . $this->goal->id);
+
+      $response2->assertJson([
+        [
+          'cost' => 100,
+          'days' => 100,
+          'hours' => 100,
+          'text' => 'Text here',
+        ]
+
       ]);
 
     }
