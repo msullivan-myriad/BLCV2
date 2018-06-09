@@ -128,13 +128,25 @@ class ExperienceControllerTest extends ControllerTestCase {
           'hours' => 100,
           'text' => 'Text here',
         ]
-
       ]);
 
     }
 
     /** @test */
     public function upvote_experience_requires_validation() {
+
+      $this->createBaseGoalAndUserWithExperience();
+
+      $this->createAlternateUser();
+      $this->be($this->alternateUser);
+
+      $this->canOnlyBeViewedBy('use-existing','POST', 'api/experience/' . $this->experience->id . '/upvote' );
+
+
+    }
+
+    /** @test */
+    public function upvote_experience_has_additional_validation_rules() {
 
       $this->markTestSkipped();
 
