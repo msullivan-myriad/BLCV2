@@ -47,6 +47,7 @@ class ExperienceControllerTest extends ControllerTestCase {
         'hours' => 100,
         'text' => 'Text here',
       ]);
+
     }
 
     /** @test */
@@ -82,7 +83,22 @@ class ExperienceControllerTest extends ControllerTestCase {
     /** @test */
     public function edit_experience_requires_validation() {
 
-      $this->markTestSkipped();
+      $this->createBaseGoalAndUserWithExperience();
+
+      /*
+      $this->be($this->user);
+
+      $test = $this->post('api/experience/' . $this->experience->id . '/edit');
+
+      dd($test);
+      */
+
+      $this->canOnlyBeViewedBy('use-existing','POST', 'api/experience/' . $this->experience->id . '/edit', [
+        'cost' => 100,
+        'days' => 100,
+        'hours' => 100,
+        'text' => 'Text here',
+      ]);
 
     }
 
@@ -90,6 +106,28 @@ class ExperienceControllerTest extends ControllerTestCase {
     public function edit_experience_successfully_edits_experience() {
 
       $this->markTestSkipped();
+      $this->createBaseGoalAndUserWithExperience();
+
+      $response = $this->get('api/experiences/' . $this->goal->id);
+
+      $response->assertJson([
+        [
+          'cost' => 10,
+          'days' => 10,
+          'hours' => 10,
+          'text' => 'Test Experience Text',
+        ]
+
+      ]);
+
+      echo $this->experience->id;
+
+      $this->post('api/experience/' . $this->experience->id . '/edit', [
+        'cost' => 100,
+        'days' => 100,
+        'hours' => 100,
+        'text' => 'Text here',
+      ]);
 
     }
 

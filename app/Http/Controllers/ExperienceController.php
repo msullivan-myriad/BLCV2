@@ -34,10 +34,20 @@ class ExperienceController extends Controller {
 
   }
 
-  /*
   public function editExperience(Request $request, Experience $experience) {
-    return true;
+
+
+    $experience->cost = $request->cost;
+    $experience->days = $request->days;
+    $experience->hours = $request->hours;
+    $experience->text = $request->text;
+    $experience->save();
+
+    echo $experience->id;
+
+    return new JsonResponse('success', 200);
   }
+  /*
 
   public function upVoteExperience(Request $request, Experience $experience) {
     return true;
