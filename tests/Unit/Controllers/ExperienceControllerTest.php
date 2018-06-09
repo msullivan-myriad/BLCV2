@@ -85,14 +85,6 @@ class ExperienceControllerTest extends ControllerTestCase {
 
       $this->createBaseGoalAndUserWithExperience();
 
-      /*
-      $this->be($this->user);
-
-      $test = $this->post('api/experience/' . $this->experience->id . '/edit');
-
-      dd($test);
-      */
-
       $this->canOnlyBeViewedBy('use-existing','POST', 'api/experience/' . $this->experience->id . '/edit', [
         'cost' => 100,
         'days' => 100,
