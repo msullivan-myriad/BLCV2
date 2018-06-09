@@ -22,6 +22,7 @@ abstract class TestCase extends BaseTestCase {
     protected $admin;
     protected $subgoal;
     protected $experience;
+    protected $alternateUser;
 
     protected function createBaseGoal() {
       $this->goal = factory(Goal::class, 'base-test-goal')->create();
@@ -33,6 +34,10 @@ abstract class TestCase extends BaseTestCase {
 
     protected function createBaseUser() {
       $this->user = factory(User::class, 'base-test-user')->create();
+    }
+
+    protected function createAlternateUser() {
+      $this->alternateUser = factory(User::class, 'alternate-test-user')->create();
     }
 
     protected function createBaseExperience() {

@@ -43,16 +43,20 @@ class ExperienceController extends Controller {
     $experience->save();
 
     return new JsonResponse('success', 200);
+
   }
-  /*
 
   public function upVoteExperience(Request $request, Experience $experience) {
-    return true;
+
+    $experience->votes++;
+    $experience->save();
+
+    return JsonResponse('success', 200);
+
   }
 
   public function downVoteExperience(Request $request, Experience $experience) {
-    return true;
+    return JsonResponse('success', 200);
   }
-  */
 
 }

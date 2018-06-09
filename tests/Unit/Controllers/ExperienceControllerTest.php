@@ -151,7 +151,28 @@ class ExperienceControllerTest extends ControllerTestCase {
     /** @test */
     public function upvote_experience_successfully_upvotes_experience() {
 
-      $this->markTestSkipped();
+      $this->createBaseGoalAndUserWithExperience();
+
+      $response = $this->get('api/experiences/' . $this->goal->id);
+
+      $response->assertJson([
+        [
+          'votes' => 10,
+        ]
+      ]);
+
+      $this->createAlternateUser();
+      $this->be($this->alternateUser);
+
+      $this->post('api/experience/' . $this->experience->id. '/upvote');
+
+      $response2 = $this->get('api/experiences/' . $this->goal->id);
+
+      $response2->assertJson([
+        [
+          'votes' => 11,
+        ]
+      ]);
 
     }
 

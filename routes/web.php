@@ -62,11 +62,13 @@ Route::prefix('api')->group(function () {
     Route::delete('subgoals/{subgoal}/', 'SubgoalController@apiDelete');
 
     Route::post('experience/{experience}/edit', 'ExperienceController@editExperience');
+    Route::post('experience/{experience}/upvote', 'ExperienceController@upVoteExperience');
+    Route::post('experience/{experience}/downvote', 'ExperienceController@downVoteExperience');
+
     Route::post('experiences/{goal}', 'ExperienceController@addNewExperienceToGoal');
 
     Route::post('/goals/', 'GoalController@apiNew');
     Route::post('/goals/create', 'GoalController@apiCreate');
-
 
   });
 

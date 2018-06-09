@@ -64,6 +64,19 @@ $factory->defineAs(App\User::class, 'base-test-user', function() {
     ];
 });
 
+$factory->defineAs(App\User::class, 'alternate-test-user', function() {
+
+    return [
+        'admin' => true,
+        'name' => 'Timmy',
+        'email' => 'tturner@email.com',
+        'password' => bcrypt('password'),
+        'remember_token' => str_random(10),
+        'admin' => false,
+    ];
+});
+
+
 /*
  *  Goal Factories
  */
