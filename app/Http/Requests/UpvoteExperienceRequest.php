@@ -15,17 +15,15 @@ class UpvoteExperienceRequest extends FormRequest
      */
     public function authorize() {
 
-      /*
       $experience = $this->route('experience');
 
       if (Auth::user()->id == $experience->user_id) {
-        return true;
+        return false;
+
       }
       else {
-        return false;
+        return true;
       }
-      */
-      return true;
 
     }
 
@@ -37,14 +35,10 @@ class UpvoteExperienceRequest extends FormRequest
 
     public function rules() {
 
-        return [
-            'cost' => 'required|numeric|max:10000000000',
-            'days' => 'required|numeric|max:10000',
-            'hours' => 'required|numeric|max:100000',
-            'text' =>  'required|string',
-        ];
+        return [];
 
     }
+
 
 }
 

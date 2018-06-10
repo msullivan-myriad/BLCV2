@@ -138,9 +138,8 @@ class ExperienceControllerTest extends ControllerTestCase {
       $this->createBaseGoalAndUserWithExperience();
 
       $this->createAlternateUser();
-      $this->be($this->alternateUser);
 
-      $this->canOnlyBeViewedBy('use-existing','POST', 'api/experience/' . $this->experience->id . '/upvote' );
+      $this->canOnlyBeViewedBy('use-alternate','POST', 'api/experience/' . $this->experience->id . '/upvote' );
 
 
     }

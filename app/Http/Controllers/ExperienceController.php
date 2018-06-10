@@ -47,7 +47,7 @@ class ExperienceController extends Controller {
 
   }
 
-  public function upVoteExperience(UpvoteExperienceRequest $request, Experience $experience) {
+  public function upVoteExperience(UpvoteExperienceRequest$request, Experience $experience) {
 
     $experience->votes++;
     $experience->save();

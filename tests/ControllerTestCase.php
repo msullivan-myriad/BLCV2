@@ -36,7 +36,9 @@ abstract class ControllerTestCase extends TestCase {
       else if ($userType == 'use-existing') {
         $user = $this->user;
       }
-
+      else if ($userType == 'use-alternate') {
+        $user = $this->alternateUser;
+      }
 
       if ($postType == 'GET') {
 
