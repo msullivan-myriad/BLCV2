@@ -28,7 +28,8 @@ class ExperienceControllerTest extends ControllerTestCase {
             'days' => 10,
             'hours' => 10,
             'cost' => 10,
-            'votes' => 10,
+            //Should be an array with eventually
+            //'votes' => 10,
             'goal_id' => $this->goal->id,
             'user_id' => $this->user->id,
           ],
@@ -138,6 +139,13 @@ class ExperienceControllerTest extends ControllerTestCase {
       $this->createBaseGoalAndUserWithExperience();
 
       $this->createAlternateUser();
+
+      /*
+      $this->be($this->alternateUser);
+      $test = $this->post('api/experience/' .$this->experience->id . '/upvote');
+
+      dd($test);
+      */
 
       $this->canOnlyBeViewedBy('use-alternate','POST', 'api/experience/' . $this->experience->id . '/upvote' );
 
