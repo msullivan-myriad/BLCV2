@@ -60,16 +60,13 @@ class ExperienceController extends Controller {
 
   }
 
-  public function upVoteExperience(UpvoteExperienceRequest$request, Experience $experience) {
+  public function upVoteExperience(UpvoteExperienceRequest $request, Experience $experience) {
 
     $vote = new Vote();
     $vote->vote = 1;
     $vote->experience()->associate($experience);
     $vote->user()->associate(Auth::user());
     $vote->save();
-
-    //$experience->votes++;
-    //$experience->save();
 
     return new JsonResponse('success', 200);
 

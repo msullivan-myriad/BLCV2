@@ -140,36 +140,21 @@ class ExperienceControllerTest extends ControllerTestCase {
 
       $this->createAlternateUser();
 
-      /*
-      $this->be($this->alternateUser);
-      $test = $this->post('api/experience/' .$this->experience->id . '/upvote');
-
-      dd($test);
-      */
-
       $this->canOnlyBeViewedBy('use-alternate','POST', 'api/experience/' . $this->experience->id . '/upvote' );
 
 
     }
 
     /** @test */
-    public function upvote_experience_has_additional_validation_rules() {
-
-      $this->markTestSkipped();
-
-    }
-
-    /** @test */
     public function upvote_experience_successfully_upvotes_experience() {
 
-      $this->markTestSkipped();
       $this->createBaseGoalAndUserWithExperience();
 
       $response = $this->get('api/experiences/' . $this->goal->id);
 
       $response->assertJson([
         [
-          'votes' => 10,
+          'votes' => 0,
         ]
       ]);
 
@@ -182,11 +167,50 @@ class ExperienceControllerTest extends ControllerTestCase {
 
       $response2->assertJson([
         [
-          'votes' => 11,
+          'votes' => 1,
         ]
       ]);
 
     }
+
+    /** @test */
+    public function upvote_experience_has_additional_validation_rules() {
+
+      $this->createBaseGoalAndUserWithExperience();
+
+      $response = $this->get('api/experiences/' . $this->goal->id);
+
+      $response->assertJson([
+        [
+          'votes' => 0,
+        ]
+      ]);
+
+
+      $this->createAlternateUser();
+      $this->be($this->alternateUser);
+
+      $this->post('api/experience/' . $this->experience->id . '/upvote');
+
+
+      $response2 = $this->get('api/experiences/' . $this->goal->id);
+
+      $response2->assertJson([
+        [
+          'votes' => 1,
+        ]
+      ]);
+
+      $this->post('api/experience/' . $this->experience->id . '/upvote');
+
+
+      $response3 = $this->get('api/experiences/' . $this->goal->id);
+
+      $response3->assertStatus(403);
+
+
+    }
+
 
     /** @test */
     public function downvote_experience_requires_validation() {
