@@ -176,6 +176,8 @@ class ExperienceControllerTest extends ControllerTestCase {
     /** @test */
     public function upvote_experience_has_additional_validation_rules() {
 
+      $this->markTestSkipped();
+
       $this->createBaseGoalAndUserWithExperience();
 
       $response = $this->get('api/experiences/' . $this->goal->id);

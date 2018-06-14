@@ -17,6 +17,13 @@ class UpvoteExperienceRequest extends FormRequest
 
       $experience = $this->route('experience');
 
+      //Need to map over votes here and see if any of the existing vote ids belong to the current user
+      /*
+      $experience->votes->map(function($vote) {
+        echo $vote->id;
+      });
+      */
+
       if (Auth::user()->id == $experience->user_id) {
         return false;
 
