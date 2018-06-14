@@ -25,10 +25,12 @@ class ExperienceController extends Controller {
     //This breaks stuff right now, may need a transformer to do this
     //return $goal->experiences()->with('votes')->get();
 
+    /*
     return $goal->experiences()->map(function($experiences) {
       return $this->experienceTransformer->transform($experiences);
     });
-    //return $goal->experiences()->get();
+    */
+    return $goal->experiences()->get();
   }
 
   public function addNewExperienceToGoal(AddNewExperienceToGoalRequest $request, Goal $goal) {
