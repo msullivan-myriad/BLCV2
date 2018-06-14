@@ -21,7 +21,6 @@ class CreateExperiencesTable extends Migration
             $table->integer('cost');
             $table->integer('days');
             $table->integer('hours');
-            $table->integer('votes');
             $table->text('text');
         });
     }

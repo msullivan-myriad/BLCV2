@@ -37,8 +37,7 @@ class ExperienceController extends Controller {
     $experience->days = $request->days;
     $experience->hours = $request->hours;
     $experience->text = $request->text;
-    //Should not set a vote count here
-    $experience->votes = 0;
+    //$experience->votes = 0;
 
     $experience->user()->associate(Auth::user()->id);
     $experience->goal()->associate($goal);

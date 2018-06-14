@@ -147,7 +147,6 @@ $factory->defineAs(App\Experience::class, 'base-test-experience', function() {
     'cost' => 10,
     'days' => 10,
     'hours' => 10,
-    'votes' => 10,
     'text' => 'Test Experience Text',
   ];
 

@@ -28,8 +28,6 @@ class ExperienceControllerTest extends ControllerTestCase {
             'days' => 10,
             'hours' => 10,
             'cost' => 10,
-            //Should be an array with eventually
-            //'votes' => 10,
             'goal_id' => $this->goal->id,
             'user_id' => $this->user->id,
           ],
@@ -176,8 +174,6 @@ class ExperienceControllerTest extends ControllerTestCase {
     /** @test */
     public function upvote_experience_has_additional_validation_rules() {
 
-      $this->markTestSkipped();
-
       $this->createBaseGoalAndUserWithExperience();
 
       $response = $this->get('api/experiences/' . $this->goal->id);
@@ -205,6 +201,10 @@ class ExperienceControllerTest extends ControllerTestCase {
 
       $this->post('api/experience/' . $this->experience->id . '/upvote');
 
+
+      $this->experience->votes->map(function($vote) {
+        echo $vote->id;
+      });
 
       $response3 = $this->get('api/experiences/' . $this->goal->id);
 
