@@ -23,39 +23,10 @@ class ExperienceTransformer extends TransformerAbstract {
         'days' => $experience->days,
         'hours' => $experience->hours,
         'text' => $experience->text,
-        'votes' => 0,
+        'votes' => $experience->votes()->sum('vote'),
     ];
 
   }
 
 }
 
-
-/*
-namespace App\Http\Transformers\CMS;
-
-use Carbon\Carbon;
-use League\Fractal\TransformerAbstract;
-use App\Models\SiteUser;
-
-class SiteUserTransformer extends TransformerAbstract {
-
-  public function transform(SiteUser $siteUser) {
-    $phoneNumber = isset($siteUser->appUser) ?
-      $siteUser->appUser->phoneNumbers()->first()
-      : null;
-    return [
-
-      'id' => $siteUser->id,
-      'description' => $siteUser->description,
-      'last_login' => $siteUser->last_login ?  Carbon::parse($siteUser->last_login)->format('n/d/y g:i A') : '',
-      'phone' => isset($phoneNumber) ? $phoneNumber->phone : '',
-      'specs' => $siteUser->platform_name ? $siteUser->platform_name . ' ' . $siteUser->platform_version : 'N/A',
-      'status' => $siteUser->status ? 'Active' : 'Deactivated',
-
-    ];
-  }
-
-}
-
-*/
