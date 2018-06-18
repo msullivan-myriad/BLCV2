@@ -17,19 +17,34 @@ class UpvoteExperienceRequest extends FormRequest
 
       $experience = $this->route('experience');
 
-      //Need to map over votes here and see if any of the existing vote ids belong to the current user
-      /*
-      $experience->votes->map(function($vote) {
-        echo $vote->id;
+      $usersWithVote = $experience->votes->map(function($vote) {
+        return $vote->user_id;
       });
-      */
 
-      if (Auth::user()->id == $experience->user_id) {
-        return false;
+      $user = Auth::user();
+
+      $usersIndex = $usersWithVote->search($user->id);
+
+      //$usersIndex above will return false if it finds nothing, however search returns the index
+      //of the user->id if it exists.  This means that the index of 0 could potentially
+      //Be a valid response.  This is the reason for the strict comparison below
+
+      if ($usersIndex === false) {
+
+        if (Auth::user()->id == $experience->user_id) {
+          return false;
+
+        }
+        else {
+          return true;
+        }
 
       }
+
       else {
-        return true;
+
+        return false;
+
       }
 
     }

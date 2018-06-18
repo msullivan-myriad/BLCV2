@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Goal;
 use App\User;
 use App\Experience;
+use Illuminate\Support\Facades\Auth;
 use Tests\ControllerTestCase;
 
 class ExperienceControllerTest extends ControllerTestCase {
@@ -184,7 +185,6 @@ class ExperienceControllerTest extends ControllerTestCase {
         ]
       ]);
 
-
       $this->createAlternateUser();
       $this->be($this->alternateUser);
 
@@ -199,26 +199,18 @@ class ExperienceControllerTest extends ControllerTestCase {
         ]
       ]);
 
-      $this->post('api/experience/' . $this->experience->id . '/upvote');
+      $postRequest = $this->post('api/experience/' . $this->experience->id . '/upvote');
 
-      $usersIds = array();
+      $postRequest->assertStatus(403);
 
-      $this->experience->votes->map(function($vote) use ($usersIds){
-        array_push($usersIds, $vote->id);
-        var_dump($usersIds);
-      });
-
-      dd($usersIds);
-
-
-      //Why is this array not being update by the map function?
-
-      /*
       $response3 = $this->get('api/experiences/' . $this->goal->id);
 
-      $response3->assertStatus(403);
-      */
 
+      $response3->assertJson([
+        [
+          'votes' => 1,
+        ]
+      ]);
 
     }
 
