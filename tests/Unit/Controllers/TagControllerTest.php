@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use App\Goal;
-use App\User;
 use App\Tag;
 use Tests\ControllerTestCase;
 

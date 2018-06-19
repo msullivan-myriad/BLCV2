@@ -2,10 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Goal;
-use App\User;
-use App\Experience;
-use Illuminate\Support\Facades\Auth;
 use Tests\ControllerTestCase;
 
 class ExperienceControllerTest extends ControllerTestCase {
@@ -34,7 +30,6 @@ class ExperienceControllerTest extends ControllerTestCase {
           ],
        ]);
 
-
     }
 
     /** @test */
@@ -56,7 +51,7 @@ class ExperienceControllerTest extends ControllerTestCase {
       $this->createBaseUser();
       $this->be($this->user);
 
-      $test = $this->post('api/experiences/' . $this->goal->id, [
+      $this->post('api/experiences/' . $this->goal->id, [
         'cost' => 100,
         'days' => 100,
         'hours' => 100,
@@ -298,5 +293,15 @@ class ExperienceControllerTest extends ControllerTestCase {
 
     }
 
+
+
+    /* Next up.....
+
+    1) Start attaching experiences and votes to actual goals (hook this up on frontend)
+    2) Add some upvotes and experiences using the seeder
+    3) Goal values are calculated based upon experiences + other goals (ask Erin about this)
+
+
+    */
 
 }

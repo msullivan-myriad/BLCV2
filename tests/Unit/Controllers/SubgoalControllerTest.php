@@ -6,7 +6,6 @@ use Tests\ControllerTestCase;
 use App\Goal;
 use App\Subgoal;
 use App\User;
-use Illuminate\Support\Facades\Auth;
 
 class SubgoalControllerTest extends ControllerTestCase {
 
