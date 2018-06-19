@@ -7,6 +7,7 @@ use App\Goal;
 use App\Http\Requests\AddNewExperienceToGoalRequest;
 use App\Http\Requests\EditExperienceRequest;
 use App\Http\Requests\UpvoteExperienceRequest;
+use App\Http\Requests\DownvoteExperienceRequest;
 use App\Vote;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -71,7 +72,7 @@ class ExperienceController extends Controller {
 
   }
 
-  public function downVoteExperience(Request $request, Experience $experience) {
+  public function downVoteExperience(DownvoteExperienceRequest $request, Experience $experience) {
 
     $vote = new Vote();
     $vote->vote = -1;
