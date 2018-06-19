@@ -218,7 +218,12 @@ class ExperienceControllerTest extends ControllerTestCase {
     /** @test */
     public function downvote_experience_requires_validation() {
 
-      $this->markTestSkipped();
+      $this->createBaseGoalAndUserWithExperience();
+
+      $this->createAlternateUser();
+
+      $this->canOnlyBeViewedBy('use-alternate','POST', 'api/experience/' . $this->experience->id . '/downvote' );
+
 
     }
 

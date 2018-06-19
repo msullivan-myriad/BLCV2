@@ -72,6 +72,15 @@ class ExperienceController extends Controller {
   }
 
   public function downVoteExperience(Request $request, Experience $experience) {
+
+    $vote = new Vote();
+    $vote->vote = -1;
+    $vote->experience()->associate($experience);
+    $vote->user()->associate(Auth::user());
+    $vote->save();
+
+    return new JsonResponse('success', 200);
+
     return JsonResponse('success', 200);
   }
 
