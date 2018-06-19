@@ -228,9 +228,30 @@ class ExperienceControllerTest extends ControllerTestCase {
     }
 
     /** @test */
-    public function downvote_experience_successfully_upvotes_experience() {
+    public function downvote_experience_successfully_downvotes_experience() {
 
-      $this->markTestSkipped();
+      $this->createBaseGoalAndUserWithExperience();
+
+      $response = $this->get('api/experiences/' . $this->goal->id);
+
+      $response->assertJson([
+        [
+          'votes' => 0,
+        ]
+      ]);
+
+      $this->createAlternateUser();
+      $this->be($this->alternateUser);
+
+      $this->post('api/experience/' . $this->experience->id. '/downvote');
+
+      $response2 = $this->get('api/experiences/' . $this->goal->id);
+
+      $response2->assertJson([
+        [
+          'votes' => -1,
+        ]
+      ]);
 
     }
 
