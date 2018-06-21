@@ -5,7 +5,6 @@ import AdminGoal from './AdminGoal';
 
 class AdminIndividualTagPage extends Component {
 
-
     constructor(props) {
         super(props);
 

@@ -4,6 +4,7 @@
 @section('content')
     <script>
 
+        const goal = <?php echo json_encode($goal); ?>;
         const loggedIn = <?php echo json_encode($loggedIn); ?>;
         const userHasGoals = <?php echo json_encode($userHasGoals); ?>;
         const hasProfileInfo = <?php echo json_encode($hasProfileInfo); ?>;

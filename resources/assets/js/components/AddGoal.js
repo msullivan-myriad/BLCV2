@@ -23,6 +23,7 @@ class AddGoal extends Component {
             days: this.props.goal.days,
             hours: this.props.goal.hours,
         })
+
     }
 
 

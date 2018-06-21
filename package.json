@@ -23,6 +23,7 @@
     "antd": "^2.13.3",
     "lodash": "^4.17.4",
     "moment": "^2.19.3",
+    "node-sass": "^4.9.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-simple-charts": "0.0.19",

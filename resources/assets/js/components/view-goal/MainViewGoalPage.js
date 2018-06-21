@@ -55,7 +55,7 @@ class MainViewGoalPage extends Component {
 
                     <IndividualGoalGeneralStats/>
 
-                    <UserExperiences/>
+                    <UserExperiences goal={this.props.goal}/>
 
                 </div>
 

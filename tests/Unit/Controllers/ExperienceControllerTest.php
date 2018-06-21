@@ -294,13 +294,12 @@ class ExperienceControllerTest extends ControllerTestCase {
     }
 
 
-
     /* Next up.....
 
     1) Start attaching experiences and votes to actual goals (hook this up on frontend)
     2) Add some upvotes and experiences using the seeder
     3) Goal values are calculated based upon experiences + other goals (ask Erin about this)
-
+    4) Need to reevaluate how data is being passed down on the MainGoalPage
 
     */
 
