@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Input, Button } from 'antd';
 const { TextArea } = Input;
 import axios from 'axios';
+import { notification } from 'antd';
 
 class AddNewUserExperience extends Component {
 
@@ -49,12 +50,51 @@ class AddNewUserExperience extends Component {
 
     submitExperience() {
 
+
         axios.post('/api/experiences/' + this.props.goalId, {
-            cost:  this.state.cost,
+            cost: this.state.cost,
             days: this.state.days,
             hours: this.state.hours,
             text: this.state.text
         })
+
+        .then(response => {
+
+            notification.open({
+                message: 'Success',
+                description: 'Successfully added experience',
+                type: 'success',
+            });
+
+        })
+
+            /*
+
+            A user should not be able to add more than one experience either
+
+
+        .catch(error => {
+
+            if (error.response.data.goal_id) {
+
+                notification.open({
+                    message: 'Error',
+                    description: this.props.goal.name + ' is already on your list',
+                    type: 'error',
+                });
+
+            }
+            else {
+
+                notification.open({
+                    message: 'Error',
+                    description: 'It looks like something went wrong',
+                    type: 'error',
+                });
+
+            }
+            */
+
     }
 
     render() {
@@ -69,7 +109,7 @@ class AddNewUserExperience extends Component {
                 <Input placeholder="Days" value={this.state.days} onChange={this.changeDays}/>
                 <Input placeholder="Hours" value={this.state.hours} onChange={this.changeHours}/>
                 <TextArea rows={4} value={this.state.text} onChange={this.changeText}/>
-                <Button onSubmit={this.submitExperience}>Submit</Button>
+                <Button onClick={this.submitExperience}>Submit</Button>
 
             </div>
 
