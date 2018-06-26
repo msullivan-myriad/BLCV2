@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import AddNewUserExperience from './AddNewUserExperience';
+import SingleExperience from './SingleExperience';
 
 class UserExperiences extends Component {
 
@@ -8,6 +9,9 @@ class UserExperiences extends Component {
         super(props);
 
         this.state = {
+
+            experiences: [],
+
         }
 
     }
@@ -19,7 +23,10 @@ class UserExperiences extends Component {
             .then(response => {
 
                 let data = response.data;
-                console.log(data);
+
+                this.setState({
+                    experiences: data,
+                })
 
             })
 
@@ -32,6 +39,12 @@ class UserExperiences extends Component {
             <div>
 
                 <p>Need to map over all existing experiences here and show each experience</p>
+
+                {this.state.experiences.map(experience =>
+
+                    <SingleExperience experience={experience} key={experience.id}/>
+
+                )}
                 <AddNewUserExperience goalId={this.props.goal.id}/>
 
             </div>
