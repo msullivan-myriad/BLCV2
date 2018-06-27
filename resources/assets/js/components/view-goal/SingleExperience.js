@@ -68,7 +68,14 @@ class SingleExperience extends Component {
 
     render() {
 
-        console.log(this.props.experience);
+        //console.log(this.props.experience);
+        //console.log(this.props.user);
+
+        this.props.experience.all_votes.map(vote => {
+
+            console.log(vote.user_id);
+
+        })
 
         const experience = this.props.experience;
 
@@ -82,9 +89,7 @@ class SingleExperience extends Component {
                     <p>Days: {experience.days}</p>
                     <p>Hours: {experience.hours}</p>
                     <p>Text: {experience.text}</p>
-
                 </Card>
-
 
         );
 
