@@ -296,7 +296,8 @@ class ExperienceControllerTest extends ControllerTestCase {
 
     /* Next up.....
 
-    1) Start attaching experiences and votes to actual goals (hook this up on frontend)
+    1) Display that shows if an experience is already upvoted
+    1.5) This a slight hangup here, with the logic around downvoting an experience that is already upvoted
     2) Add some upvotes and experiences using the seeder
     3) Goal values are calculated based upon experiences + other goals (ask Erin about this.... she said she likes the idea of it happening incrementally based on more experiences)
     4) Need to reevaluate how data is being passed down on the MainGoalPage

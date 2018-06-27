@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { Card, Icon, notification } from 'antd';
 
 
@@ -8,11 +9,60 @@ class SingleExperience extends Component {
         super(props);
 
         this.state = {
-            cost: '',
-            days: '',
-            hours: '',
-            text: '',
+            votes: 0,
         }
+
+        this.upvoteExperience = this.upvoteExperience.bind(this);
+        this.downvoteExperience = this.downvoteExperience.bind(this);
+
+    }
+
+    componentDidMount() {
+
+        this.setState({
+            votes: Number(this.props.experience.votes)
+        })
+
+
+    }
+
+    upvoteExperience() {
+
+        axios.post('/api/experience/' + this.props.experience.id + '/upvote')
+
+        .then(response => {
+
+            notification.open({
+                message: 'Success',
+                description: 'Successfully upvoted experience',
+                type: 'success',
+            });
+
+            this.setState({
+                votes: this.state.votes + 1
+            })
+
+        })
+
+    }
+
+    downvoteExperience() {
+
+        axios.post('/api/experience/' + this.props.experience.id + '/downvote')
+
+        .then(response => {
+
+            notification.open({
+                message: 'Success',
+                description: 'Successfully downvoted experience',
+                type: 'success',
+            });
+
+            this.setState({
+                votes: this.state.votes - 1
+            })
+
+        })
 
     }
 
@@ -25,9 +75,9 @@ class SingleExperience extends Component {
         return (
 
                 <Card>
-                    <Icon type="like-o" />
-                    <p>{experience.votes}</p>
-                    <Icon type="dislike-o" />
+                    <Icon type="like-o" onClick={this.upvoteExperience}/>
+                    <p>{this.state.votes}</p>
+                    <Icon type="dislike-o" onClick={this.downvoteExperience}/>
                     <p>Cost: {experience.cost}</p>
                     <p>Days: {experience.days}</p>
                     <p>Hours: {experience.hours}</p>

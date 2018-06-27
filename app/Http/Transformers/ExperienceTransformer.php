@@ -24,6 +24,7 @@ class ExperienceTransformer extends TransformerAbstract {
         'hours' => $experience->hours,
         'text' => $experience->text,
         'votes' => $experience->votes()->sum('vote'),
+        'test' => $experience->votes,
     ];
 
   }

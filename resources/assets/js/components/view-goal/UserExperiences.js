@@ -24,6 +24,9 @@ class UserExperiences extends Component {
 
                 let data = response.data;
 
+                console.log('TEST');
+                console.log(data);
+                console.log('TEST');
                 this.setState({
                     experiences: data,
                 })
@@ -38,11 +41,9 @@ class UserExperiences extends Component {
 
             <div>
 
-                <p>Need to map over all existing experiences here and show each experience</p>
-
                 {this.state.experiences.map(experience =>
 
-                    <SingleExperience experience={experience} key={experience.id}/>
+                    <SingleExperience experience={experience} key={experience.id} user={this.props.user}/>
 
                 )}
                 <AddNewUserExperience goalId={this.props.goal.id}/>

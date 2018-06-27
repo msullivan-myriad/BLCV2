@@ -125,6 +125,7 @@ class GoalController extends Controller {
       'userHasGoals' => $userHasGoals,
       'hasProfileInfo' => $hasProfileInfo,
       'userHasThisGoalOnList' => $userHasThisGoalOnList,
+      'user' => $user,
     ]);
 
   }

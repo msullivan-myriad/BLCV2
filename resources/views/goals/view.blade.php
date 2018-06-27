@@ -9,6 +9,7 @@
         const userHasGoals = <?php echo json_encode($userHasGoals); ?>;
         const hasProfileInfo = <?php echo json_encode($hasProfileInfo); ?>;
         const userHasThisGoalOnList = <?php echo json_encode($userHasThisGoalOnList); ?>;
+        const user = <?php echo json_encode($user); ?>;
 
     </script>
 
