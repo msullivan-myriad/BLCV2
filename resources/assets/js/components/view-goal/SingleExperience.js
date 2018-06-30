@@ -10,6 +10,7 @@ class SingleExperience extends Component {
 
         this.state = {
             votes: 0,
+            all_votes: this.props.experience.all_votes,
         }
 
         this.upvoteExperience = this.upvoteExperience.bind(this);
@@ -39,7 +40,12 @@ class SingleExperience extends Component {
             });
 
             this.setState({
-                votes: this.state.votes + 1
+                votes: this.state.votes + 1,
+                all_votes: [...this.state.all_votes, {
+                    user_id: this.props.user.id,
+                    vote: 1,
+                    id: 0,
+                }],
             })
 
         })
@@ -59,8 +65,14 @@ class SingleExperience extends Component {
             });
 
             this.setState({
-                votes: this.state.votes - 1
+                votes: this.state.votes - 1,
+                all_votes: [...this.state.all_votes, {
+                    user_id: this.props.user.id,
+                    vote: -1,
+                    id: 0,
+                }],
             })
+
 
         })
 
@@ -70,10 +82,11 @@ class SingleExperience extends Component {
 
         const userId = this.props.user.id;
         const experience = this.props.experience;
+
         let upvoteIcon = <Icon type="like-o" onClick={this.upvoteExperience}/>;
         let downvoteIcon = <Icon type="dislike-o" onClick={this.downvoteExperience}/>;
 
-        this.props.experience.all_votes.forEach(vote => {
+        this.state.all_votes.forEach(vote => {
 
             if (vote.user_id == userId) {
 
@@ -87,7 +100,6 @@ class SingleExperience extends Component {
             }
 
         })
-
 
         return (
 
