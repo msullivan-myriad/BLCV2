@@ -24,9 +24,6 @@ class UserExperiences extends Component {
 
                 let data = response.data;
 
-                console.log('TEST');
-                console.log(data);
-                console.log('TEST');
                 this.setState({
                     experiences: data,
                 })

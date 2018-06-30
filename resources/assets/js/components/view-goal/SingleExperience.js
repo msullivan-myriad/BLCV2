@@ -45,6 +45,7 @@ class SingleExperience extends Component {
                     user_id: this.props.user.id,
                     vote: 1,
                     id: 0,
+                    //This dummy id could be given more thought
                 }],
             })
 
@@ -70,6 +71,7 @@ class SingleExperience extends Component {
                     user_id: this.props.user.id,
                     vote: -1,
                     id: 0,
+                    //This dummy id could be given more thought
                 }],
             })
 
