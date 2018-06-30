@@ -331,7 +331,6 @@ class ExperienceControllerTest extends ControllerTestCase {
     /** @test */
     public function remove_upvote_from_experience_requires_validation() {
 
-      $this->markTestSkipped();
 
       $this->createBaseGoalAndUserWithExperience();
 
@@ -345,7 +344,6 @@ class ExperienceControllerTest extends ControllerTestCase {
     /** @test */
     public function remove_upvote_from_experience_successfully_removes_upvote() {
 
-      $this->markTestSkipped();
       $this->createBaseGoalAndUserWithExperience();
 
       $response = $this->get('api/experiences/' . $this->goal->id);
@@ -360,7 +358,7 @@ class ExperienceControllerTest extends ControllerTestCase {
       $this->createAlternateUser();
       $this->be($this->alternateUser);
 
-      $this->post('api/experience/' . $this->experience->id. '/upvote');
+      $this->post('api/experience/' . $this->experience->id .  '/upvote');
 
       $response2 = $this->get('api/experiences/' . $this->goal->id);
 
@@ -372,6 +370,17 @@ class ExperienceControllerTest extends ControllerTestCase {
               'vote' => 1,
             ],
           ],
+        ]
+      ]);
+
+      $this->post('api/experience/' . $this->experience->id . '/remove-upvote');
+
+      $response3 = $this->get('api/experiences/' . $this->goal->id);
+
+      $response3->assertJson([
+        [
+          'votes' => 0,
+          'all_votes' => [],
         ]
       ]);
 

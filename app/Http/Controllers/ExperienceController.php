@@ -82,11 +82,16 @@ class ExperienceController extends Controller {
 
     return new JsonResponse('success', 200);
 
-    return JsonResponse('success', 200);
   }
 
   public function removeUpVoteFromExperience(Request $request, Experience $experience) {
-    return 'Nothing yet';
+
+    $vote = $experience->votes()->where('user_id', '=', Auth::user()->id);
+
+    $vote->delete();
+
+    return new JsonResponse('success', 200);
+
   }
 
   public function removeDownVoteFromExperience(Request $request, Experience $experience) {

@@ -77,7 +77,6 @@ Route::prefix('api')->group(function () {
 
     Route::group(['middleware' => ['auth']], function () {
 
-
         Route::get('profile-information', 'ProfileController@profileInformation');
         Route::post('dedicated-per-year', 'ProfileController@setDedicatedPerYear');
         Route::post('set-birthdate', 'ProfileController@setBirthdate');
@@ -115,7 +114,6 @@ Route::prefix('api')->group(function () {
 
     Route::group(['middleware' => ['admin']], function () {
 
-
         Route::get('api-tags', 'AdminController@apiTags');
         Route::get('api-tags/{tag}', 'AdminController@apiIndividualTag');
         Route::delete('/goals/{goal}/tag', 'GoalController@apiRemoveTag');
@@ -147,7 +145,6 @@ Route::group(['middleware' => ['auth']], function () {
 Route::prefix('blc-admin')->group(function () {
 
   Route::group(['middleware' => ['admin']], function () {
-
 
     Route::get('/', 'AdminController@index')->name('admin-panel');
     Route::get('tags', 'AdminController@tags')->name('admin-tags');
