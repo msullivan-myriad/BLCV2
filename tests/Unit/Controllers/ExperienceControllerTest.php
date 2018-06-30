@@ -296,7 +296,7 @@ class ExperienceControllerTest extends ControllerTestCase {
 
     /* Next up.....
 
-    1) Display that shows if an experience is already upvoted
+    1) Display that shows if an experience is already upvoted/downvoted
     1.5) This a slight hangup here, with the logic around downvoting an experience that is already upvoted
     1.6) Test user experience transfomer returns all_votes
     2) Add some upvotes and experiences using the seeder

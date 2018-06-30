@@ -68,23 +68,33 @@ class SingleExperience extends Component {
 
     render() {
 
-        //console.log(this.props.experience);
-        //console.log(this.props.user);
+        const userId = this.props.user.id;
+        const experience = this.props.experience;
+        let upvoteIcon = <Icon type="like-o" onClick={this.upvoteExperience}/>;
+        let downvoteIcon = <Icon type="dislike-o" onClick={this.downvoteExperience}/>;
 
-        this.props.experience.all_votes.map(vote => {
+        this.props.experience.all_votes.forEach(vote => {
 
-            console.log(vote.user_id);
+            if (vote.user_id == userId) {
+
+                if (vote.vote == 1) {
+                    upvoteIcon = <Icon type="like" onClick={this.upvoteExperience}/>;
+                }
+                else if (vote.vote == -1) {
+                    downvoteIcon = <Icon type="dislike" onClick={this.downvoteExperience}/>;
+                }
+
+            }
 
         })
 
-        const experience = this.props.experience;
 
         return (
 
                 <Card>
-                    <Icon type="like-o" onClick={this.upvoteExperience}/>
+                    { upvoteIcon }
                     <p>{this.state.votes}</p>
-                    <Icon type="dislike-o" onClick={this.downvoteExperience}/>
+                    { downvoteIcon }
                     <p>Cost: {experience.cost}</p>
                     <p>Days: {experience.days}</p>
                     <p>Hours: {experience.hours}</p>
