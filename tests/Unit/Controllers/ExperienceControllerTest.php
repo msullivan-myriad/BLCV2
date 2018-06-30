@@ -27,6 +27,7 @@ class ExperienceControllerTest extends ControllerTestCase {
             'cost' => 10,
             'goal_id' => $this->goal->id,
             'user_id' => $this->user->id,
+            'all_votes' => [],
           ],
        ]);
 
@@ -149,6 +150,7 @@ class ExperienceControllerTest extends ControllerTestCase {
       $response->assertJson([
         [
           'votes' => 0,
+          'all_votes' => [],
         ]
       ]);
 
@@ -162,6 +164,11 @@ class ExperienceControllerTest extends ControllerTestCase {
       $response2->assertJson([
         [
           'votes' => 1,
+          'all_votes' => [
+            [
+              'vote' => 1,
+            ],
+          ],
         ]
       ]);
 
@@ -177,6 +184,7 @@ class ExperienceControllerTest extends ControllerTestCase {
       $response->assertJson([
         [
           'votes' => 0,
+          'all_votes' => [],
         ]
       ]);
 
@@ -191,6 +199,11 @@ class ExperienceControllerTest extends ControllerTestCase {
       $response2->assertJson([
         [
           'votes' => 1,
+          'all_votes' => [
+            [
+              'vote' => 1,
+            ],
+          ],
         ]
       ]);
 
@@ -204,6 +217,11 @@ class ExperienceControllerTest extends ControllerTestCase {
       $response3->assertJson([
         [
           'votes' => 1,
+          'all_votes' => [
+            [
+              'vote' => 1,
+            ],
+          ],
         ]
       ]);
 
@@ -232,6 +250,7 @@ class ExperienceControllerTest extends ControllerTestCase {
       $response->assertJson([
         [
           'votes' => 0,
+          'all_votes' => [],
         ]
       ]);
 
@@ -245,6 +264,11 @@ class ExperienceControllerTest extends ControllerTestCase {
       $response2->assertJson([
         [
           'votes' => -1,
+          'all_votes' => [
+            [
+              'vote' => -1,
+            ]
+          ],
         ]
       ]);
 
@@ -261,6 +285,7 @@ class ExperienceControllerTest extends ControllerTestCase {
       $response->assertJson([
         [
           'votes' => 0,
+          'all_votes' => [],
         ]
       ]);
 
@@ -275,6 +300,11 @@ class ExperienceControllerTest extends ControllerTestCase {
       $response2->assertJson([
         [
           'votes' => -1,
+          'all_votes' => [
+            [
+              'vote' => -1,
+            ]
+          ],
         ]
       ]);
 
@@ -288,21 +318,23 @@ class ExperienceControllerTest extends ControllerTestCase {
       $response3->assertJson([
         [
           'votes' => -1,
+          'all_votes' => [
+            [
+              'vote' => -1,
+            ]
+          ],
         ]
       ]);
 
     }
 
-
     /* Next up.....
 
-    1) Display that shows if an experience is already upvoted/downvoted
-    1.5) This a slight hangup here, with the logic around downvoting an experience that is already upvoted
-    1.6) Test user experience transfomer returns all_votes
+    1) This a slight hangup here, with the logic around downvoting an experience that is already upvoted (un-upvoting & un-downvoting)
     2) Add some upvotes and experiences using the seeder
     3) Goal values are calculated based upon experiences + other goals (ask Erin about this.... she said she likes the idea of it happening incrementally based on more experiences)
     4) Need to reevaluate how data is being passed down on the MainGoalPage
-    5) Need to limit that people cannot add more than one experience
+    5) Need to create limit that people cannot add more than one experience
 
     */
 

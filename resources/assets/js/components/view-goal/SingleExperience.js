@@ -24,7 +24,6 @@ class SingleExperience extends Component {
             votes: Number(this.props.experience.votes)
         })
 
-
     }
 
     upvoteExperience() {
