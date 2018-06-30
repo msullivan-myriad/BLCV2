@@ -57,9 +57,8 @@ Route::prefix('api')->group(function () {
 
     Route::post('experience/{experience}/edit', 'ExperienceController@editExperience');
     Route::post('experience/{experience}/upvote', 'ExperienceController@upVoteExperience');
-    Route::post('experience/{experience}/remove-upvote', 'ExperienceController@removeUpVoteFromExperience');
     Route::post('experience/{experience}/downvote', 'ExperienceController@downVoteExperience');
-    Route::post('experience/{experience}/remove-downvote', 'ExperienceController@removeDownVoteFromExperience');
+    Route::post('experience/{experience}/remove-vote', 'ExperienceController@removeVoteFromExperience');
 
     Route::post('experiences/{goal}', 'ExperienceController@addNewExperienceToGoal');
 

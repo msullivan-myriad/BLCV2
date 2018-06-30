@@ -329,20 +329,20 @@ class ExperienceControllerTest extends ControllerTestCase {
     }
 
     /** @test */
-    public function remove_upvote_from_experience_requires_validation() {
+    public function remove_vote_from_experience_requires_validation() {
 
 
       $this->createBaseGoalAndUserWithExperience();
 
       $this->createAlternateUser();
 
-      $this->canOnlyBeViewedBy('use-alternate','POST', 'api/experience/' . $this->experience->id . '/remove-upvote' );
+      $this->canOnlyBeViewedBy('use-alternate','POST', 'api/experience/' . $this->experience->id . '/remove-vote' );
 
 
     }
 
     /** @test */
-    public function remove_upvote_from_experience_successfully_removes_upvote() {
+    public function remove_vote_from_experience_successfully_removes_upvotes() {
 
       $this->createBaseGoalAndUserWithExperience();
 
@@ -373,7 +373,51 @@ class ExperienceControllerTest extends ControllerTestCase {
         ]
       ]);
 
-      $this->post('api/experience/' . $this->experience->id . '/remove-upvote');
+      $this->post('api/experience/' . $this->experience->id . '/remove-vote');
+
+      $response3 = $this->get('api/experiences/' . $this->goal->id);
+
+      $response3->assertJson([
+        [
+          'votes' => 0,
+          'all_votes' => [],
+        ]
+      ]);
+
+    }
+        /** @test */
+    public function remove_vote_from_experience_successfully_removes_downvotes() {
+
+      $this->createBaseGoalAndUserWithExperience();
+
+      $response = $this->get('api/experiences/' . $this->goal->id);
+
+      $response->assertJson([
+        [
+          'votes' => 0,
+          'all_votes' => [],
+        ]
+      ]);
+
+      $this->createAlternateUser();
+      $this->be($this->alternateUser);
+
+      $this->post('api/experience/' . $this->experience->id .  '/downvote');
+
+      $response2 = $this->get('api/experiences/' . $this->goal->id);
+
+      $response2->assertJson([
+        [
+          'votes' => -1,
+          'all_votes' => [
+            [
+              'vote' => -1,
+            ],
+          ],
+        ]
+      ]);
+
+      $this->post('api/experience/' . $this->experience->id . '/remove-vote');
 
       $response3 = $this->get('api/experiences/' . $this->goal->id);
 
@@ -386,8 +430,9 @@ class ExperienceControllerTest extends ControllerTestCase {
 
     }
 
+
     /** @test */
-    public function remove_upvote_from_experience_has_additional_validation_rules() {
+    public function remove_vote_from_experience_has_additional_validation_rules() {
 
       $this->markTestSkipped();
 
@@ -440,123 +485,6 @@ class ExperienceControllerTest extends ControllerTestCase {
       ]);
 
     }
-
-    /** @test */
-    public function remove_downvote_from_experience_requires_validation() {
-
-
-      $this->createBaseGoalAndUserWithExperience();
-
-      $this->createAlternateUser();
-
-      $this->canOnlyBeViewedBy('use-alternate','POST', 'api/experience/' . $this->experience->id . '/remove-downvote' );
-
-
-    }
-
-    /** @test */
-    public function remove_downvote_from_experience_successfully_removes_upvote() {
-
-      $this->markTestSkipped();
-
-      $this->createBaseGoalAndUserWithExperience();
-
-      $response = $this->get('api/experiences/' . $this->goal->id);
-
-      $response->assertJson([
-        [
-          'votes' => 0,
-          'all_votes' => [],
-        ]
-      ]);
-
-      $this->createAlternateUser();
-      $this->be($this->alternateUser);
-
-      $this->post('api/experience/' . $this->experience->id .  '/upvote');
-
-      $response2 = $this->get('api/experiences/' . $this->goal->id);
-
-      $response2->assertJson([
-        [
-          'votes' => 1,
-          'all_votes' => [
-            [
-              'vote' => 1,
-            ],
-          ],
-        ]
-      ]);
-
-      $this->post('api/experience/' . $this->experience->id . '/remove-upvote');
-
-      $response3 = $this->get('api/experiences/' . $this->goal->id);
-
-      $response3->assertJson([
-        [
-          'votes' => 0,
-          'all_votes' => [],
-        ]
-      ]);
-
-    }
-
-    /** @test */
-    public function remove_downvote_from_experience_has_additional_validation_rules() {
-
-
-      $this->markTestSkipped();
-
-      $this->createBaseGoalAndUserWithExperience();
-
-      $response = $this->get('api/experiences/' . $this->goal->id);
-
-      $response->assertJson([
-        [
-          'votes' => 0,
-          'all_votes' => [],
-        ]
-      ]);
-
-      $this->createAlternateUser();
-      $this->be($this->alternateUser);
-
-      $this->post('api/experience/' . $this->experience->id . '/upvote');
-
-
-      $response2 = $this->get('api/experiences/' . $this->goal->id);
-
-      $response2->assertJson([
-        [
-          'votes' => 1,
-          'all_votes' => [
-            [
-              'vote' => 1,
-            ],
-          ],
-        ]
-      ]);
-
-      $postRequest = $this->post('api/experience/' . $this->experience->id . '/upvote');
-
-      $postRequest->assertStatus(403);
-
-      $response3 = $this->get('api/experiences/' . $this->goal->id);
-
-
-      $response3->assertJson([
-        [
-          'votes' => 1,
-          'all_votes' => [
-            [
-              'vote' => 1,
-            ],
-          ],
-        ]
-      ]);
-
-    }
-
 
 
     /* Next up.....
