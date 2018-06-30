@@ -79,6 +79,34 @@ class SingleExperience extends Component {
 
     }
 
+    /*
+    removeVoteFromExperience() {
+
+        axios.post('/api/experience/' + this.props.experience.id + '/remove-vote')
+
+        .then(response => {
+
+            notification.open({
+                message: 'Success',
+                description: 'Successfully removed vote from experience',
+                type: 'success',
+            });
+
+            this.setState({
+                votes: this.state.votes + 1,
+                all_votes: [...this.state.all_votes, {
+                    user_id: this.props.user.id,
+                    vote: 1,
+                    id: 0,
+                    //This dummy id could be given more thought
+                }],
+            })
+
+        })
+
+    }
+    */
+
     render() {
 
         const userId = this.props.user.id;
@@ -92,10 +120,10 @@ class SingleExperience extends Component {
             if (vote.user_id == userId) {
 
                 if (vote.vote == 1) {
-                    upvoteIcon = <Icon type="like" onClick={this.upvoteExperience}/>;
+                    upvoteIcon = <Icon type="like" onClick={this.removeVoteFromExperience}/>;
                 }
                 else if (vote.vote == -1) {
-                    downvoteIcon = <Icon type="dislike" onClick={this.downvoteExperience}/>;
+                    downvoteIcon = <Icon type="dislike" onClick={this.removeVoteFromExperience}/>;
                 }
 
             }

@@ -86,6 +86,9 @@ class ExperienceController extends Controller {
 
   public function removeVoteFromExperience(Request $request, Experience $experience) {
 
+    //I don't think additional validation is very necessary here.  In order for a user
+    //to even be able to have a vote to remove they would have had to go through validation
+    //already.  If nothing exists when the below where clause runs, nothing happens
     $vote = $experience->votes()->where('user_id', '=', Auth::user()->id);
 
     $vote->delete();

@@ -430,63 +430,6 @@ class ExperienceControllerTest extends ControllerTestCase {
 
     }
 
-
-    /** @test */
-    public function remove_vote_from_experience_has_additional_validation_rules() {
-
-      $this->markTestSkipped();
-
-      $this->createBaseGoalAndUserWithExperience();
-
-      $response = $this->get('api/experiences/' . $this->goal->id);
-
-      $response->assertJson([
-        [
-          'votes' => 0,
-          'all_votes' => [],
-        ]
-      ]);
-
-      $this->createAlternateUser();
-      $this->be($this->alternateUser);
-
-      $this->post('api/experience/' . $this->experience->id . '/upvote');
-
-
-      $response2 = $this->get('api/experiences/' . $this->goal->id);
-
-      $response2->assertJson([
-        [
-          'votes' => 1,
-          'all_votes' => [
-            [
-              'vote' => 1,
-            ],
-          ],
-        ]
-      ]);
-
-      $postRequest = $this->post('api/experience/' . $this->experience->id . '/upvote');
-
-      $postRequest->assertStatus(403);
-
-      $response3 = $this->get('api/experiences/' . $this->goal->id);
-
-
-      $response3->assertJson([
-        [
-          'votes' => 1,
-          'all_votes' => [
-            [
-              'vote' => 1,
-            ],
-          ],
-        ]
-      ]);
-
-    }
-
-
     /* Next up.....
 
     1) This a slight hangup here, with the logic around downvoting an experience that is already upvoted (un-upvoting & un-downvoting)
