@@ -337,7 +337,7 @@ class ExperienceControllerTest extends ControllerTestCase {
 
       $this->createAlternateUser();
 
-      $this->canOnlyBeViewedBy('use-alternate','POST', 'api/experience/' . $this->experience->id . '/upvote' );
+      $this->canOnlyBeViewedBy('use-alternate','POST', 'api/experience/' . $this->experience->id . '/remove-upvote' );
 
 
     }

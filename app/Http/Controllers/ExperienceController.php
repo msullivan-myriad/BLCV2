@@ -85,6 +85,14 @@ class ExperienceController extends Controller {
     return JsonResponse('success', 200);
   }
 
+  public function removeUpVoteFromExperience(Request $request, Experience $experience) {
+    return 'Nothing yet';
+  }
+
+  public function removeDownVoteFromExperience(Request $request, Experience $experience) {
+    return 'Nothing yet';
+  }
+
 
 }
 
