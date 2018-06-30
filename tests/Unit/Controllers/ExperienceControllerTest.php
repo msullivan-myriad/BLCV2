@@ -328,13 +328,116 @@ class ExperienceControllerTest extends ControllerTestCase {
 
     }
 
+    /** @test */
+    public function remove_upvote_from_experience_requires_validation() {
+
+      $this->markTestSkipped();
+
+      $this->createBaseGoalAndUserWithExperience();
+
+      $this->createAlternateUser();
+
+      $this->canOnlyBeViewedBy('use-alternate','POST', 'api/experience/' . $this->experience->id . '/upvote' );
+
+
+    }
+
+    /** @test */
+    public function remove_upvote_from_experience_successfully_removes_upvote() {
+
+      $this->markTestSkipped();
+      $this->createBaseGoalAndUserWithExperience();
+
+      $response = $this->get('api/experiences/' . $this->goal->id);
+
+      $response->assertJson([
+        [
+          'votes' => 0,
+          'all_votes' => [],
+        ]
+      ]);
+
+      $this->createAlternateUser();
+      $this->be($this->alternateUser);
+
+      $this->post('api/experience/' . $this->experience->id. '/upvote');
+
+      $response2 = $this->get('api/experiences/' . $this->goal->id);
+
+      $response2->assertJson([
+        [
+          'votes' => 1,
+          'all_votes' => [
+            [
+              'vote' => 1,
+            ],
+          ],
+        ]
+      ]);
+
+    }
+
+    /** @test */
+    public function remove_upvote_from_experience_has_additional_validation_rules() {
+
+      $this->createBaseGoalAndUserWithExperience();
+
+      $response = $this->get('api/experiences/' . $this->goal->id);
+
+      $response->assertJson([
+        [
+          'votes' => 0,
+          'all_votes' => [],
+        ]
+      ]);
+
+      $this->createAlternateUser();
+      $this->be($this->alternateUser);
+
+      $this->post('api/experience/' . $this->experience->id . '/upvote');
+
+
+      $response2 = $this->get('api/experiences/' . $this->goal->id);
+
+      $response2->assertJson([
+        [
+          'votes' => 1,
+          'all_votes' => [
+            [
+              'vote' => 1,
+            ],
+          ],
+        ]
+      ]);
+
+      $postRequest = $this->post('api/experience/' . $this->experience->id . '/upvote');
+
+      $postRequest->assertStatus(403);
+
+      $response3 = $this->get('api/experiences/' . $this->goal->id);
+
+
+      $response3->assertJson([
+        [
+          'votes' => 1,
+          'all_votes' => [
+            [
+              'vote' => 1,
+            ],
+          ],
+        ]
+      ]);
+
+    }
+
+
     /* Next up.....
 
     1) This a slight hangup here, with the logic around downvoting an experience that is already upvoted (un-upvoting & un-downvoting)
     2) Add some upvotes and experiences using the seeder
+    5) Need to create limit that people cannot add more than one experience
     3) Goal values are calculated based upon experiences + other goals (ask Erin about this.... she said she likes the idea of it happening incrementally based on more experiences)
     4) Need to reevaluate how data is being passed down on the MainGoalPage
-    5) Need to create limit that people cannot add more than one experience
 
     */
 
