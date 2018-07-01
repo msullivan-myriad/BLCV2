@@ -15,6 +15,7 @@ class SingleExperience extends Component {
 
         this.upvoteExperience = this.upvoteExperience.bind(this);
         this.downvoteExperience = this.downvoteExperience.bind(this);
+        this.removeVoteFromExperience = this.removeVoteFromExperience.bind(this);
 
     }
 
@@ -74,12 +75,10 @@ class SingleExperience extends Component {
                 }],
             })
 
-
         })
 
     }
 
-    /*
     removeVoteFromExperience() {
 
         axios.post('/api/experience/' + this.props.experience.id + '/remove-vote')
@@ -105,7 +104,6 @@ class SingleExperience extends Component {
         })
 
     }
-    */
 
     render() {
 
@@ -143,6 +141,12 @@ class SingleExperience extends Component {
                 </Card>
 
         );
+
+
+        //If I returned the id of the vote upon successful creation as well as the id of the vote upon successfull deleteion
+        //I could use the actual vote ids instead of the dummy ones that I am doing currently
+        //After this is set up I should have a computed property to figure out the current vote count rather than a hard coded one
+        //Like I am doing now
 
     }
 }
