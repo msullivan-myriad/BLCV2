@@ -46,17 +46,12 @@ class SingleExperience extends Component {
 
         .then(response => {
 
-            notification.open({
-                message: 'Success',
-                description: 'Successfully upvoted experience',
-                type: 'success',
-            });
-
             this.setState({
                 votes: this.state.votes + 1,
                 all_votes: [...this.state.all_votes, {
                     user_id: this.props.user.id,
                     id: response.data.vote_id,
+                    vote: 1,
                 }],
             })
 
@@ -70,18 +65,12 @@ class SingleExperience extends Component {
 
         .then(response => {
 
-            notification.open({
-                message: 'Success',
-                description: 'Successfully downvoted experience',
-                type: 'success',
-            });
-
             this.setState({
                 votes: this.state.votes - 1,
                 all_votes: [...this.state.all_votes, {
                     user_id: this.props.user.id,
                     id: response.data.vote_id,
-                    //This dummy id could be given more thought
+                    vote: -1,
                 }],
             })
 
@@ -95,25 +84,15 @@ class SingleExperience extends Component {
 
         .then(response => {
 
-            notification.open({
-                message: 'Success',
-                description: 'Successfully removed vote from experience',
-                type: 'success',
-            });
+            let allVotes = this.state.all_votes;
 
-            var test = this.state.all_votes;
-
-            console.log(test);
-            console.log(response.data.deleted_vote_id);
-
-            test.splice(test.findIndex(function(i){
+            allVotes.splice(allVotes.findIndex(function(i){
                 return i.id === response.deleted_vote_id;
             }), 1);
 
-            console.log(test);
 
             this.setState({
-                all_votes: test,
+                all_votes: allVotes,
             })
 
         })
@@ -156,12 +135,6 @@ class SingleExperience extends Component {
                 </Card>
 
         );
-
-
-        //If I returned the id of the vote upon successful creation as well as the id of the vote upon successfull deleteion
-        //I could use the actual vote ids instead of the dummy ones that I am doing currently
-        //After this is set up I should have a computed property to figure out the current vote count rather than a hard coded one
-        //Like I am doing now
 
     }
 }
