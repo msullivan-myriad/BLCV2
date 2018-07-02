@@ -102,6 +102,7 @@ class ExperienceController extends Controller {
 
       $deletedVoteId = $vote->id;
     }
+
     catch(Exception $exception) {}
 
     $experience->votes()->where('user_id', '=', Auth::user()->id)->delete();

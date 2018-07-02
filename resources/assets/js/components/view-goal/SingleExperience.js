@@ -16,6 +16,7 @@ class SingleExperience extends Component {
         this.upvoteExperience = this.upvoteExperience.bind(this);
         this.downvoteExperience = this.downvoteExperience.bind(this);
         this.removeVoteFromExperience = this.removeVoteFromExperience.bind(this);
+        this.voteCount = this.voteCount.bind(this);
 
     }
 
@@ -24,6 +25,18 @@ class SingleExperience extends Component {
         this.setState({
             votes: Number(this.props.experience.votes)
         })
+
+    }
+
+    voteCount() {
+
+        let count = 0;
+
+        this.state.all_votes.forEach(function(vote) {
+            count += vote.vote;
+        });
+
+        return count;
 
     }
 
@@ -43,9 +56,7 @@ class SingleExperience extends Component {
                 votes: this.state.votes + 1,
                 all_votes: [...this.state.all_votes, {
                     user_id: this.props.user.id,
-                    vote: 1,
-                    id: 0,
-                    //This dummy id could be given more thought
+                    id: response.data.vote_id,
                 }],
             })
 
@@ -69,8 +80,7 @@ class SingleExperience extends Component {
                 votes: this.state.votes - 1,
                 all_votes: [...this.state.all_votes, {
                     user_id: this.props.user.id,
-                    vote: -1,
-                    id: 0,
+                    id: response.data.vote_id,
                     //This dummy id could be given more thought
                 }],
             })
@@ -91,14 +101,19 @@ class SingleExperience extends Component {
                 type: 'success',
             });
 
+            var test = this.state.all_votes;
+
+            console.log(test);
+            console.log(response.data.deleted_vote_id);
+
+            test.splice(test.findIndex(function(i){
+                return i.id === response.deleted_vote_id;
+            }), 1);
+
+            console.log(test);
+
             this.setState({
-                votes: this.state.votes + 1,
-                all_votes: [...this.state.all_votes, {
-                    user_id: this.props.user.id,
-                    vote: 1,
-                    id: 0,
-                    //This dummy id could be given more thought
-                }],
+                all_votes: test,
             })
 
         })
@@ -132,7 +147,7 @@ class SingleExperience extends Component {
 
                 <Card>
                     { upvoteIcon }
-                    <p>{this.state.votes}</p>
+                    <p>{this.voteCount()}</p>
                     { downvoteIcon }
                     <p>Cost: {experience.cost}</p>
                     <p>Days: {experience.days}</p>
