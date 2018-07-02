@@ -9,6 +9,7 @@ use App\Http\Requests\EditExperienceRequest;
 use App\Http\Requests\UpvoteExperienceRequest;
 use App\Http\Requests\DownvoteExperienceRequest;
 use App\Vote;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -93,11 +94,21 @@ class ExperienceController extends Controller {
     //I don't think additional validation is very necessary here.  In order for a user
     //to even be able to have a vote to remove they would have had to go through validation
     //already.  If nothing exists when the below where clause runs, nothing happens
-    $vote = $experience->votes()->where('user_id', '=', Auth::user()->id);
+    $vote = $experience->votes()->where('user_id', '=', Auth::user()->id)->first();
 
-    $vote->delete();
+    $deletedVoteId = '';
 
-    return new JsonResponse('success', 200);
+    try {
+
+      $deletedVoteId = $vote->id;
+    }
+    catch(Exception $exception) {}
+
+    $experience->votes()->where('user_id', '=', Auth::user()->id)->delete();
+
+    return new JsonResponse([
+      'deleted_vote_id' => $deletedVoteId,
+    ], 200);
 
   }
 

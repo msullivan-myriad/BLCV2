@@ -462,6 +462,29 @@ class ExperienceControllerTest extends ControllerTestCase {
 
     }
 
+    /** @test */
+    public function remove_vote_from_experience_returns_id_of_the_vote_removed() {
+
+      $this->createBaseGoalAndUserWithExperience();
+
+      $this->createAlternateUser();
+      $this->be($this->alternateUser);
+
+      $response = $this->post('api/experience/' . $this->experience->id. '/downvote');
+
+      $jsonContent = json_decode($response->getContent());
+
+      $voteId = $jsonContent->vote_id;
+
+      $response2 = $this->post('api/experience/' . $this->experience->id . '/remove-vote');
+
+      $jsonContent2 = json_decode($response2->getContent());
+
+      $this->assertEquals($voteId, $jsonContent2->deleted_vote_id);
+
+    }
+
+
     /* Next up.....
 
     1) This a slight hangup here, with the logic around downvoting an experience that is already upvoted (un-upvoting & un-downvoting)
