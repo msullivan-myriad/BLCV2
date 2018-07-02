@@ -227,6 +227,21 @@ class ExperienceControllerTest extends ControllerTestCase {
 
     }
 
+    /** @test */
+    public function upvote_experience_returns_id_of_the_new_vote() {
+
+      $this->createBaseGoalAndUserWithExperience();
+
+      $this->createAlternateUser();
+      $this->be($this->alternateUser);
+
+      $response = $this->post('api/experience/' . $this->experience->id. '/upvote');
+
+      $jsonContent = json_decode($response->getContent());
+
+      $this->assertInternalType('int', $jsonContent->vote_id);
+
+    }
 
     /** @test */
     public function downvote_experience_requires_validation() {
@@ -327,6 +342,23 @@ class ExperienceControllerTest extends ControllerTestCase {
       ]);
 
     }
+
+    /** @test */
+    public function downvote_experience_returns_id_of_the_new_vote() {
+
+      $this->createBaseGoalAndUserWithExperience();
+
+      $this->createAlternateUser();
+      $this->be($this->alternateUser);
+
+      $response = $this->post('api/experience/' . $this->experience->id. '/downvote');
+
+      $jsonContent = json_decode($response->getContent());
+
+      $this->assertInternalType('int', $jsonContent->vote_id);
+
+    }
+
 
     /** @test */
     public function remove_vote_from_experience_requires_validation() {

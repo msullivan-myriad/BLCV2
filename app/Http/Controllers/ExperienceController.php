@@ -68,7 +68,9 @@ class ExperienceController extends Controller {
     $vote->user()->associate(Auth::user());
     $vote->save();
 
-    return new JsonResponse('success', 200);
+    return new JsonResponse([
+      'vote_id' => $vote->id,
+    ], 200);
 
   }
 
@@ -80,7 +82,9 @@ class ExperienceController extends Controller {
     $vote->user()->associate(Auth::user());
     $vote->save();
 
-    return new JsonResponse('success', 200);
+    return new JsonResponse([
+      'vote_id' => $vote->id,
+    ], 200);
 
   }
 
