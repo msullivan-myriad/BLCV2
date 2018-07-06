@@ -164,3 +164,21 @@ $factory->defineAs(App\Experience::class, 'base-test-experience', function() {
 
 });
 
+
+/*
+ *  Vote Factories
+ */
+
+$factory->define(App\Vote::class, function() {
+
+  $vote = -1;
+
+  if (rand(0,3)) {
+    $vote = 1;
+  }
+
+  return [
+    'vote' => $vote,
+  ];
+
+});
