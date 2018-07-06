@@ -141,6 +141,18 @@ $factory->defineAs(App\Tag::class, 'base-test-tag', function() {
  *  Experience Factories
  */
 
+$factory->define(App\Experience::class, function(Faker\Generator $faker) {
+
+  return [
+    'cost' => rand(0, 10000),
+    'hours' => rand(0, 300),
+    'days' => rand(0,30),
+    'text' => $faker->paragraph($nbSentences = 3, $variableNbSentences = true),
+  ];
+
+});
+
+
 $factory->defineAs(App\Experience::class, 'base-test-experience', function() {
 
   return [

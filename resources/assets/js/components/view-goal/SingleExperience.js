@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Card, Icon, notification } from 'antd';
+import { Card, Icon } from 'antd';
 
 
 class SingleExperience extends Component {
