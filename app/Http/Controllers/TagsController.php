@@ -4,20 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Tag;
 use App\Goal;
-use App\Http\Requests\CategoryGoalsFilteringRequest;
+use App\Http\Requests\Tags\CategoryGoalsFilteringRequest;
 use App\Http\Requests\ViewIndividualTagRequest;
-use App\Http\Requests\ApiPopularTagsRequest;
-use App\Http\Requests\ApiTagsSearchRequest;
-use Illuminate\Http\Request;
+use App\Http\Requests\Tags\ApiPopularTagsRequest;
+use App\Http\Requests\Tags\ApiTagsSearchRequest;
 use TomLingham\Searchy\Facades\Searchy;
-
 
 class TagsController extends Controller {
 
     public function view(ViewIndividualTagRequest $request, $tagSlug) {
 
         $tag = Tag::where('slug', $tagSlug)->first();
-
         return view('tags.view')->with( 'tag', $tag);
 
     }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Goal;
-use App\Tag;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateNewGoalRequest;
 use App\Http\Requests\CreateNewSubgoalRequest;
@@ -64,17 +63,6 @@ class GoalController extends Controller {
   }
 
 
-  /*
-  public function create(CreateNewGoalRequest $request) {
-    //When a user creates an entirely new goal
-
-    Goal::newGoal($request->title, $request->cost, $request->days, $request->hours);
-
-    return redirect()->route('subgoals');
-  }
-  */
-
-
   public function apiCreate(CreateNewGoalRequest $request) {
     //When a user creates an entirely new goal
 
@@ -129,13 +117,6 @@ class GoalController extends Controller {
     ]);
 
   }
-
-  /*
-  public function apiView(Goal $goal) {
-    $goal->subgoals;
-    return $goal;
-  }
-  */
 
   public function apiSearch(Request $request) {
     //Need some validation that this is actually a string and safe to search with

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Tags;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ApiPopularTagsRequest extends FormRequest {
+class ApiTagsSearchRequest extends FormRequest {
 
   /**
    * Determine if the user is authorized to make this request.
@@ -22,7 +22,7 @@ class ApiPopularTagsRequest extends FormRequest {
    */
   public function rules() {
     return [
-      'count' => 'required|numeric|max:200',
+      'term' => 'required|string|max:100',
     ];
   }
 }

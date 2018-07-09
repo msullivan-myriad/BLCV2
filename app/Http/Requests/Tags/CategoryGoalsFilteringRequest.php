@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Tags;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Subgoal;
 use App\Tag;
-use Illuminate\Support\Facades\Auth;
 
 class CategoryGoalsFilteringRequest extends FormRequest {
 

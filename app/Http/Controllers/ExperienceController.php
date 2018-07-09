@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Experience;
 use App\Goal;
-use App\Http\Requests\AddNewExperienceToGoalRequest;
+use App\Http\Requests\Experience\AddNewExperienceToGoalRequest;
 use App\Http\Requests\EditExperienceRequest;
 use App\Http\Requests\UpvoteExperienceRequest;
 use App\Http\Requests\DownvoteExperienceRequest;

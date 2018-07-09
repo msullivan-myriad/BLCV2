@@ -487,7 +487,6 @@ class ExperienceControllerTest extends ControllerTestCase {
 
     /* Next up.....
 
-    1) Add some upvotes and experiences using the seeder
     2) User information needs to be passed down to each individual SingleExperience component
     3) Need to create limit that people cannot add more than one experience
     4) Goal values are calculated based upon experiences + other goals (ask Erin about this.... she said she likes the idea of it happening incrementally based on more experiences)
