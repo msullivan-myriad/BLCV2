@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Goal;
 use Illuminate\Http\Request;
-use App\Http\Requests\CreateNewGoalRequest;
-use App\Http\Requests\CreateNewSubgoalRequest;
-use App\Http\Requests\EditGoalTitleRequest;
+use App\Http\Requests\Goal\CreateNewGoalRequest;
+use App\Http\Requests\Goal\CreateNewSubgoalRequest;
+use App\Http\Requests\Goal\EditGoalTitleRequest;
 use App\Http\Requests\TagGoalRequest;
 use App\Http\Requests\RemoveTagRequest;
 use Illuminate\Support\Facades\Auth;

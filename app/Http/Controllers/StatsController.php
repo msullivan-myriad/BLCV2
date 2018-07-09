@@ -3,16 +3,14 @@
 namespace App\Http\Controllers;
 
 use function array_reverse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Subgoal;
 use App\Goal;
 use App\Tag;
-use Carbon\Carbon;
 use App\Http\Requests\MostAndLeastDifficultRequest;
 use App\Http\Requests\TargetCompletionAgeRequest;
-use App\Http\Requests\IndividualGoalStatsRequest;
-use App\Http\Requests\GetUsersIndividualTagRequest;
+use App\Http\Requests\Stats\IndividualGoalStatsRequest;
+use App\Http\Requests\Stats\GetUsersIndividualTagRequest;
 
 class StatsController extends Controller {
 

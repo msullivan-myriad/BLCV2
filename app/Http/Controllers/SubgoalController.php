@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Subgoal;
 use App\Goal;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\SubgoalsSortedRequest;
 use App\Http\Requests\SubgoalOwnedByUserRequest;
 use App\Http\Requests\UpdateSubgoalRequest;
-use App\Http\Requests\DeleteSubgoalRequest;
+use App\Http\Requests\Subgoal\DeleteSubgoalRequest;
 
 class SubgoalController extends Controller {
 

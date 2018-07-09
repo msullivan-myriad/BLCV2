@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Goal;
 
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class EditExperienceRequest extends FormRequest
+class CreateNewSubgoalRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,16 +15,7 @@ class EditExperienceRequest extends FormRequest
      * @return bool
      */
     public function authorize() {
-
-      $experience = $this->route('experience');
-
-      if (Auth::user()->id == $experience->user_id) {
         return true;
-      }
-      else {
-        return false;
-      }
-
     }
 
     /**
@@ -32,12 +24,17 @@ class EditExperienceRequest extends FormRequest
      * @return array
      */
     public function rules() {
-
+        $user = Auth::user();
         return [
             'cost' => 'required|numeric|max:10000000000',
             'days' => 'required|numeric|max:10000',
             'hours' => 'required|numeric|max:100000',
-            'text' =>  'required|string',
+            'goal_id' => [
+                'required',
+                //Require that subgoal is unique, but only to the auth user
+                Rule::unique('subgoals')->where('user_id', $user->id),
+            ],
+
         ];
     }
 
