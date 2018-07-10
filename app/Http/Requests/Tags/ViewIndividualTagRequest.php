@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Tags;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Tag;
 
-class SetBirthdateRequest extends FormRequest {
+class ViewIndividualTagRequest extends FormRequest {
 
   /**
    * Determine if the user is authorized to make this request.
@@ -12,7 +13,11 @@ class SetBirthdateRequest extends FormRequest {
    * @return bool
    */
   public function authorize() {
-    return true;
+
+    $tag = $this->route('tag');
+
+    return Tag::where('slug', $tag)->exists();
+
   }
 
   /**
@@ -21,9 +26,8 @@ class SetBirthdateRequest extends FormRequest {
    * @return array
    */
   public function rules() {
-
     return [
-      'birthdate' => 'required|date',
+
     ];
   }
 }

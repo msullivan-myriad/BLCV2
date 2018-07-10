@@ -6,7 +6,7 @@ use App\Experience;
 use App\Goal;
 use App\Http\Requests\Experience\AddNewExperienceToGoalRequest;
 use App\Http\Requests\Experience\EditExperienceRequest;
-use App\Http\Requests\UpvoteExperienceRequest;
+use App\Http\Requests\Experience\UpvoteExperienceRequest;
 use App\Http\Requests\Experience\DownvoteExperienceRequest;
 use App\Vote;
 use Exception;

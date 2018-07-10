@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use App\Http\Requests\SetBirthdateRequest;
-use App\Http\Requests\SetDedicatePerYearRequest;
+use App\Http\Requests\Profile\SetBirthdateRequest;
+use App\Http\Requests\Profile\SetDedicatePerYearRequest;
 
 class ProfileController extends Controller {
 

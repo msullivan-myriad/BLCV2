@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Subgoal;
 use App\Goal;
 use App\Tag;
-use App\Http\Requests\MostAndLeastDifficultRequest;
-use App\Http\Requests\TargetCompletionAgeRequest;
+use App\Http\Requests\Stats\MostAndLeastDifficultRequest;
+use App\Http\Requests\Stats\TargetCompletionAgeRequest;
 use App\Http\Requests\Stats\IndividualGoalStatsRequest;
 use App\Http\Requests\Stats\GetUsersIndividualTagRequest;
 

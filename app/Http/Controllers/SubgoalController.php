@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Subgoal;
 use App\Goal;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\SubgoalsSortedRequest;
-use App\Http\Requests\SubgoalOwnedByUserRequest;
-use App\Http\Requests\UpdateSubgoalRequest;
+use App\Http\Requests\Subgoal\SubgoalsSortedRequest;
+use App\Http\Requests\Subgoal\SubgoalOwnedByUserRequest;
+use App\Http\Requests\Subgoal\UpdateSubgoalRequest;
 use App\Http\Requests\Subgoal\DeleteSubgoalRequest;
 
 class SubgoalController extends Controller {

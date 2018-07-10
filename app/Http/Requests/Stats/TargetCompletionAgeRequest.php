@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Stats;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Subgoal;
 use Illuminate\Support\Facades\Auth;
 
 class TargetCompletionAgeRequest extends FormRequest {

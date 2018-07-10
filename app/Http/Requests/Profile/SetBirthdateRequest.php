@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Profile;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SetDedicatePerYearRequest extends FormRequest {
+class SetBirthdateRequest extends FormRequest {
 
   /**
    * Determine if the user is authorized to make this request.
@@ -23,9 +23,7 @@ class SetDedicatePerYearRequest extends FormRequest {
   public function rules() {
 
     return [
-      'cost_per_year' => 'required|integer',
-      'days_per_year' => 'required|integer',
-      'hours_per_year' => 'required|integer',
+      'birthdate' => 'required|date',
     ];
   }
 }

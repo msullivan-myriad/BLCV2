@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Goal\CreateNewGoalRequest;
 use App\Http\Requests\Goal\CreateNewSubgoalRequest;
 use App\Http\Requests\Goal\EditGoalTitleRequest;
-use App\Http\Requests\TagGoalRequest;
-use App\Http\Requests\RemoveTagRequest;
+use App\Http\Requests\Goal\TagGoalRequest;
+use App\Http\Requests\Goal\RemoveTagRequest;
 use Illuminate\Support\Facades\Auth;
 use TomLingham\Searchy\Facades\Searchy;
 

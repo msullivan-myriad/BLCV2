@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Tag;
 use App\Goal;
 use App\Http\Requests\Tags\CategoryGoalsFilteringRequest;
-use App\Http\Requests\ViewIndividualTagRequest;
+use App\Http\Requests\Tags\ViewIndividualTagRequest;
 use App\Http\Requests\Tags\ApiPopularTagsRequest;
 use App\Http\Requests\Tags\ApiTagsSearchRequest;
 use TomLingham\Searchy\Facades\Searchy;

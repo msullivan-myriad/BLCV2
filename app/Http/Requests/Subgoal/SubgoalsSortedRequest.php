@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Subgoal;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Subgoal;
-use App\Tag;
 use Illuminate\Support\Facades\Auth;
 
-class ViewIndividualTagRequest extends FormRequest {
+class SubgoalsSortedRequest extends FormRequest {
 
   /**
    * Determine if the user is authorized to make this request.
@@ -16,9 +15,11 @@ class ViewIndividualTagRequest extends FormRequest {
    */
   public function authorize() {
 
-    $tag = $this->route('tag');
+    $options = ['cost-desc', 'cost-asc', 'hours-desc', 'hours-asc', 'days-desc', 'days-asc', 'popular-desc', 'popular-asc'];
 
-    return Tag::where('slug', $tag)->exists();
+    $order = $this->route('order');
+
+    return in_array($order, $options);
 
   }
 
@@ -28,8 +29,6 @@ class ViewIndividualTagRequest extends FormRequest {
    * @return array
    */
   public function rules() {
-    return [
-
-    ];
+    return [];
   }
 }
