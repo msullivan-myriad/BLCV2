@@ -15,6 +15,8 @@ class ExperienceTransformer extends TransformerAbstract {
 
   public function transform(Experience $experience) {
 
+    $user = $experience->user()->first();
+
     return [
         'id' => $experience->id,
         'goal_id' => $experience->goal_id,
@@ -25,6 +27,8 @@ class ExperienceTransformer extends TransformerAbstract {
         'text' => $experience->text,
         'votes' => $experience->votes()->sum('vote'),
         'all_votes' => $experience->votes,
+        'username' => $user->name,
+        'user_id' => $user->id,
     ];
 
   }
