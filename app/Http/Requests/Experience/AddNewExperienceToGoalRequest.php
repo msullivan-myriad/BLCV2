@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Experience;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class AddNewExperienceToGoalRequest extends FormRequest
 {
@@ -12,7 +13,19 @@ class AddNewExperienceToGoalRequest extends FormRequest
      * @return bool
      */
     public function authorize() {
-        return true;
+
+        $goal = $this->route('goal');
+
+        $existingExperience = $goal->experiences()->where('user_id', '=', Auth::user()->id)->first();
+
+        if (!$existingExperience) {
+          return true;
+        }
+
+        else {
+          return false;
+        }
+
     }
 
     /**

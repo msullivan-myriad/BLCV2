@@ -66,6 +66,45 @@ class ExperienceControllerTest extends ControllerTestCase {
 
       $response->assertJson([
         [
+          'cost' => 100,
+          'days' => 100,
+          'hours' => 100,
+          'text' => 'This is some text about the experience',
+
+        ]
+      ]);
+
+      $response2 = $this->post('api/experiences/' . $this->goal->id, [
+        'cost' => 101,
+        'days' => 101,
+        'hours' => 101,
+        'text' => 'This one should fail',
+      ]);
+
+
+      $response2->assertStatus(403);
+
+
+    }
+
+    /** @test */
+    public function add_new_experience_validates_that_user_cannot_add_more_than_one_experience_per_goal() {
+
+      $this->createBaseGoal();
+      $this->createBaseUser();
+      $this->be($this->user);
+
+      $this->post('api/experiences/' . $this->goal->id, [
+        'cost' => 100,
+        'days' => 100,
+        'hours' => 100,
+        'text' => 'This is some text about the experience',
+      ]);
+
+      $response = $this->get('api/experiences/' . $this->goal->id);
+
+      $response->assertJson([
+        [
 
           'cost' => 100,
           'days' => 100,
