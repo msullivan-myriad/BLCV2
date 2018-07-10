@@ -125,6 +125,7 @@ class SingleExperience extends Component {
         return (
 
                 <Card>
+                    <p>{experience.username}</p>
                     { upvoteIcon }
                     <p>{this.voteCount()}</p>
                     { downvoteIcon }

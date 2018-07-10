@@ -488,10 +488,8 @@ class ExperienceControllerTest extends ControllerTestCase {
 
     /* Next up.....
 
-    1) User information needs to be passed down to each individual SingleExperience component
-    2) Need to create limit that people cannot add more than one experience
-    3) Goal values are calculated based upon experiences + other goals (ask Erin about this.... she said she likes the idea of it happening incrementally based on more experiences)
-    4) Need to reevaluate how data is being passed down on the MainGoalPage
+    1) Need to create limit that people cannot add more than one experience
+    2) Goal values are calculated based upon experiences + other goals (ask Erin about this.... she said she likes the idea of it happening incrementally based on more experiences)
 
     */
 
