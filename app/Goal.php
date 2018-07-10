@@ -188,13 +188,17 @@ class Goal extends Model {
     //Update the parent goal to match the subgoals average
     $count = $this->subgoals->count();
 
+    //Only run logic if subgoals exist, if not the goal should be deleted
     if ($count) {
+
       $this->subgoals_count = $count;
       $this->cost = round($this->subgoals->avg('cost'));
       $this->days = round($this->subgoals->avg('days'));
       $this->hours = round($this->subgoals->avg('hours'));
       $this->save();
-    } else {
+
+    }
+    else {
       $this->forceDelete();
     }
 

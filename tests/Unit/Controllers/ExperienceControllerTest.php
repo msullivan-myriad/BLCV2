@@ -527,8 +527,10 @@ class ExperienceControllerTest extends ControllerTestCase {
 
     /* Next up.....
 
-    1) Need to create limit that people cannot add more than one experience
-    2) Goal values are calculated based upon experiences + other goals (ask Erin about this.... she said she likes the idea of it happening incrementally based on more experiences)
+    1) Goal values are calculated based upon experiences + other goals (should happen incrementally based on experiences as well as existing goals)
+       This logic should live beneath goal->updateGoalAverages() and the calculation should happen every time a subgoal is added to the goal
+       Or anytime an experience is added to the goal
+
 
     */
 

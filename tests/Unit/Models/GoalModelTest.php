@@ -194,9 +194,40 @@ class GoalModelTest extends TestCase {
       $this->assertEquals(2, $goal->days);
       $this->assertEquals(25, $goal->hours);
 
-
     }
 
+    /** @test */
+    public function updating_goal_averages_takes_into_account_experiences() {
+      $this->markTestSkipped('Skipping taking into account experiences for now');
+
+      /*
+       *
+       *
+       *
+       * Need to sit down and flesh out how the algorithm for estimating a goal cost is going to take into account user experiences
+       * If there are no experiences the current method of taking averages should work, however it will need to be adapted when experiences exist
+       * Experiences that have more upvotes will be given more weight
+       * Experiences with a low amount of upvotes will not be taken into account at all
+       *
+       * A potential idea is to have the percentage of the recommendation that comes from experiences be based around which experiences have which
+       * percentage of the total vote count...
+       * More weight will be given to experiences the more total votes are given to them
+       *
+       * This same logic could hold true when it comes to a subgoal, a "subgoal" and a "vote" could essentially both be worth the same amount in a way
+       * The total number of subgoals and votes could be the "total"
+       * Then if there were 5 subgoals, and 2 experiences (one with 2 votes and the other with 3) experiences would make up half of all goal estimation cost
+       * The 5 subgoals would just be averaged out (or median to remove outliers) and given a weight of 50%
+       * The experience with 3 votes would be given a weight of 30% and the one with 2 20%
+       *
+       * I think the above train of thought is how it should be done on a surface level, but this "ratio" of subgoal to vote weight could change
+       * Being able to make this scalable as a static property or something could be really useful
+       *
+       * This for sure should be a service that would handle all of this calculation since there are clearly going to be a handful of methods involved
+       *
+       *
+       */
+
+    }
 
     /** @test */
     public function updating_goal_averages_will_delete_goal_if_it_has_no_subgoals() {
