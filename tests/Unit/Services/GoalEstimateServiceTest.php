@@ -10,7 +10,7 @@ use Tests\TestCase;
 class GoalEstimateServiceTest extends TestCase {
 
     /** @test */
-    public function goal_estimate_service_returns_a_base_estimate() {
+    public function returns_a_base_estimate_if_goal_has_no_experiences() {
 
       $this->createBaseGoal();
       $this->createBaseUser();
@@ -47,8 +47,27 @@ class GoalEstimateServiceTest extends TestCase {
     }
 
     /** @test */
-    public function goal_estimate_service_sets_weights() {
-      $this->markTestSkipped();
+    public function averages_are_split_between_experience_and_votes_if_equal_number_of_each() {
+
+      //$this->createBaseGoal();
+      $this->createBaseGoalAndUserWithExperience();
+      //$this->createBaseUser();
+
+      $subgoal1 = new Subgoal();
+      $subgoal1->user_id = $this->user->id;
+      $subgoal1->goal_id = $this->goal->id;
+      $subgoal1->name = 'Test Goal Name';
+      $subgoal1->slug = 'test-goal-name';
+      $subgoal1->cost = 0;
+      $subgoal1->days = 1;
+      $subgoal1->hours = 30;
+      $subgoal1->save();
+
+      $goalEstimateService = new GoalEstimateService($this->goal->id);
+      $goalEstimateService->setGoalEstimateExperienceAndSubgoalWeights();
+
+
+
     }
 
 }
