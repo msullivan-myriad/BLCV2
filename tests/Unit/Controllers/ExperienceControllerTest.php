@@ -530,8 +530,7 @@ class ExperienceControllerTest extends ControllerTestCase {
     1) Goal values are calculated based upon experiences + other goals (should happen incrementally based on experiences as well as existing goals)
        This logic should live beneath goal->updateGoalAverages() and the calculation should happen every time a subgoal is added to the goal
        Or anytime an experience is added to the goal
-
-
+       Next step is to create a service
     */
 
 }

@@ -473,7 +473,11 @@ class SubgoalControllerTest extends ControllerTestCase {
 
     $respsone1->assertStatus(200);
 
+    //Have to create a new goal here since goal is automatically deleted when no subgoals are left
+    $this->createBaseGoal();
+    $this->be($this->user);
     $this->goal->createDefaultSubgoal();
+
     $this->subgoal = Subgoal::where('goal_id', $this->goal->id)->first();
 
     $user = factory(User::class)->create();

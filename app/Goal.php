@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Services\GoalEstimateService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Snipe\BanBuilder\CensorWords;
@@ -184,18 +185,16 @@ class Goal extends Model {
     return $this->belongsToMany(Tag::class);
   }
 
+
+  //Update the parent goal to match the subgoals average
   public function updateGoalAverages() {
-    //Update the parent goal to match the subgoals average
     $count = $this->subgoals->count();
 
     //Only run logic if subgoals exist, if not the goal should be deleted
     if ($count) {
 
-      $this->subgoals_count = $count;
-      $this->cost = round($this->subgoals->avg('cost'));
-      $this->days = round($this->subgoals->avg('days'));
-      $this->hours = round($this->subgoals->avg('hours'));
-      $this->save();
+      $goalEstimateService = new GoalEstimateService($this->id);
+      $goalEstimateService->updateGoalEstimate();
 
     }
     else {
