@@ -49,9 +49,7 @@ class GoalEstimateServiceTest extends TestCase {
     /** @test */
     public function averages_are_split_between_experience_and_votes_if_equal_number_of_each() {
 
-      //$this->createBaseGoal();
       $this->createBaseGoalAndUserWithExperience();
-      //$this->createBaseUser();
 
       $subgoal1 = new Subgoal();
       $subgoal1->user_id = $this->user->id;
@@ -64,8 +62,14 @@ class GoalEstimateServiceTest extends TestCase {
       $subgoal1->save();
 
       $goalEstimateService = new GoalEstimateService($this->goal->id);
-      $goalEstimateService->setGoalEstimateExperienceAndSubgoalWeights();
+      $goalEstimateService->updateGoalEstimate();
 
+      $goal = Goal::find($this->goal->id);
+
+
+      $this->assertEquals(5, $goal->cost);
+      $this->assertEquals(5.5, $goal->days);
+      $this->assertEquals(20, $goal->hours);
 
 
     }

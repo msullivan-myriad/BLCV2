@@ -60,6 +60,16 @@ class GoalEstimateService {
     $this->subgoalAverages['hours'] = round($this->subgoals->avg('hours'));
   }
 
+  private function setExperienceAveragesValues() {
+    //Set the experience averages
+
+    //Possibly make an array of all experiences and a weight based off of the total amount of votes
+    $this->experienceAverages['cost'] = round($this->subgoals->avg('cost'));
+    $this->experienceAverages['days'] = round($this->subgoals->avg('days'));
+    $this->experienceAverages['hours'] = round($this->subgoals->avg('hours'));
+
+  }
+
 
   public function setGoalEstimateExperienceAndSubgoalWeights() {
     //Set the weight of subgoals and experiences that will be used when calculating the estimate, returns decimal
