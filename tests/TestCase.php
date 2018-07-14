@@ -7,6 +7,7 @@ use App\Goal;
 use App\Subgoal;
 use App\User;
 use App\Tag;
+use App\Vote;
 use function factory;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -69,5 +70,23 @@ abstract class TestCase extends BaseTestCase {
       $this->experience->goal()->associate($this->goal);
       $this->experience->save();
     }
+
+    protected function createBaseGoalAndUserWithExperienceAndVote() {
+      $this->experience = factory(Experience::class, 'base-test-experience')->make();
+      $this->createBaseGoal();
+      $this->createBaseUser();
+      $this->experience->user()->associate($this->user);
+      $this->experience->goal()->associate($this->goal);
+      $this->experience->save();
+
+      $vote = new Vote();
+      $vote->vote = 1;
+      $vote->experience()->associate($this->experience);
+      $vote->user()->associate($this->user);
+      $vote->save();
+
+    }
+
+
 
 }
