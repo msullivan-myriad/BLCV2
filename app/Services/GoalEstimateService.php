@@ -14,6 +14,8 @@ class GoalEstimateService {
   private $subgoalWeight;
   private $subgoalAverages;
   private $experienceAverages;
+  private $votesCount;
+  private $subgoalCount;
 
   function __construct($goalId) {
 
@@ -34,9 +36,10 @@ class GoalEstimateService {
   public function updateGoalEstimate() {
     //Updates the goal estimate values
 
-
+    $this->setSubgoalAndVotesCount();
     $this->setGoalEstimateExperienceAndSubgoalWeights();
     $this->setSubgoalAveragesValues();
+    $this->setExperienceAveragesValues();
 
     $this->goal->subgoals_count = $this->subgoals->count();
 
@@ -44,12 +47,6 @@ class GoalEstimateService {
     $this->goal->cost = ($this->subgoalAverages['cost'] * $this->subgoalWeight) + ($this->experienceAverages['cost'] * $this->experienceWeight);
     $this->goal->days = ($this->subgoalAverages['days'] * $this->subgoalWeight) + ($this->experienceAverages['days'] * $this->experienceWeight);
     $this->goal->hours = ($this->subgoalAverages['hours'] * $this->subgoalWeight) + ($this->experienceAverages['hours'] * $this->experienceWeight);
-
-    /*
-    $this->goal->cost = round($this->subgoals->avg('cost'));
-    $this->goal->days = round($this->subgoals->avg('days'));
-    $this->goal->hours = round($this->subgoals->avg('hours'));
-    */
 
     $this->goal->save();
   }
@@ -64,28 +61,47 @@ class GoalEstimateService {
   private function setExperienceAveragesValues() {
     //Set the experience averages
 
-    //Possibly make an array of all experiences and a weight based off of the total amount of votes
+    $costAverage = 0;
+    $hoursAverage = 0;
+    $daysAverage = 0;
 
 
-    $this->experienceAverages['cost'] = round($this->subgoals->avg('cost'));
-    $this->experienceAverages['days'] = round($this->subgoals->avg('days'));
-    $this->experienceAverages['hours'] = round($this->subgoals->avg('hours'));
+    foreach ($this->experiences as $experience) {
+
+      $voteCount = $experience->votes()->count();
+      $weight = $voteCount/$this->votesCount;
+
+      $costAverage += $experience->cost * $weight;
+      $hoursAverage += $experience->hours * $weight;
+      $daysAverage += $experience->days * $weight;
+
+    }
+
+    $this->experienceAverages['cost'] = $costAverage;
+    $this->experienceAverages['days'] = $daysAverage;
+    $this->experienceAverages['hours'] = $hoursAverage;
 
   }
 
   public function setGoalEstimateExperienceAndSubgoalWeights() {
     //Set the weight of subgoals and experiences that will be used when calculating the estimate, returns decimal
-    $subgoalCount = $this->subgoals->count();
-    $votesCount =  0;
 
-    $this->experiences->map(function($experience) {
-      var_dump($experience->votes()->count());
-    });
+    $totalVotesAndSubgoalCount = $this->subgoalCount + $this->votesCount;
 
-    $totalVotesAndSubgoalCount = $subgoalCount + $votesCount;
+    $this->experienceWeight = $this->votesCount/$totalVotesAndSubgoalCount;
+    $this->subgoalWeight = $this->subgoalCount/$totalVotesAndSubgoalCount;
 
-    $this->experienceWeight = $votesCount/$totalVotesAndSubgoalCount;
-    $this->subgoalWeight = $subgoalCount/$totalVotesAndSubgoalCount;
+  }
+
+  private function setSubgoalAndVotesCount() {
+
+    $this->subgoalCount = $this->subgoals->count();
+    $this->votesCount =  0;
+
+    foreach ($this->experiences as $experience) {
+      $count = $experience->votes()->count();
+      $this->votesCount += $count;
+    }
 
   }
 
