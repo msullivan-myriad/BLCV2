@@ -72,4 +72,27 @@ class GoalEstimateServiceTest extends TestCase {
 
     }
 
+    /** @test */
+    public function experience_with_two_votes_has_twice_as_much_weight_as_one() {
+
+      $this->markTestSkipped();
+      /*
+      $this->createBaseGoal();
+      $this->createBaseUser();
+
+      $this->experience = factory(Experience::class, 'base-test-experience')->make();
+      $this->experience->user()->associate($this->user);
+      $this->experience->goal()->associate($this->goal);
+      $this->experience->save();
+
+      $vote = new Vote();
+      $vote->vote = 1;
+      $vote->experience()->associate($this->experience);
+      $vote->user()->associate($this->user);
+      $vote->save();
+      */
+
+    }
+
+
 }

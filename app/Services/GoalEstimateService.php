@@ -59,7 +59,6 @@ class GoalEstimateService {
   }
 
   private function setExperienceAveragesValues() {
-    //Set the experience averages
 
     $costAverage = 0;
     $hoursAverage = 0;

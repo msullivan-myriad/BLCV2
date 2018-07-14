@@ -72,6 +72,7 @@ abstract class TestCase extends BaseTestCase {
     }
 
     protected function createBaseGoalAndUserWithExperienceAndVote() {
+
       $this->experience = factory(Experience::class, 'base-test-experience')->make();
       $this->createBaseGoal();
       $this->createBaseUser();
