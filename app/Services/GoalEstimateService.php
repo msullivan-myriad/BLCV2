@@ -66,8 +66,18 @@ class GoalEstimateService {
 
     foreach ($this->experiences as $experience) {
 
-      $voteCount = $experience->votes()->count();
-      $weight = $voteCount/$this->votesCount;
+      $voteCount = $experience->votes()->sum('vote');
+      $weight = 0;
+
+      if ($voteCount > 0 ) {
+        $weight = $voteCount/$this->votesCount;
+      }
+
+      //A weight of an experience can never be greater that 1
+      //this can happen above if there are 2 downvotes and 1 upvote
+      if ($weight > 1) {
+        $weight = 1;
+      }
 
       $costAverage += $experience->cost * $weight;
       $hoursAverage += $experience->hours * $weight;
@@ -97,8 +107,13 @@ class GoalEstimateService {
     $this->votesCount =  0;
 
     foreach ($this->experiences as $experience) {
-      $count = $experience->votes()->count();
+      $count = $experience->votes()->sum('vote');
       $this->votesCount += $count;
+    }
+
+
+    if ($this->votesCount < 0) {
+      $this->votesCount = 0;
     }
 
   }
