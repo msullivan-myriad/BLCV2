@@ -411,6 +411,131 @@ class GoalEstimateServiceTest extends TestCase {
 
     }
 
+    /** @test */
+    public function experience_with_three_votes_experience_with_two_votes_and_one_subgoal_calculates_properly() {
+
+      $this->createBaseGoal();
+      $this->createBaseUser();
+
+      $this->be($this->user);
+      $this->goal->createNewSubgoal(200,200,200);
+
+      $experience = factory(Experience::class, 'base-test-experience')->make();
+      $experience->user()->associate($this->user);
+      $experience->goal()->associate($this->goal);
+      $experience->save();
+
+      $vote = new Vote();
+      $vote->vote = 1;
+      $vote->experience()->associate($experience);
+      $vote->user()->associate($this->user);
+      $vote->save();
+
+      $vote2 = new Vote();
+      $vote2->vote = 1;
+      $vote2->experience()->associate($experience);
+      $vote2->user()->associate($this->user);
+      $vote2->save();
+
+      $vote3 = new Vote();
+      $vote3->vote = 1;
+      $vote3->experience()->associate($experience);
+      $vote3->user()->associate($this->user);
+      $vote3->save();
+
+      $experience2 = factory(Experience::class, 'second-test-experience')->make();
+      $experience2->user()->associate($this->user);
+      $experience2->goal()->associate($this->goal);
+      $experience2->save();
+
+      $vote4 = new Vote();
+      $vote4->vote = 1;
+      $vote4->experience()->associate($experience2);
+      $vote4->user()->associate($this->user);
+      $vote4->save();
+
+      $vote5 = new Vote();
+      $vote5->vote = 1;
+      $vote5->experience()->associate($experience2);
+      $vote5->user()->associate($this->user);
+      $vote5->save();
+
+      $goalEstimateService = new GoalEstimateService($this->goal->id);
+      $goalEstimateService->updateGoalEstimate();
+
+      $goal = Goal::find($this->goal->id);
+
+      $this->assertEquals(72, $goal->cost);
+      $this->assertEquals(72, $goal->days);
+      $this->assertEquals(72, $goal->hours);
+
+    }
+
+    /** @test */
+    public function experience_with_three_votes_experience_with_two_votes_and_two_subgoals_calculates_properly() {
+
+      $this->createBaseGoal();
+      $this->createBaseUser();
+
+      $this->be($this->user);
+      $this->goal->createNewSubgoal(200,200,200);
+
+      $experience = factory(Experience::class, 'base-test-experience')->make();
+      $experience->user()->associate($this->user);
+      $experience->goal()->associate($this->goal);
+      $experience->save();
+
+      $vote = new Vote();
+      $vote->vote = 1;
+      $vote->experience()->associate($experience);
+      $vote->user()->associate($this->user);
+      $vote->save();
+
+      $vote2 = new Vote();
+      $vote2->vote = 1;
+      $vote2->experience()->associate($experience);
+      $vote2->user()->associate($this->user);
+      $vote2->save();
+
+      $vote3 = new Vote();
+      $vote3->vote = 1;
+      $vote3->experience()->associate($experience);
+      $vote3->user()->associate($this->user);
+      $vote3->save();
+
+      $experience2 = factory(Experience::class, 'second-test-experience')->make();
+      $experience2->user()->associate($this->user);
+      $experience2->goal()->associate($this->goal);
+      $experience2->save();
+
+      $vote4 = new Vote();
+      $vote4->vote = 1;
+      $vote4->experience()->associate($experience2);
+      $vote4->user()->associate($this->user);
+      $vote4->save();
+
+      $vote5 = new Vote();
+      $vote5->vote = 1;
+      $vote5->experience()->associate($experience2);
+      $vote5->user()->associate($this->user);
+      $vote5->save();
+
+      //$this->createAlternateUser();
+
+      //$this->be($this->alternateUser);
+      $this->goal->createNewSubgoal(300,300,300);
+
+      $goalEstimateService = new GoalEstimateService($this->goal->id);
+      $goalEstimateService->updateGoalEstimate();
+
+      $goal = Goal::find($this->goal->id);
+
+      $this->assertEquals(146, $goal->cost);
+      $this->assertEquals(146, $goal->days);
+      $this->assertEquals(146, $goal->hours);
+
+    }
+
 
     //Need to take into account the the votes SUM not the votes COUNT when calculating weight
     //This could be an issue if the SUM is less that 0 (in which case it should be set to 0)
