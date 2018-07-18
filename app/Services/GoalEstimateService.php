@@ -99,6 +99,14 @@ class GoalEstimateService {
     $this->experienceWeight = $this->votesCount/$totalVotesAndSubgoalCount;
     $this->subgoalWeight = $this->subgoalCount/$totalVotesAndSubgoalCount;
 
+    //Need some special logic to make sure there is at least a positive number for experience weight
+    //For example if there are 2 upvotes on one experience and 3 downvotes on another
+    //The 'weight' of all experiences should be equal to 2 (not -1)
+
+    //Maybe the sum should only be added to the votes count if the experience has a positive number of votes down below on that method?
+
+    //That worked!  Need to check this more thoroughly and clean up code a bit more
+
   }
 
   private function setSubgoalAndVotesCount() {
@@ -108,7 +116,11 @@ class GoalEstimateService {
 
     foreach ($this->experiences as $experience) {
       $count = $experience->votes()->sum('vote');
-      $this->votesCount += $count;
+
+      if ($count > 0) {
+        $this->votesCount += $count;
+      }
+
     }
 
 
