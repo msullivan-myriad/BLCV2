@@ -168,9 +168,9 @@ $factory->defineAs(App\Experience::class, 'base-test-experience', function() {
 $factory->defineAs(App\Experience::class, 'second-test-experience', function() {
 
   return [
-    'cost' => 20,
-    'days' => 20,
-    'hours' => 20,
+    'cost' => 100,
+    'days' => 100,
+    'hours' => 100,
     'text' => 'Test Experience Text',
   ];
 

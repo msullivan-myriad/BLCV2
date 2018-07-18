@@ -113,12 +113,304 @@ class GoalEstimateServiceTest extends TestCase {
 
       $goal = Goal::find($this->goal->id);
 
-      $this->assertEquals(13, $goal->cost);
-      $this->assertEquals(13, $goal->days);
-      $this->assertEquals(13, $goal->hours);
+      $this->assertEquals(40, $goal->cost);
+      $this->assertEquals(40, $goal->days);
+      $this->assertEquals(40, $goal->hours);
 
 
     }
+
+    /** @test */
+    public function experience_with_three_votes_has_three_times_as_much_weight_as_one() {
+
+      $this->createBaseGoal();
+      $this->createBaseUser();
+
+      $experience = factory(Experience::class, 'base-test-experience')->make();
+      $experience->user()->associate($this->user);
+      $experience->goal()->associate($this->goal);
+      $experience->save();
+
+      $vote = new Vote();
+      $vote->vote = 1;
+      $vote->experience()->associate($experience);
+      $vote->user()->associate($this->user);
+      $vote->save();
+
+      $vote2 = new Vote();
+      $vote2->vote = 1;
+      $vote2->experience()->associate($experience);
+      $vote2->user()->associate($this->user);
+      $vote2->save();
+
+      $vote3 = new Vote();
+      $vote3->vote = 1;
+      $vote3->experience()->associate($experience);
+      $vote3->user()->associate($this->user);
+      $vote3->save();
+
+      $experience2 = factory(Experience::class, 'second-test-experience')->make();
+      $experience2->user()->associate($this->user);
+      $experience2->goal()->associate($this->goal);
+      $experience2->save();
+
+      $vote4 = new Vote();
+      $vote4->vote = 1;
+      $vote4->experience()->associate($experience2);
+      $vote4->user()->associate($this->user);
+      $vote4->save();
+
+      $goalEstimateService = new GoalEstimateService($this->goal->id);
+      $goalEstimateService->updateGoalEstimate();
+
+      $goal = Goal::find($this->goal->id);
+
+      $this->assertEquals(32, $goal->cost);
+      $this->assertEquals(32, $goal->days);
+      $this->assertEquals(32, $goal->hours);
+
+    }
+
+
+    /** @test */
+    public function experience_with_four_votes_has_four_times_as_much_weight_as_one() {
+
+      $this->createBaseGoal();
+      $this->createBaseUser();
+
+      $experience = factory(Experience::class, 'base-test-experience')->make();
+      $experience->user()->associate($this->user);
+      $experience->goal()->associate($this->goal);
+      $experience->save();
+
+      $vote = new Vote();
+      $vote->vote = 1;
+      $vote->experience()->associate($experience);
+      $vote->user()->associate($this->user);
+      $vote->save();
+
+      $vote2 = new Vote();
+      $vote2->vote = 1;
+      $vote2->experience()->associate($experience);
+      $vote2->user()->associate($this->user);
+      $vote2->save();
+
+      $vote3 = new Vote();
+      $vote3->vote = 1;
+      $vote3->experience()->associate($experience);
+      $vote3->user()->associate($this->user);
+      $vote3->save();
+
+      $vote4 = new Vote();
+      $vote4->vote = 1;
+      $vote4->experience()->associate($experience);
+      $vote4->user()->associate($this->user);
+      $vote4->save();
+
+      $experience2 = factory(Experience::class, 'second-test-experience')->make();
+      $experience2->user()->associate($this->user);
+      $experience2->goal()->associate($this->goal);
+      $experience2->save();
+
+      $vote5 = new Vote();
+      $vote5->vote = 1;
+      $vote5->experience()->associate($experience2);
+      $vote5->user()->associate($this->user);
+      $vote5->save();
+
+      $goalEstimateService = new GoalEstimateService($this->goal->id);
+      $goalEstimateService->updateGoalEstimate();
+
+      $goal = Goal::find($this->goal->id);
+
+      $this->assertEquals(28, $goal->cost);
+      $this->assertEquals(28, $goal->days);
+      $this->assertEquals(28, $goal->hours);
+
+    }
+
+    /** @test */
+    public function experience_with_two_votes_and_one_subgoal_calculates_properly() {
+
+      $this->createBaseGoal();
+      $this->createBaseUser();
+
+      $this->be($this->user);
+      $this->goal->createNewSubgoal(200,200,200);
+
+      $experience = factory(Experience::class, 'base-test-experience')->make();
+      $experience->user()->associate($this->user);
+      $experience->goal()->associate($this->goal);
+      $experience->save();
+
+      $vote = new Vote();
+      $vote->vote = 1;
+      $vote->experience()->associate($experience);
+      $vote->user()->associate($this->user);
+      $vote->save();
+
+      $vote2 = new Vote();
+      $vote2->vote = 1;
+      $vote2->experience()->associate($experience);
+      $vote2->user()->associate($this->user);
+      $vote2->save();
+
+      $goalEstimateService = new GoalEstimateService($this->goal->id);
+      $goalEstimateService->updateGoalEstimate();
+
+      $goal = Goal::find($this->goal->id);
+
+      $this->assertEquals(73, $goal->cost);
+      $this->assertEquals(73, $goal->days);
+      $this->assertEquals(73, $goal->hours);
+
+    }
+
+    /** @test */
+    public function experience_with_three_votes_and_one_subgoal_calculates_properly() {
+
+      $this->createBaseGoal();
+      $this->createBaseUser();
+
+      $this->be($this->user);
+      $this->goal->createNewSubgoal(200,200,200);
+
+      $experience = factory(Experience::class, 'base-test-experience')->make();
+      $experience->user()->associate($this->user);
+      $experience->goal()->associate($this->goal);
+      $experience->save();
+
+      $vote = new Vote();
+      $vote->vote = 1;
+      $vote->experience()->associate($experience);
+      $vote->user()->associate($this->user);
+      $vote->save();
+
+      $vote2 = new Vote();
+      $vote2->vote = 1;
+      $vote2->experience()->associate($experience);
+      $vote2->user()->associate($this->user);
+      $vote2->save();
+
+      $vote3 = new Vote();
+      $vote3->vote = 1;
+      $vote3->experience()->associate($experience);
+      $vote3->user()->associate($this->user);
+      $vote3->save();
+
+      $goalEstimateService = new GoalEstimateService($this->goal->id);
+      $goalEstimateService->updateGoalEstimate();
+
+      $goal = Goal::find($this->goal->id);
+
+      $this->assertEquals(58, $goal->cost);
+      $this->assertEquals(58, $goal->days);
+      $this->assertEquals(58, $goal->hours);
+
+    }
+
+    /** @test */
+    public function experience_with_two_votes_experience_with_one_vote_and_one_subgoal_calculates_properly() {
+
+      $this->createBaseGoal();
+      $this->createBaseUser();
+
+      $this->be($this->user);
+      $this->goal->createNewSubgoal(200,200,200);
+
+      $experience = factory(Experience::class, 'base-test-experience')->make();
+      $experience->user()->associate($this->user);
+      $experience->goal()->associate($this->goal);
+      $experience->save();
+
+      $vote = new Vote();
+      $vote->vote = 1;
+      $vote->experience()->associate($experience);
+      $vote->user()->associate($this->user);
+      $vote->save();
+
+      $vote2 = new Vote();
+      $vote2->vote = 1;
+      $vote2->experience()->associate($experience);
+      $vote2->user()->associate($this->user);
+      $vote2->save();
+
+      $experience2 = factory(Experience::class, 'second-test-experience')->make();
+      $experience2->user()->associate($this->user);
+      $experience2->goal()->associate($this->goal);
+      $experience2->save();
+
+      $vote3 = new Vote();
+      $vote3->vote = 1;
+      $vote3->experience()->associate($experience2);
+      $vote3->user()->associate($this->user);
+      $vote3->save();
+
+      $goalEstimateService = new GoalEstimateService($this->goal->id);
+      $goalEstimateService->updateGoalEstimate();
+
+      $goal = Goal::find($this->goal->id);
+
+      $this->assertEquals(80, $goal->cost);
+      $this->assertEquals(80, $goal->days);
+      $this->assertEquals(80, $goal->hours);
+
+    }
+
+    /** @test */
+    public function experience_with_three_votes_experience_with_one_vote_and_one_subgoal_calculates_properly() {
+
+      $this->createBaseGoal();
+      $this->createBaseUser();
+
+      $this->be($this->user);
+      $this->goal->createNewSubgoal(200,200,200);
+
+      $experience = factory(Experience::class, 'base-test-experience')->make();
+      $experience->user()->associate($this->user);
+      $experience->goal()->associate($this->goal);
+      $experience->save();
+
+      $vote = new Vote();
+      $vote->vote = 1;
+      $vote->experience()->associate($experience);
+      $vote->user()->associate($this->user);
+      $vote->save();
+
+      $vote2 = new Vote();
+      $vote2->vote = 1;
+      $vote2->experience()->associate($experience);
+      $vote2->user()->associate($this->user);
+      $vote2->save();
+
+      $vote3 = new Vote();
+      $vote3->vote = 1;
+      $vote3->experience()->associate($experience);
+      $vote3->user()->associate($this->user);
+      $vote3->save();
+
+      $experience2 = factory(Experience::class, 'second-test-experience')->make();
+      $experience2->user()->associate($this->user);
+      $experience2->goal()->associate($this->goal);
+      $experience2->save();
+
+      $vote4 = new Vote();
+      $vote4->vote = 1;
+      $vote4->experience()->associate($experience2);
+      $vote4->user()->associate($this->user);
+      $vote4->save();
+
+      $goalEstimateService = new GoalEstimateService($this->goal->id);
+      $goalEstimateService->updateGoalEstimate();
+
+      $goal = Goal::find($this->goal->id);
+
+      $this->assertEquals(66, $goal->cost);
+      $this->assertEquals(66, $goal->days);
+      $this->assertEquals(66, $goal->hours);
+
+    }
+
 
     //Need to take into account the the votes SUM not the votes COUNT when calculating weight
     //This could be an issue if the SUM is less that 0 (in which case it should be set to 0)

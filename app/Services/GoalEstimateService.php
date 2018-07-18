@@ -64,7 +64,6 @@ class GoalEstimateService {
     $hoursAverage = 0;
     $daysAverage = 0;
 
-
     foreach ($this->experiences as $experience) {
 
       $voteCount = $experience->votes()->count();
